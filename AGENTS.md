@@ -34,3 +34,4 @@ use the editor.
 - Define visual styling and motion in the global token-based design system and use the shared Button for action links to maintain consistent presentation.
 - Keep the interactive prototype in client-memory state within the index experience; this no-account hackathon demo deliberately resets on reload and does not persist personal data.
 - Isolate date, status, spending, grouping, and insight rules in a browser-safe planner module with concrete tests; all views must share the same calculations.
+- Initialize the ephemeral demo with date-relative fictional examples and share event-specific forecasts between home and prep views; this keeps the first screen useful without claiming saved customer data.

@@ -33,7 +33,7 @@ export function validItem(item: Pick<PlanItem, 'name' | 'lastDate' | 'frequency'
 }
 export function exampleData(today: string): { items: PlanItem[]; events: LifeEvent[] } {
   const item = (id: string, kind: ItemKind, name: string, category: string, frequency: number, dueIn: number, cost: number): PlanItem => ({ id, kind, name, category, frequency, lastDate: shiftDate(today, dueIn - frequency), cost });
-  return { items: [item('nails', 'maintenance', 'Nail appointment', 'Nails', 21, 5, 55), item('hair', 'maintenance', 'Hair appointment', 'Hair', 42, 12, 90), item('brows', 'maintenance', 'Brow shaping', 'Brows', 28, -2, 25), item('facial', 'maintenance', 'Facial', 'Facial', 42, 21, 80), item('sunscreen', 'product', 'Sunscreen', 'Skincare', 30, 3, 24), item('moisturizer', 'product', 'Moisturizer', 'Skincare', 45, 10, 32), item('shampoo', 'product', 'Shampoo', 'Haircare', 60, 28, 28)], events: [{ id: 'trip', name: 'Weekend Trip', date: shiftDate(today, 8), type: 'Trip' }] };
+  return { items: [item('nails', 'maintenance', 'Nails', 'Nails', 14, 0, 60), item('brows', 'maintenance', 'Eyebrows', 'Brows', 35, 7, 35), item('hair', 'maintenance', 'Hair', 'Hair', 42, 19, 90), item('foundation', 'product', 'Foundation', 'Makeup', 45, 5, 48), item('haircare', 'product', 'Haircare', 'Haircare', 60, 25, 28)], events: [{ id: 'trip', name: 'New York City', date: shiftDate(today, 7), type: 'Trip' }] };
 }
 export function insights(items: PlanItem[], events: LifeEvent[], today: string) {
   const result: { type: string; text: string }[] = [];
@@ -42,10 +42,29 @@ export function insights(items: PlanItem[], events: LifeEvent[], today: string) 
   const priority = ordered.find(i => i.kind === 'maintenance' && daysUntil(nextDate(i), today) <= 7);
   if (priority) result.push({ type: 'Prioritize', text: `${priority.name} ${status(priority, today) === 'Overdue' ? 'is overdue' : `is due ${dateLabel(nextDate(priority))}`}${upcomingEvent && nextDate(priority) <= upcomingEvent.date ? `, before ${upcomingEvent.name} on ${dateLabel(upcomingEvent.date)}` : ''}.` });
   const replenish = ordered.find(i => i.kind === 'product' && (daysUntil(nextDate(i), today) <= 7 || (upcomingEvent && nextDate(i) <= upcomingEvent.date)));
-  if (replenish) result.push({ type: 'Replenish', text: `${replenish.name} is expected to need replenishing ${dateLabel(nextDate(replenish))}${upcomingEvent && nextDate(replenish) <= upcomingEvent.date ? `, before ${upcomingEvent.name}` : ''}.` });
+  if (replenish) result.push({ type: 'Replenish', text: `Check ${replenish.name} supply around ${dateLabel(nextDate(replenish))}${upcomingEvent && nextDate(replenish) <= upcomingEvent.date ? `, before ${upcomingEvent.name}` : ''}. Replenish only if needed.` });
   const delay = ordered.find(i => i.kind === 'maintenance' && daysUntil(nextDate(i), today) > 14);
   if (delay) result.push({ type: 'Delay', text: `${delay.name} is on track and can wait until ${dateLabel(nextDate(delay))}, based on your usual frequency.` });
   const spend = monthlySpend(items, today);
   if (spend.due.length) result.push({ type: 'Plan Ahead', text: `Approximately ${money(spend.total)} in maintenance and products is expected for the rest of ${format(parseISO(today), 'MMMM')}.` });
   return result;
+}
+
+export function productStatus(item: PlanItem, today: string) {
+  const days = daysUntil(nextDate(item), today);
+  return days <= 0 ? 'Check supply' : days <= 7 ? 'Replenish soon' : 'On track';
+}
+export function tripForecast(items: PlanItem[], event: LifeEvent, today: string) {
+  const book = orderedItems(items).filter(i => i.kind === 'maintenance' && nextDate(i) <= event.date);
+  const skip = orderedItems(items).filter(i => i.kind === 'maintenance' && nextDate(i) > event.date);
+  const check = orderedItems(items).filter(i => i.kind === 'product' && nextDate(i) <= event.date);
+  return { book, skip, check, maintenanceCost: book.reduce((s,i) => s+i.cost, 0), possibleProductCost: check.reduce((s,i) => s+i.cost, 0), total: [...book, ...check].reduce((s,i) => s+i.cost, 0), potentialAvoidedCost: skip.reduce((s,i) => s+i.cost, 0), daysAway: daysUntil(event.date, today) };
+}
+export function tripRecommendation(items: PlanItem[], event: LifeEvent, today: string) {
+  const { book, skip, check } = tripForecast(items,event,today);
+  const parts: string[] = [];
+  if (book.length) parts.push(`${book.map(i => i.name).join(' and ')} ${book.length === 1 ? 'is' : 'are'} expected to be due by ${dateLabel(event.date)}. Consider scheduling before ${event.name}.`);
+  if (check.length) parts.push(`Check your ${check.map(i => i.name.toLowerCase()).join(' and ')} supply before packing; replenish only if needed.`);
+  if (skip.length) parts.push(`${skip.map(i => i.name).join(' and ')} maintenance isn’t due yet, so there’s no need to book another appointment solely for this event.`);
+  return parts.join(' ') || 'Add your routines and products to shape a plan around this event.';
 }
