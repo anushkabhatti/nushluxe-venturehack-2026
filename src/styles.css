@@ -551,23 +551,27 @@ body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
 .optional-expenses { border-top: 1px dashed var(--border); margin-top: 15px; padding: 18px 0 0; }
 .optional-expenses > p { font-size: 11px; line-height: 1.8; color: var(--muted-foreground); }
 .optional-expenses .trip-cost { font-size: 12px; border: 0; }
-.venture-thesis { margin: 38px 0 0; }
-.venture-thesis section { padding: 35px 0; border-top: 1px solid var(--border); }
-.venture-thesis h2 { font-family: var(--font-sans); font-size: 23px; line-height: 1.4; font-weight: 500; margin: 10px 0 15px; }
-.venture-thesis section > p:not(.eyebrow):not(.fine-print):not(.validating-quote) { font-size: 13px; line-height: 1.9; color: var(--muted-foreground); margin: 12px 0; }
-.venture-thesis h3 { font-size: 18px; font-weight: 500; line-height: 1.6; margin: 18px 0; }
-.thesis-fragments, .thesis-examples { display: flex; align-items: center; flex-wrap: wrap; gap: 9px 18px; margin: 22px 0; font-size: 11px; }
-.thesis-fragments > span, .thesis-examples > span { border-bottom: 1px solid var(--border); padding-bottom: 7px; }
-.thesis-fragments svg { width: 14px; height: 14px; }
-.thesis-fragments strong { font-weight: 500; }
-.thesis-actions { display: flex; flex-wrap: wrap; gap: 18px; margin: 23px 0 0; }
-.thesis-actions strong { font-family: var(--font-display); font-size: 27px; font-weight: 500; }
-.decision-diagram { text-align: center; margin: 30px 0; padding: 22px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-.decision-inputs { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; font-size: 11px; }
-.decision-inputs span { display: flex; gap: 7px; align-items: center; }
-.decision-inputs svg { width: 16px; height: 16px; stroke-width: 1.3; }
-.decision-diagram > svg { display: block; margin: 17px auto; width: 16px; height: 16px; stroke-width: 1.3; color: var(--muted-foreground); }
-.decision-diagram h3 { margin: 0; }
+.venture-thesis { display: grid; gap: 18px; margin: 0; }
+.venture-thesis section { padding: 26px; border: 1px solid var(--border); border-radius: 20px; background: var(--card); }
+.venture-thesis h2 { font-family: var(--font-sans); font-size: 21px; line-height: 1.4; font-weight: 500; margin: 8px 0 12px; }
+.venture-thesis section > p:not(.eyebrow):not(.fine-print):not(.validating-quote) { font-size: 13px; line-height: 1.8; color: var(--muted-foreground); margin: 10px 0; }
+.venture-thesis h3 { font-family: var(--font-sans); font-size: 17px; font-weight: 500; line-height: 1.5; margin: 16px 0; }
+.venture-thesis .fine-print { font-size: 10px; margin-top: 16px; }
+.thesis-fragments, .thesis-examples { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 20px 0 4px; font-size: 11px; }
+.thesis-fragments > span, .thesis-examples > span { border: 0; border-radius: 20px; padding: 8px 12px; background: var(--muted); color: var(--foreground); }
+.thesis-fragments svg { width: 14px; height: 14px; color: var(--muted-foreground); }
+.thesis-fragments strong { font-size: 11px; font-weight: 500; }
+.thesis-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 0; }
+.thesis-actions strong { font-family: var(--font-sans); font-size: 13px; font-weight: 500; border-radius: 12px; padding: 10px 14px; background: var(--muted); }
+.thesis-lines { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 16px 0 18px; }
+.thesis-lines li { font-size: 12px; line-height: 1.6; color: var(--muted-foreground); border-radius: 12px; padding: 12px 14px; background: var(--muted); }
+.decision-diagram { text-align: center; margin: 22px 0 4px; padding: 24px 18px; border: 0; border-radius: 16px; background: var(--muted); }
+.decision-inputs { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; font-size: 10px; }
+.decision-inputs span { display: flex; gap: 6px; align-items: center; padding: 8px 10px; border: 1px solid var(--border); border-radius: 20px; background: var(--background); }
+.decision-inputs svg { width: 14px; height: 14px; stroke-width: 1.4; }
+.decision-diagram > svg { display: block; margin: 12px auto; width: 15px; height: 15px; stroke-width: 1.4; color: var(--muted-foreground); }
+.decision-diagram .nav-wordmark { display: inline-block; font-size: 24px; }
+.decision-diagram h3 { margin: 0; font-size: 16px; }
 .decision-diagram p { font-size: 12px; }
 .trip-experience .travel-photo { aspect-ratio: 2.8; }
 @media(max-width:600px) { .event-plan-controls { flex-wrap: wrap; gap: 10px; } .event-plan-controls label { flex-basis: 100%; } .event-plan-controls button { height: 35px; } .event-action-row { grid-template-columns: 35px minmax(0,1fr) auto; gap: 10px; } .event-action-row .forecast-icon { width: 35px; height: 39px; } .event-action-row h3 { font-size: 15px; } .action-eyebrow { font-size: 9px; } .action-reason { font-size: 11px; } .action-evidence { font-size: 9px; } .event-action-row .due-pill, .event-action-row .neutral-pill, .event-action-row .positive-pill { font-size: 9px; padding: 7px 9px; } .trip-experience .travel-photo { aspect-ratio: 2.2; } .trip-total { font-size: 15px; } .decision-inputs { gap: 16px; } }
@@ -590,14 +594,16 @@ body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
 @media(max-width:600px) { .prototype-header nav { row-gap: 0; } .prototype-header nav button { height: 38px; padding: 0 8px; font-size: 10px; } .workspace { scroll-margin-top: 190px; } }
 
 /* About Us: short pitch narrative, same visual system */
-.thesis-lines { display: grid; gap: 7px; margin: 14px 0; }
-.thesis-lines li { font-size: 13px; line-height: 1.75; color: var(--muted-foreground); }
-.validating-quote { font-family: var(--font-display); font-style: italic; font-size: 18px; line-height: 1.5; color: var(--foreground); margin: 18px 0 0; }
-.venture-thesis .founder-note h3 { font-family: var(--font-display); font-size: 26px; font-weight: 400; margin: 7px 0 10px; }
-.thesis-details { margin-top: 28px; border-top: 1px solid var(--border); padding-top: 15px; }
-.thesis-details summary { cursor: pointer; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted-foreground); list-style: none; }
+.venture-thesis #validating { background: var(--muted); border-color: transparent; }
+.validating-quote { font-family: var(--font-sans); font-size: 14px; font-weight: 500; line-height: 1.7; color: var(--foreground); margin: 16px 0 0; }
+.venture-thesis .founder-note { margin-top: 22px; padding: 20px; border-radius: 16px; background: var(--background); }
+.venture-thesis .founder-note h3 { font-family: var(--font-sans); font-size: 20px; font-weight: 500; margin: 6px 0 8px; }
+.venture-thesis .founder-note > p:not(.eyebrow) { font-size: 12px; line-height: 1.8; margin-top: 0; }
+.thesis-details { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 16px; }
+.thesis-details summary { cursor: pointer; font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--foreground); list-style: none; }
 .thesis-details summary::-webkit-details-marker { display: none; }
 .thesis-details summary::after { content: ' +'; }
 .thesis-details[open] summary::after { content: ' –'; }
 .thesis-details .notes-grid { margin-top: 20px; gap: 40px; }
-@media(max-width:600px) { .thesis-details .notes-grid { gap: 26px; } .validating-quote { font-size: 16px; } }
+.thesis-details .notes-grid li { font-size: 12px; }
+@media(max-width:600px) { .venture-thesis { gap: 14px; } .venture-thesis section { padding: 22px; border-radius: 19px; } .venture-thesis h2 { font-size: 19px; } .thesis-lines { grid-template-columns: 1fr; } .thesis-actions { gap: 6px; } .thesis-actions strong { font-size: 12px; padding: 9px 11px; } .thesis-details .notes-grid { gap: 26px; } .venture-thesis .founder-note { padding: 17px; } }
