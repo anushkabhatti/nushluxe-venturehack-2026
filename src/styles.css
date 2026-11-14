@@ -583,3 +583,8 @@ body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
 .spending-tab .event-card { margin-top: 4px; }
 .spending-close { margin-top: 18px; padding: 17px 19px; border-radius: 16px; background: var(--muted); font-size: 14px; font-weight: 500; }
 @media(max-width:600px) { .trip-cost small { font-size: 9px; } .spending-close { font-size: 13px; padding: 15px 16px; } }
+
+/* Dashboard and About Us navigation */
+.workspace.about-workspace { min-height: 0; }
+.prototype-header nav { flex-wrap: wrap; }
+@media(max-width:600px) { .prototype-header nav { row-gap: 0; } .prototype-header nav button { height: 38px; padding: 0 8px; font-size: 10px; } .workspace { scroll-margin-top: 190px; } }
