@@ -9,3 +9,5 @@
 - [x] Add routine/product editing, completion, chronological planning, spending, events, and rule-based insights.
 - [x] Add optional fictional examples and blank-state reset; preserve discovery and founder sections.
 - [x] Test calculations and verify the complete experience on desktop and mobile.
+- [x] Move strategy, discovery, founder and footer sections under Overview only.
+- [x] Add a Spending tab after Events: planned spend, possible additional expenses, potential avoided spend, and event spending card.
