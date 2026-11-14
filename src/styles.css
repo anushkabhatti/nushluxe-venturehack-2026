@@ -433,7 +433,7 @@ body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
 .prototype-header nav button { height: 46px; padding: 0 20px; font-size: 12px; }
 .prototype-mark { display: none; }
 .workspace-width { width: min(720px, calc(100% - 48px)); }
-.workspace { padding: 20px 0 0; scroll-margin-top: 125px; }
+.workspace { padding: 20px 0 0; scroll-margin-top: 152px; }
 .workspace-topline { margin-bottom: 26px; gap: 8px; flex-wrap: wrap; }
 .workspace-topline > p { font-size: 9px; }
 .demo-actions { margin-left: auto; }
@@ -571,3 +571,8 @@ body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
 .decision-diagram p { font-size: 12px; }
 .trip-experience .travel-photo { aspect-ratio: 2.8; }
 @media(max-width:600px) { .event-plan-controls { flex-wrap: wrap; gap: 10px; } .event-plan-controls label { flex-basis: 100%; } .event-plan-controls button { height: 35px; } .event-action-row { grid-template-columns: 35px minmax(0,1fr) auto; gap: 10px; } .event-action-row .forecast-icon { width: 35px; height: 39px; } .event-action-row h3 { font-size: 15px; } .action-eyebrow { font-size: 9px; } .action-reason { font-size: 11px; } .action-evidence { font-size: 9px; } .event-action-row .due-pill, .event-action-row .neutral-pill, .event-action-row .positive-pill { font-size: 9px; padding: 7px 9px; } .trip-experience .travel-photo { aspect-ratio: 2.2; } .trip-total { font-size: 15px; } .decision-inputs { gap: 16px; } }
+
+/* Brand slogan */
+.nav-slogan { width: 100%; text-align: center; font-family: var(--font-display); font-style: italic; font-size: 14px; letter-spacing: .02em; color: var(--muted-foreground); margin-top: 6px; }
+.prototype-footer .footer-slogan { font-size: 9px; color: var(--muted-foreground); }
+@media(max-width:600px) { .nav-slogan { font-size: 12px; margin-top: 4px; } .prototype-footer .footer-slogan { width: 100%; } }
