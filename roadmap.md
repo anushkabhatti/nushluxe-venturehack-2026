@@ -1,4 +1,7 @@
 # Nushluxe VentureHack prototype
+- [x] Prioritize event selection and a clear book/check/skip plan with $95 planned spend and optional product costs.
+- [x] Add concise problem, customer hypothesis, solution, and differentiated-thesis sections without changing the visual identity.
+- [x] Verify event-specific plans, editing-driven recalculation, and mobile/desktop presentation.
 - [x] Reshape the home around a preloaded New York trip, maintenance forecast, beauty bag, recommendations, and Trip Prep Mode.
 - [x] Apply the rounded mobile-first visual system and add the ecosystem section while retaining editing and onboarding.
 - [x] Test trip costs, skip rules, conservative product guidance, and desktop/mobile flows.

@@ -534,3 +534,40 @@ body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
 .notes-grid h2 { font-size: 28px; }
 .prototype-footer { flex-wrap: wrap; justify-content: center; }
 @media(max-width:600px) { .prototype-header-inner { width: calc(100% - 32px); padding-top: 16px; } .prototype-header .nav-wordmark { font-size: 28px; } .prototype-header nav { gap: 0; } .prototype-header nav button { padding: 0 13px; font-size: 11px; } .workspace-width { width: calc(100% - 40px); } .workspace-topline { margin-bottom: 23px; } .workspace-topline > p { width: 100%; } .demo-actions { margin: 0 0 0 -7px; } .demo-actions button { font-size: 9px; } .personal-greeting h1 { font-size: 25px; } .personal-greeting p { font-size: 12px; line-height: 1.7; } .travel-icon { width: 42px; height: 42px; } .travel-photo { aspect-ratio: 1.55; border-radius: 19px; } .trip-title { gap: 9px; padding: 21px 0 23px; } .trip-title h2 { font-size: 25px; } .trip-title > .neutral-pill { padding: 8px 11px; font-size: 10px; } .consumer-section-heading h2, .prep-checklist > h2 { font-size: 19px; } .consumer-section-heading p { font-size: 11px; } .forecast-row { grid-template-columns: 39px minmax(0,1fr) auto; gap: 10px; padding: 18px 0; } .forecast-icon { width: 39px; height: 42px; border-radius: 11px; } .forecast-row h3 { font-size: 13px; } .forecast-row p { font-size: 10px; } .forecast-row .neutral-pill, .forecast-row .due-pill, .forecast-row .positive-pill { font-size: 9px; padding: 8px 10px; } .bag-row { grid-template-columns: 73px minmax(0,1fr); gap: 16px; } .bag-row .product-photo { width: 73px; height: 78px; border-radius: 14px; } .bag-row h3 { font-size: 16px; } .bag-row p { font-size: 11px; } .personalized-recommendation { padding: 23px; } .personalized-recommendation p { font-size: 13px; } .ecosystem-modules { grid-template-columns: 1fr; } .ecosystem-modules article { padding: 20px; display: grid; grid-template-columns: 32px 1fr; gap: 0 14px; } .ecosystem-modules svg { grid-row: 1 / 3; margin: 0; } .ecosystem-modules p { grid-column: 2; } .routine-row { grid-template-columns: 42px minmax(0,1fr) 55px; gap: 12px; } .routine-row > .status-badge { grid-column: 2; } .routine-row .row-actions { grid-column: 3; } .routine-row .row-actions button { width: 27px; } .routine-row .item-symbol { width: 40px; height: 43px; } .routine-row .product-photo { width: 40px; height: 43px; } .item-main h3 { font-size: 14px; } .item-date { font-size: 11px; } .workspace-heading h1 { font-size: 28px; } .before-event li { font-size: 11px; } .session-note { line-height: 1.8; } }
+
+/* VentureHack: one event-to-decision flow, same consumer visual identity. */
+.event-plan-controls { display: flex; align-items: end; gap: 12px; margin-bottom: 24px; }
+.event-plan-controls label { flex: 1; min-width: 0; display: grid; gap: 7px; font-size: 11px; color: var(--muted-foreground); }
+.event-plan-controls select { height: 43px; width: 100%; background: var(--background); border: 1px solid var(--border); border-radius: 10px; padding: 0 12px; color: var(--foreground); font-family: var(--font-sans); font-size: 13px; }
+.event-plan-controls button { height: 43px; font-size: 11px; border-radius: 10px; }
+.event-action-plan { padding-top: 27px; }
+.event-action-row { display: grid; grid-template-columns: 44px minmax(0,1fr) auto; gap: 16px; align-items: center; padding: 19px 0; border-bottom: 1px solid var(--border); }
+.event-action-row h3 { font-size: 17px; font-weight: 500; margin: 5px 0; overflow-wrap: anywhere; }
+.action-eyebrow { font-size: 10px; font-weight: 600; color: var(--muted-foreground); }
+.action-urgent { color: var(--overdue); }
+.action-skip { color: var(--success); }
+.action-reason { font-size: 12px; line-height: 1.7; color: var(--foreground); }
+.action-evidence { font-size: 10px; line-height: 1.7; color: var(--muted-foreground); margin-top: 6px; }
+.optional-expenses { border-top: 1px dashed var(--border); margin-top: 15px; padding: 18px 0 0; }
+.optional-expenses > p { font-size: 11px; line-height: 1.8; color: var(--muted-foreground); }
+.optional-expenses .trip-cost { font-size: 12px; border: 0; }
+.venture-thesis { margin: 38px 0 0; }
+.venture-thesis section { padding: 35px 0; border-top: 1px solid var(--border); }
+.venture-thesis h2 { font-family: var(--font-sans); font-size: 23px; line-height: 1.4; font-weight: 500; margin: 10px 0 15px; }
+.venture-thesis section > p:not(.eyebrow):not(.fine-print) { font-size: 13px; line-height: 1.9; color: var(--muted-foreground); margin: 12px 0; }
+.venture-thesis h3 { font-size: 18px; font-weight: 500; line-height: 1.6; margin: 18px 0; }
+.thesis-fragments, .thesis-examples { display: flex; align-items: center; flex-wrap: wrap; gap: 9px 18px; margin: 22px 0; font-size: 11px; }
+.thesis-fragments > span, .thesis-examples > span { border-bottom: 1px solid var(--border); padding-bottom: 7px; }
+.thesis-fragments svg { width: 14px; height: 14px; }
+.thesis-fragments strong { font-weight: 500; }
+.thesis-actions { display: flex; flex-wrap: wrap; gap: 18px; margin: 23px 0 0; }
+.thesis-actions strong { font-family: var(--font-display); font-size: 27px; font-weight: 500; }
+.decision-diagram { text-align: center; margin: 30px 0; padding: 22px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.decision-inputs { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; font-size: 11px; }
+.decision-inputs span { display: flex; gap: 7px; align-items: center; }
+.decision-inputs svg { width: 16px; height: 16px; stroke-width: 1.3; }
+.decision-diagram > svg { display: block; margin: 17px auto; width: 16px; height: 16px; stroke-width: 1.3; color: var(--muted-foreground); }
+.decision-diagram h3 { margin: 0; }
+.decision-diagram p { font-size: 12px; }
+.trip-experience .travel-photo { aspect-ratio: 2.8; }
+@media(max-width:600px) { .event-plan-controls { flex-wrap: wrap; gap: 10px; } .event-plan-controls label { flex-basis: 100%; } .event-plan-controls button { height: 35px; } .event-action-row { grid-template-columns: 35px minmax(0,1fr) auto; gap: 10px; } .event-action-row .forecast-icon { width: 35px; height: 39px; } .event-action-row h3 { font-size: 15px; } .action-eyebrow { font-size: 9px; } .action-reason { font-size: 11px; } .action-evidence { font-size: 9px; } .event-action-row .due-pill, .event-action-row .neutral-pill, .event-action-row .positive-pill { font-size: 9px; padding: 7px 9px; } .trip-experience .travel-photo { aspect-ratio: 2.2; } .trip-total { font-size: 15px; } .decision-inputs { gap: 16px; } }

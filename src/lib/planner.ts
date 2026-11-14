@@ -60,6 +60,12 @@ export function tripForecast(items: PlanItem[], event: LifeEvent, today: string)
   const check = orderedItems(items).filter(i => i.kind === 'product' && nextDate(i) <= event.date);
   return { book, skip, check, maintenanceCost: book.reduce((s,i) => s+i.cost, 0), possibleProductCost: check.reduce((s,i) => s+i.cost, 0), total: [...book, ...check].reduce((s,i) => s+i.cost, 0), potentialAvoidedCost: skip.reduce((s,i) => s+i.cost, 0), daysAway: daysUntil(event.date, today) };
 }
+export function eventDecision(item: PlanItem, event: LifeEvent, today: string) {
+  const due = nextDate(item);
+  if (item.kind === 'product') return due <= event.date ? 'CHECK SUPPLY' : 'PACK / CHECK';
+  if (due > event.date) return 'SKIP';
+  return due <= today ? 'BOOK NOW' : 'BOOK BEFORE DEPARTURE';
+}
 export function tripRecommendation(items: PlanItem[], event: LifeEvent, today: string) {
   const { book, skip, check } = tripForecast(items,event,today);
   const parts: string[] = [];
