@@ -82,7 +82,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Nushluxe — Personal Maintenance Intelligence" },
-      { name: "description", content: "An early-stage beauty and wellness planning platform, built from customer evidence." },
+      { name: "description", content: "A fresh beauty and wellness planning prototype for Babson Miami VentureHack, currently exploring customer needs." },
       { name: "author", content: "Anushka Bhatti" },
       { property: "og:title", content: "Nushluxe — Personal Maintenance Intelligence" },
       { property: "og:description", content: "Beauty, wellness, and a clearer view of what comes next." },

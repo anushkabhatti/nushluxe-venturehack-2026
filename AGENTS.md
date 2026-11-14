@@ -32,3 +32,5 @@ use the editor.
 ## Project architecture
 - Keep the showcase in the index route with in-page anchors; the requested presentation is one continuous scrolling narrative.
 - Define visual styling and motion in the global token-based design system and use the shared Button for action links to maintain consistent presentation.
+- Keep the interactive prototype in client-memory state within the index experience; this no-account hackathon demo deliberately resets on reload and does not persist personal data.
+- Isolate date, status, spending, grouping, and insight rules in a browser-safe planner module with concrete tests; all views must share the same calculations.
