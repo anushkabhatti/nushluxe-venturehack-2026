@@ -12,3 +12,4 @@
 - [x] Move strategy, discovery, founder and footer sections under Overview only.
 - [x] Add a Spending tab after Events: planned spend, possible additional expenses, potential avoided spend, and event spending card.
 - [x] Relabel Overview as Nushluxe Dashboard and move strategy, discovery, founder, and footer content into a new About Us tab.
+- [x] Simplify About Us into four short pitch sections plus a compact "Currently validating" block, with discovery questions collapsible.
