@@ -2,7 +2,7 @@ import { ArrowDown, ArrowRight, CalendarDays, NotebookPen, Package, Wallet } fro
 
 const actions = ['Book', 'Replenish', 'Plan', 'Delay', 'Skip'];
 const interviewCount = '20+';
-const topPain = '[pain]';
+const topPain = 'Running out unexpectedly';
 const quotes = [
   { text: '[quote 1]', label: 'P0X' },
   { text: '[quote 2]', label: 'P0X' },
