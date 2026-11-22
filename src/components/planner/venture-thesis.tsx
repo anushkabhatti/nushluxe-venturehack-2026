@@ -4,7 +4,7 @@ const actions = ['Book', 'Replenish', 'Plan', 'Delay', 'Skip'];
 const interviewCount = '20+';
 const topPain = 'Running out unexpectedly';
 const quotes = [
-  { text: '[quote 1]', label: 'P0X' },
+  { text: 'Recently I had to repurchase a bunch of makeup in bulk bc everything runs out at the same time hair products', label: 'P0X' },
   { text: '[quote 2]', label: 'P0X' },
 ];
 const stillValidating = ['Willingness to pay', 'How often the problem happens'];
