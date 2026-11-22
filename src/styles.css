@@ -551,6 +551,9 @@ body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
 .optional-expenses { border-top: 1px dashed var(--border); margin-top: 15px; padding: 18px 0 0; }
 .optional-expenses > p { font-size: 11px; line-height: 1.8; color: var(--muted-foreground); }
 .optional-expenses .trip-cost { font-size: 12px; border: 0; }
+.avoid-lines { border-top: 1px dashed var(--border); margin-top: 15px; padding: 18px 0 0; }
+.avoid-lines .trip-cost { font-size: 12px; border: 0; }
+.avoid-lines + .avoid-cost { margin-top: 12px; }
 .venture-thesis { display: grid; gap: 18px; margin: 0; }
 .venture-thesis section { padding: 26px; border: 1px solid var(--border); border-radius: 20px; background: var(--card); }
 .venture-thesis h2 { font-family: var(--font-sans); font-size: 21px; line-height: 1.4; font-weight: 500; margin: 8px 0 12px; }
