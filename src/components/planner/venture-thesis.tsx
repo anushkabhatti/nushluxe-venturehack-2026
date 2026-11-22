@@ -19,28 +19,33 @@ const learningQuestions = [
 
 export function VentureThesis() {
   return <div className="venture-thesis">
+    <section id="founder">
+      <p className="eyebrow text-muted-foreground">01 · Founder</p>
+      <h2>Anushka Bhatti</h2>
+      <p>Recent Babson master's graduate exploring consumer technology, beauty, wellness, and personal planning.</p>
+    </section>
     <section id="problem">
-      <p className="eyebrow text-muted-foreground">01 · The Problem</p>
+      <p className="eyebrow text-muted-foreground">02 · The Problem</p>
       <h2>What do I actually need to do next?</h2>
       <p>Recurring beauty and wellness maintenance is often spread across calendars, Notes, memory, retailer apps, appointments, and purchase histories.</p>
       <p>That makes it difficult to know what actually needs attention next.</p>
       <div className="thesis-fragments">{['Appointments', 'Products', 'Events', 'Timing', 'Costs'].map(label => <span key={label}>{label}</span>)}<ArrowRight aria-hidden="true" /><strong>Disconnected today</strong></div>
     </section>
     <section id="customer">
-      <p className="eyebrow text-muted-foreground">02 · Who We're Building For</p>
+      <p className="eyebrow text-muted-foreground">03 · Who We're Building For</p>
       <h2>Who we're building for</h2>
       <p>Women who regularly manage multiple recurring beauty and wellness services and personal-care products — especially around trips, events, and important dates.</p>
       <div className="thesis-examples">{['Hair', 'Nails', 'Brows/lashes', 'Skincare', 'Beauty products', 'Wellness'].map(label => <span key={label}>{label}</span>)}</div>
       <p className="fine-print">Initial customer hypothesis — currently being validated.</p>
     </section>
     <section id="approach">
-      <p className="eyebrow text-muted-foreground">03 · The Nushluxe Approach</p>
+      <p className="eyebrow text-muted-foreground">04 · The Nushluxe Approach</p>
       <h2>One personal plan for what comes next.</h2>
       <p>Nushluxe brings maintenance, product replenishment, life events, and estimated spending together to help users decide:</p>
       <div className="thesis-actions">{actions.map(action => <strong key={action}>{action}</strong>)}</div>
     </section>
     <section id="difference">
-      <p className="eyebrow text-muted-foreground">04 · Why Nushluxe Is Different</p>
+      <p className="eyebrow text-muted-foreground">05 · Why Nushluxe Is Different</p>
       <ul className="thesis-lines">{['Calendars store appointments.', 'Notes store lists.', 'Retailers help reorder products.', 'Budgeting tools track spending.'].map(line => <li key={line}>{line}</li>)}</ul>
       <h2>Nushluxe is exploring the decision layer between them.</h2>
       <div className="decision-diagram">
@@ -57,11 +62,6 @@ export function VentureThesis() {
       <h2>Currently validating</h2>
       <p>Nushluxe is conducting customer discovery to determine which customer segment and problem should shape the product first.</p>
       <p className="validating-quote">Build from evidence, not assumptions.</p>
-      <div className="founder-note">
-        <p className="eyebrow text-muted-foreground">Founder</p>
-        <h3>Anushka Bhatti</h3>
-        <p>Recent Babson master's graduate exploring consumer technology, beauty, wellness, and personal planning.</p>
-      </div>
       <details className="thesis-details">
         <summary>Discovery and learning questions</summary>
         <div className="notes-grid">

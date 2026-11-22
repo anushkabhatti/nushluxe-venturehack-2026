@@ -14,3 +14,4 @@
 - [x] Relabel Overview as Nushluxe Dashboard and move strategy, discovery, founder, and footer content into a new About Us tab.
 - [x] Simplify About Us into four short pitch sections plus a compact "Currently validating" block, with discovery questions collapsible.
 - [x] Align About Us typography, pills, cards, and spacing with the Nushluxe Dashboard without changing its content.
+- [x] Put the founder information first on About Us and renumber the numbered sections.
