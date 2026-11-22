@@ -597,7 +597,16 @@ body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
 @media(max-width:600px) { .prototype-header nav { row-gap: 0; } .prototype-header nav button { height: 38px; padding: 0 8px; font-size: 10px; } .workspace { scroll-margin-top: 190px; } }
 
 /* About Us: short pitch narrative, same visual system */
-.venture-thesis #validating { background: var(--muted); border-color: transparent; }
+.venture-thesis #learned, .venture-thesis #still-validating { background: var(--muted); border-color: transparent; }
+.learned-facts { display: grid; gap: 8px; margin: 16px 0 4px; }
+.learned-facts > p { font-size: 12px; line-height: 1.6; color: var(--muted-foreground); border-radius: 12px; padding: 12px 14px; background: var(--background); margin: 0; }
+.learned-facts strong { color: var(--foreground); font-weight: 500; }
+.learned-quotes { margin: 18px 0 0; padding: 0; list-style: none; }
+.learned-quotes li { border-top: 1px solid var(--border); padding: 14px 0 0; margin-top: 14px; }
+.learned-quotes li:first-child { border-top: 0; margin-top: 0; padding-top: 0; }
+.learned-quotes .validating-quote { margin: 0; }
+.learned-quotes .fine-print { margin-top: 6px; display: block; }
+.venture-thesis #still-validating .thesis-lines li { background: var(--background); }
 .validating-quote { font-family: var(--font-sans); font-size: 14px; font-weight: 500; line-height: 1.7; color: var(--foreground); margin: 16px 0 0; }
 .venture-thesis .founder-note { margin-top: 22px; padding: 20px; border-radius: 16px; background: var(--background); }
 .venture-thesis .founder-note h3 { font-family: var(--font-sans); font-size: 20px; font-weight: 500; margin: 6px 0 8px; }

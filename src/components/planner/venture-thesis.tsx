@@ -1,21 +1,13 @@
 import { ArrowDown, ArrowRight, CalendarDays, NotebookPen, Package, Wallet } from 'lucide-react';
 
 const actions = ['Book', 'Replenish', 'Plan', 'Delay', 'Skip'];
-const discoveryQuestions = [
-  'How do women currently manage recurring beauty and wellness routines?',
-  'Where does planning become inconvenient or time-consuming?',
-  'How often do people unexpectedly run out of products?',
-  'How do trips and events affect maintenance planning?',
-  'How much does cost influence scheduling decisions?',
-  'Which of these problems is important enough to solve first?',
+const interviewCount = '20+';
+const topPain = '[pain]';
+const quotes = [
+  { text: '[quote 1]', label: 'P0X' },
+  { text: '[quote 2]', label: 'P0X' },
 ];
-const learningQuestions = [
-  'Who should Nushluxe serve first?',
-  'Which problem is painful enough to solve?',
-  'Which features are essential versus unnecessary?',
-  'What should be validated before building further?',
-  'What would make this strong enough for beta testing?',
-];
+const stillValidating = ['Willingness to pay', 'How often the problem happens'];
 
 export function VentureThesis() {
   return <div className="venture-thesis">
@@ -57,18 +49,19 @@ export function VentureThesis() {
       </div>
       <p className="fine-print">A product thesis being tested, not a proven moat.</p>
     </section>
-    <section id="validating">
-      <p className="eyebrow text-muted-foreground">Customer discovery · Babson Miami VentureHack</p>
-      <h2>Currently validating</h2>
-      <p>Nushluxe is conducting customer discovery to determine which customer segment and problem should shape the product first.</p>
-      <p className="validating-quote">Build from evidence, not assumptions.</p>
-      <details className="thesis-details">
-        <summary>Discovery and learning questions</summary>
-        <div className="notes-grid">
-          <div><p className="eyebrow text-muted-foreground">Customer discovery</p><ul>{discoveryQuestions.map(q => <li key={q}>{q}</li>)}</ul></div>
-          <div><p className="eyebrow text-muted-foreground">What I want to learn today</p><ul>{learningQuestions.map(q => <li key={q}>{q}</li>)}</ul></div>
-        </div>
-      </details>
+    <section id="learned">
+      <p className="eyebrow text-muted-foreground">06 · Customer discovery · Babson Miami VentureHack</p>
+      <h2>What we've learned</h2>
+      <div className="learned-facts">
+        <p><strong>{interviewCount}</strong> customer interviews</p>
+        <p>Top pain: <strong>{topPain}</strong></p>
+      </div>
+      <ul className="learned-quotes">{quotes.map(quote => <li key={quote.text}><p className="validating-quote">"{quote.text}"</p><span className="fine-print">{quote.label}</span></li>)}</ul>
+    </section>
+    <section id="still-validating">
+      <p className="eyebrow text-muted-foreground">07 · Still validating</p>
+      <h2>Still validating</h2>
+      <ul className="thesis-lines">{stillValidating.map(item => <li key={item}>{item}</li>)}</ul>
     </section>
   </div>;
 }
