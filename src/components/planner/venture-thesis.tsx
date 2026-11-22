@@ -5,7 +5,7 @@ const interviewCount = '20+';
 const topPain = 'Running out unexpectedly';
 const quotes = [
   { text: 'Recently I had to repurchase a bunch of makeup in bulk bc everything runs out at the same time hair products', label: 'P03' },
-  { text: '[quote 2]', label: 'P0X' },
+  { text: 'When beauty products run out I forget and by time I want to buy it or go to friends', label: 'P0X' },
 ];
 const stillValidating = ['Willingness to pay', 'How often the problem happens'];
 
