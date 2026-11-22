@@ -13,7 +13,7 @@ export const dateLabel = (date: string) => format(parseISO(date), 'MMM d');
 export const money = (value: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value);
 export function status(item: PlanItem, today: string) {
   const days = daysUntil(nextDate(item), today);
-  return days < 0 ? 'Overdue' : days <= 7 ? (item.kind === 'product' ? 'Replenish Soon' : 'Due Soon') : 'On Track';
+  return days <= 7 ? (item.kind === 'product' ? 'Replenish' : 'Book') : days <= 14 ? 'Plan' : 'Delay';
 }
 export function completeItem(item: PlanItem, today: string): PlanItem { return { ...item, lastDate: today }; }
 export function orderedItems(items: PlanItem[]) { return [...items].sort((a, b) => nextDate(a).localeCompare(nextDate(b)) || a.name.localeCompare(b.name)); }
@@ -40,19 +40,19 @@ export function insights(items: PlanItem[], events: LifeEvent[], today: string) 
   const ordered = orderedItems(items);
   const upcomingEvent = [...events].filter(e => e.date >= today).sort((a, b) => a.date.localeCompare(b.date))[0];
   const priority = ordered.find(i => i.kind === 'maintenance' && daysUntil(nextDate(i), today) <= 7);
-  if (priority) result.push({ type: 'Prioritize', text: `${priority.name} ${status(priority, today) === 'Overdue' ? 'is overdue' : `is due ${dateLabel(nextDate(priority))}`}${upcomingEvent && nextDate(priority) <= upcomingEvent.date ? `, before ${upcomingEvent.name} on ${dateLabel(upcomingEvent.date)}` : ''}.` });
+  if (priority) result.push({ type: 'Book', text: `${priority.name} ${daysUntil(nextDate(priority), today) < 0 ? 'is overdue' : `is due ${dateLabel(nextDate(priority))}`}${upcomingEvent && nextDate(priority) <= upcomingEvent.date ? `, before ${upcomingEvent.name} on ${dateLabel(upcomingEvent.date)}` : ''}.` });
   const replenish = ordered.find(i => i.kind === 'product' && (daysUntil(nextDate(i), today) <= 7 || (upcomingEvent && nextDate(i) <= upcomingEvent.date)));
   if (replenish) result.push({ type: 'Replenish', text: `Check ${replenish.name} supply around ${dateLabel(nextDate(replenish))}${upcomingEvent && nextDate(replenish) <= upcomingEvent.date ? `, before ${upcomingEvent.name}` : ''}. Replenish only if needed.` });
   const delay = ordered.find(i => i.kind === 'maintenance' && daysUntil(nextDate(i), today) > 14);
   if (delay) result.push({ type: 'Delay', text: `${delay.name} is on track and can wait until ${dateLabel(nextDate(delay))}, based on your usual frequency.` });
   const spend = monthlySpend(items, today);
-  if (spend.due.length) result.push({ type: 'Plan Ahead', text: `Approximately ${money(spend.total)} in maintenance and products is expected for the rest of ${format(parseISO(today), 'MMMM')}.` });
+  if (spend.due.length) result.push({ type: 'Plan', text: `Approximately ${money(spend.total)} in maintenance and products is expected for the rest of ${format(parseISO(today), 'MMMM')}.` });
   return result;
 }
 
 export function productStatus(item: PlanItem, today: string) {
   const days = daysUntil(nextDate(item), today);
-  return days <= 0 ? 'Check supply' : days <= 7 ? 'Replenish soon' : 'On track';
+  return days <= 7 ? 'Replenish' : days <= 14 ? 'Plan' : 'Delay';
 }
 export function tripForecast(items: PlanItem[], event: LifeEvent, today: string) {
   const book = orderedItems(items).filter(i => i.kind === 'maintenance' && nextDate(i) <= event.date);
@@ -62,9 +62,10 @@ export function tripForecast(items: PlanItem[], event: LifeEvent, today: string)
 }
 export function eventDecision(item: PlanItem, event: LifeEvent, today: string) {
   const due = nextDate(item);
-  if (item.kind === 'product') return due <= event.date ? 'CHECK SUPPLY' : 'PACK / CHECK';
-  if (due > event.date) return 'SKIP';
-  return due <= today ? 'BOOK NOW' : 'BOOK BEFORE DEPARTURE';
+  if (due <= event.date) return item.kind === 'product' ? 'Replenish' : 'Book';
+  const days = daysUntil(due, today);
+  if (days <= 14) return 'Plan';
+  return item.kind === 'product' ? 'Delay' : 'Skip';
 }
 export function tripRecommendation(items: PlanItem[], event: LifeEvent, today: string) {
   const { book, skip, check } = tripForecast(items,event,today);

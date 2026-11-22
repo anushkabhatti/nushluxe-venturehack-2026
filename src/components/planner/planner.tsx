@@ -12,7 +12,7 @@ import { SpendingTab } from './spending-tab';
 type View = 'Nushluxe Dashboard' | 'Maintenance' | 'Products' | 'Plan' | 'Events' | 'Spending' | 'About Us';
 const views: View[] = ['About Us', 'Nushluxe Dashboard', 'Maintenance', 'Products', 'Plan', 'Events', 'Spending'];
 function Empty({ icon, title, children, action }: { icon: ReactNode; title: string; children: ReactNode; action?: ReactNode }) { return <div className="empty-state">{icon}<h3>{title}</h3><p>{children}</p>{action}</div>; }
-function Badge({ item, today }: { item: PlanItem; today: string }) { const value = item.kind === 'product' ? productStatus(item,today) : daysUntil(nextDate(item),today) <= 0 ? 'Due now' : status(item, today); return <span className={`status-badge ${value === 'Due now' ? 'status-overdue' : value === 'On Track' || value === 'On track' ? 'status-track' : 'status-soon'}`}>{value === 'On Track' ? 'On track' : value === 'Due Soon' ? 'Due soon' : value}</span>; }
+function Badge({ item, today }: { item: PlanItem; today: string }) { const value = item.kind === 'product' ? productStatus(item,today) : status(item, today); const urgent = daysUntil(nextDate(item),today) <= 0; return <span className={`status-badge ${urgent ? 'status-overdue' : value === 'Delay' ? 'status-track' : 'status-soon'}`}>{value}{value === 'Replenish' ? ' · check supply first' : ''}</span>; }
 function IconAction({ title, children, onClick }: { title: string; children: ReactNode; onClick: () => void }) { return <Button variant="ghost" size="icon" title={title} aria-label={title} onClick={onClick}>{children}</Button>; }
 
 export function Planner() {
