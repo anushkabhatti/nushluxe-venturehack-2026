@@ -2,13 +2,19 @@ import { ArrowDown, ArrowRight, CalendarDays, NotebookPen, Package, Wallet } fro
 import founderPhoto from '@/assets/founder-anushka.png.asset.json';
 
 const actions = ['Book', 'Replenish', 'Plan', 'Delay', 'Skip'];
-const interviewCount = '20+';
-const topPain = 'Running out unexpectedly';
+const interviewCount = '[X]';
+const topPain = 'Keeping track of when personal-care products need replenishment.';
+const discoveryIntro = "Through early customer discovery, we're investigating how women currently coordinate recurring beauty and wellness routines, manage product replenishment, and prepare for upcoming events.";
 const quotes = [
   { text: 'Recently I had to repurchase a bunch of makeup in bulk bc everything runs out at the same time hair products', label: 'P03' },
-  { text: 'When beauty products run out I forget and by time I want to buy it or go to friends', label: 'P0X' },
+  { text: 'When beauty products run out I forget and by time I want to buy it or go to friends', label: '[Participant code to verify]' },
 ];
-const stillValidating = ['Willingness to pay', 'How often the problem happens'];
+const stillValidatingIntro = "Nushluxe is in its early validation stage. We're testing whether recurring beauty and wellness planning is a frequent enough problem to justify a dedicated product—and whether women would find value in having clearer decisions about what to do next.";
+const stillValidating = [
+  'Problem frequency — How often do these planning and replenishment challenges occur?',
+  'Product usefulness — Does Nushluxe meaningfully reduce the effort involved in deciding what needs attention?',
+  'Willingness to pay — Would women pay for this convenience, and under what conditions?',
+];
 
 export function VentureThesis() {
   return <div className="venture-thesis">
@@ -59,15 +65,17 @@ export function VentureThesis() {
     <section id="learned">
       <p className="eyebrow text-muted-foreground">Customer discovery · Babson Miami VentureHack</p>
       <h2>What we've learned</h2>
+      <p>{discoveryIntro}</p>
       <div className="learned-facts">
-        <p><strong>{interviewCount}</strong> customer interviews</p>
-        <p>Top pain: <strong>{topPain}</strong></p>
+        <p><strong>{interviewCount}</strong> completed customer discovery interviews</p>
+        <p>An emerging challenge: <strong>{topPain}</strong></p>
       </div>
       <ul className="learned-quotes">{quotes.map(quote => <li key={quote.text}><p className="validating-quote">"{quote.text}"</p><span className="fine-print">{quote.label}</span></li>)}</ul>
     </section>
     <section id="still-validating">
       <p className="eyebrow text-muted-foreground">Still validating</p>
       <h2>Still validating</h2>
+      <p>{stillValidatingIntro}</p>
       <ul className="thesis-lines">{stillValidating.map(item => <li key={item}>{item}</li>)}</ul>
     </section>
   </div>;
