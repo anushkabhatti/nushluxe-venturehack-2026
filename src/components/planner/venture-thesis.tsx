@@ -11,7 +11,6 @@ const discoveryFindings = [
 ];
 const quotes = [
   { text: 'Recently I had to repurchase a bunch of makeup in bulk bc everything runs out at the same time hair products', label: 'P03' },
-  { text: 'When beauty products run out I forget and by time I want to buy it or go to friends', label: '' },
 ];
 const stillValidatingIntro = "Nushluxe is in its early validation stage. We're testing whether recurring beauty and wellness planning is a frequent enough problem to justify a dedicated product—and whether women would find value in having clearer decisions about what to do next.";
 const stillValidating = [
