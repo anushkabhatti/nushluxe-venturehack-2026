@@ -12,10 +12,10 @@ const discoveryFindings = [
 const quotes = [
   { text: 'Recently I had to repurchase a bunch of makeup in bulk bc everything runs out at the same time hair products', label: 'P03' },
 ];
-const stillValidatingIntro = "Nushluxe is in its early validation stage. We're testing whether recurring beauty and wellness planning is a frequent enough problem to justify a dedicated product—and whether women would find value in having clearer decisions about what to do next.";
+const stillValidatingIntro = 'Nushluxe is still in the early validation stage. We are continuing to test which problems are most frequent, which use cases feel most urgent, and whether women would pay for a product that helps them decide what to do next.';
 const stillValidating = [
   'Problem frequency — How often do these planning and replenishment challenges occur?',
-  'Product usefulness — Does Nushluxe meaningfully reduce the effort involved in deciding what needs attention?',
+  'Most urgent use case — Which problem is most important to solve first?',
   'Willingness to pay — Would women pay for this convenience, and under what conditions?',
 ];
 
