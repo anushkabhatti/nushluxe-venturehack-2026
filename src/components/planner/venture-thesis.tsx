@@ -1,4 +1,5 @@
 import { ArrowDown, ArrowRight, CalendarDays, NotebookPen, Package, Wallet } from 'lucide-react';
+import founderPhoto from '@/assets/founder-anushka.png.asset.json';
 
 const actions = ['Book', 'Replenish', 'Plan', 'Delay', 'Skip'];
 const interviewCount = '20+';
@@ -12,9 +13,14 @@ const stillValidating = ['Willingness to pay', 'How often the problem happens'];
 export function VentureThesis() {
   return <div className="venture-thesis">
     <section id="founder">
-      <p className="eyebrow text-muted-foreground">01 · Founder</p>
-      <h2>Anushka Bhatti</h2>
-      <p>Recent Babson master's graduate exploring consumer technology, beauty, wellness, and personal planning.</p>
+      <div className="founder-layout">
+        <div>
+          <p className="eyebrow text-muted-foreground">01 · Founder</p>
+          <h2>Anushka Bhatti</h2>
+          <p>Originally from Miami, Anushka studied at Northeastern University before completing her master's at Babson. She is exploring consumer technology, beauty, wellness, and personal planning.</p>
+        </div>
+        <img className="founder-photo" src={founderPhoto.url} alt="Anushka Bhatti, founder of Nushluxe" />
+      </div>
     </section>
     <section id="problem">
       <p className="eyebrow text-muted-foreground">02 · The Problem</p>
