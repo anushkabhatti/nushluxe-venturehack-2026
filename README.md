@@ -1,24 +1,75 @@
-# Nushluxe-venturehack-2026
+# Nushluxe
 
-Implement exactly the screenshot and nothing else
+**Know what you need, before you need it.**
 
-This project was built with [Lovable](https://lovable.dev).
+Nushluxe is an early-stage personal maintenance planning platform designed to help women manage recurring beauty and wellness routines, product replenishment, upcoming events, and expected spending.
 
-## Build with Lovable
+Rather than simply reminding someone when something is due, Nushluxe explores how to help people decide what needs attention and what can wait.
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/7019aa0e-15d9-44ce-8325-057c99eda9b2).
+## Live Demo
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+https://nushluxe.lovable.app
 
-## Development
+## The Five Decisions
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+- **Book** — Appointments that need attention.
+- **Replenish** — Products approaching their estimated replacement date.
+- **Plan** — Upcoming maintenance needs.
+- **Delay** — Tasks that can wait.
+- **Skip** — Items not needed for the selected event.
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+## Current Prototype
+
+Developed at Babson Miami VentureHack in November 2026, this prototype demonstrates:
+
+- Recurring beauty and wellness maintenance
+- Product replenishment tracking
+- Event-based planning
+- Rule-based recommendations
+- Estimated spending
+- An example New York trip scenario
+
+Planning calculations are based on information such as dates, maintenance cycles, and estimated costs.
+
+The prototype uses illustrative data and does not yet provide personalized AI recommendations, user accounts, or persistent personal data.
+
+## Technology
+
+- TypeScript
+- React
+- Lovable
+- Centralized planning logic in `src/lib/planner.ts`
+- Automated tests
+
+## Local Development
+
+```bash
+bun install
+bun run dev
 ```
+
+## Run Tests
+
+```bash
+bun run test
+```
+
+## Current Stage
+
+Nushluxe is conducting early customer discovery and preparing for a planned 15-person beta.
+
+Customer research is being used to evaluate the usefulness of the planning experience and identify which problems deserve further development.
+
+## Founder
+
+Anushka Bhatti
+
+Master of Science in Entrepreneurial Leadership, Babson College
+
+Northeastern University alumna
+
+## Project Background
+
+Originally developed during Babson Miami VentureHack 2026.
+
+This repository contains an early-stage prototype intended for demonstration, experimentation, and customer validation.
