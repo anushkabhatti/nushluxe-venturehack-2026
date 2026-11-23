@@ -604,7 +604,6 @@ body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
 .learned-facts { display: grid; gap: 6px; margin: 24px 0 8px; }
 .learned-facts > p { font-size: 15px; line-height: 1.6; color: var(--muted-foreground); margin: 0; }
 .learned-facts strong { color: var(--foreground); font-weight: 500; }
-.learned-facts > p:first-child strong { display: block; font-family: var(--font-display); font-size: 84px; font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 2px; }
 .learned-quotes { margin: 34px 0 0; padding: 0; list-style: none; }
 .learned-quotes li { border-top: 1px solid var(--border); padding: 26px 0 0; margin-top: 26px; }
 .learned-quotes li:first-child { border-top: 0; margin-top: 0; padding-top: 0; }
@@ -613,7 +612,7 @@ body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
 .validating-quote { font-family: var(--font-display); font-size: 27px; font-style: italic; font-weight: 400; line-height: 1.35; color: var(--foreground); margin: 16px 0 0; max-width: 620px; }
 .venture-thesis .founder-note { margin-top: 22px; padding: 20px; border-radius: 16px; background: var(--background); }
 .venture-thesis .founder-note h3 { font-family: var(--font-sans); font-size: 20px; font-weight: 500; margin: 6px 0 8px; }
-@media(max-width:600px) { .venture-thesis section { padding: 42px 0; } .venture-thesis h2 { font-size: 31px; } .venture-thesis #founder h2 { font-size: 46px; } .founder-layout { grid-template-columns: 1fr; gap: 26px; } .founder-photo { max-width: 260px; } .venture-thesis h3 { font-size: 21px; } .validating-quote { font-size: 21px; } .learned-facts > p:first-child strong { font-size: 58px; } .decision-diagram { padding: 30px 16px; } .decision-diagram .nav-wordmark { font-size: 26px; } .decision-diagram h3 { font-size: 17px; } }
+@media(max-width:600px) { .venture-thesis section { padding: 42px 0; } .venture-thesis h2 { font-size: 31px; } .venture-thesis #founder h2 { font-size: 46px; } .founder-layout { grid-template-columns: 1fr; gap: 26px; } .founder-photo { max-width: 260px; } .venture-thesis h3 { font-size: 21px; } .validating-quote { font-size: 21px; } .decision-diagram { padding: 30px 16px; } .decision-diagram .nav-wordmark { font-size: 26px; } .decision-diagram h3 { font-size: 17px; } }
 .venture-thesis .founder-note > p:not(.eyebrow) { font-size: 12px; line-height: 1.8; margin-top: 0; }
 .thesis-details { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 16px; }
 .thesis-details summary { cursor: pointer; font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--foreground); list-style: none; }

@@ -2,12 +2,11 @@ import { ArrowDown, ArrowRight, CalendarDays, NotebookPen, Package, Wallet } fro
 import founderPhoto from '@/assets/founder-anushka.png.asset.json';
 
 const actions = ['Book', 'Replenish', 'Plan', 'Delay', 'Skip'];
-const interviewCount = '[X]';
 const topPain = 'Keeping track of when personal-care products need replenishment.';
 const discoveryIntro = "Through early customer discovery, we're investigating how women currently coordinate recurring beauty and wellness routines, manage product replenishment, and prepare for upcoming events.";
 const quotes = [
   { text: 'Recently I had to repurchase a bunch of makeup in bulk bc everything runs out at the same time hair products', label: 'P03' },
-  { text: 'When beauty products run out I forget and by time I want to buy it or go to friends', label: '[Participant code to verify]' },
+  { text: 'When beauty products run out I forget and by time I want to buy it or go to friends', label: '' },
 ];
 const stillValidatingIntro = "Nushluxe is in its early validation stage. We're testing whether recurring beauty and wellness planning is a frequent enough problem to justify a dedicated product—and whether women would find value in having clearer decisions about what to do next.";
 const stillValidating = [
@@ -67,10 +66,9 @@ export function VentureThesis() {
       <h2>What we've learned</h2>
       <p>{discoveryIntro}</p>
       <div className="learned-facts">
-        <p><strong>{interviewCount}</strong> completed customer discovery interviews</p>
         <p>An emerging challenge: <strong>{topPain}</strong></p>
       </div>
-      <ul className="learned-quotes">{quotes.map(quote => <li key={quote.text}><p className="validating-quote">"{quote.text}"</p><span className="fine-print">{quote.label}</span></li>)}</ul>
+      <ul className="learned-quotes">{quotes.map(quote => <li key={quote.text}><p className="validating-quote">"{quote.text}"</p>{quote.label && <span className="fine-print">{quote.label}</span>}</li>)}</ul>
     </section>
     <section id="still-validating">
       <p className="eyebrow text-muted-foreground">Still validating</p>
