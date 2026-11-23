@@ -3,7 +3,12 @@ import founderPhoto from '@/assets/founder-anushka.png.asset.json';
 
 const actions = ['Book', 'Replenish', 'Plan', 'Delay', 'Skip'];
 const topPain = 'Keeping track of when personal-care products need replenishment.';
-const discoveryIntro = "Through early customer discovery, we're investigating how women currently coordinate recurring beauty and wellness routines, manage product replenishment, and prepare for upcoming events.";
+const discoveryIntro = "Through early customer discovery, we're exploring how women currently manage recurring beauty and wellness routines, keep track of product replenishment, and prepare for upcoming events.";
+const discoveryFindings = [
+  'Many women currently manage these routines across multiple places, including calendars, memory, notes, retailer apps, and past appointments.',
+  'Product replenishment and event preparation appear to create friction, especially when items run out unexpectedly or planning happens last-minute.',
+  'Interest appears strongest around having a clearer way to decide what needs attention next, rather than relying on reminders alone.',
+];
 const quotes = [
   { text: 'Recently I had to repurchase a bunch of makeup in bulk bc everything runs out at the same time hair products', label: 'P03' },
   { text: 'When beauty products run out I forget and by time I want to buy it or go to friends', label: '' },
@@ -65,6 +70,7 @@ export function VentureThesis() {
       <p className="eyebrow text-muted-foreground">Customer discovery · Babson Miami VentureHack</p>
       <h2>What we've learned</h2>
       <p>{discoveryIntro}</p>
+      <ul className="thesis-lines">{discoveryFindings.map(finding => <li key={finding}>{finding}</li>)}</ul>
       <div className="learned-facts">
         <p>An emerging challenge: <strong>{topPain}</strong></p>
       </div>
