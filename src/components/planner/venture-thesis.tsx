@@ -50,9 +50,9 @@ export function VentureThesis() {
       <div className="thesis-actions">{actions.map(action => <strong key={action}>{action}</strong>)}</div>
     </section>
     <section id="difference">
-      <p className="eyebrow text-muted-foreground">Why Nushluxe Is Different</p>
+      <h2>Why Nushluxe Is Different</h2>
       <ul className="thesis-lines">{['Calendars store appointments.', 'Notes store lists.', 'Retailers help reorder products.', 'Budgeting tools track spending.'].map(line => <li key={line}>{line}</li>)}</ul>
-      <h2>Nushluxe is exploring the decision layer between them.</h2>
+      <p>Nushluxe is exploring the decision layer between them.</p>
       <div className="decision-diagram">
         <div className="decision-inputs">{[{ label: 'Calendar', icon: CalendarDays }, { label: 'Notes', icon: NotebookPen }, { label: 'Retail apps', icon: Package }, { label: 'Spending', icon: Wallet }].map(({ label, icon: Icon }) => <span key={label}><Icon aria-hidden="true" />{label}</span>)}</div>
         <ArrowDown aria-hidden="true" />
