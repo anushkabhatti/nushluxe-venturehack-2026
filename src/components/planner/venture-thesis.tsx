@@ -15,7 +15,7 @@ export function VentureThesis() {
     <section id="founder">
       <div className="founder-layout">
         <div>
-          <p className="eyebrow text-muted-foreground">01 · Founder</p>
+          <p className="eyebrow text-muted-foreground">Founder</p>
           <h2>Anushka Bhatti</h2>
           <p>Originally from Miami, Anushka Bhatti studied at Northeastern University before earning her master's degree from Babson College. Combining her background in entrepreneurship with an interest in consumer technology, beauty, and wellness, she founded Nushluxe to explore a more intuitive way to manage personal maintenance and plan what comes next.</p>
         </div>
@@ -23,27 +23,27 @@ export function VentureThesis() {
       </div>
     </section>
     <section id="problem">
-      <p className="eyebrow text-muted-foreground">02 · The Problem</p>
+      <p className="eyebrow text-muted-foreground">The Problem</p>
       <h2>What do I actually need to do next?</h2>
       <p>Recurring beauty and wellness maintenance is often spread across calendars, Notes, memory, retailer apps, appointments, and purchase histories.</p>
       <p>That makes it difficult to know what actually needs attention next.</p>
       <div className="thesis-fragments">{['Appointments', 'Products', 'Events', 'Timing', 'Costs'].map(label => <span key={label}>{label}</span>)}<ArrowRight aria-hidden="true" /><strong>Disconnected today</strong></div>
     </section>
     <section id="customer">
-      <p className="eyebrow text-muted-foreground">03 · Who We're Building For</p>
+      <p className="eyebrow text-muted-foreground">Who We're Building For</p>
       <h2>Who we're building for</h2>
       <p>Women who regularly manage multiple recurring beauty and wellness services and personal-care products — especially around trips, events, and important dates.</p>
       <div className="thesis-examples">{['Hair', 'Nails', 'Brows/lashes', 'Skincare', 'Beauty products', 'Wellness'].map(label => <span key={label}>{label}</span>)}</div>
       <p className="fine-print">Initial customer hypothesis — currently being validated.</p>
     </section>
     <section id="approach">
-      <p className="eyebrow text-muted-foreground">04 · The Nushluxe Approach</p>
+      <p className="eyebrow text-muted-foreground">The Nushluxe Approach</p>
       <h2>One personal plan for what comes next.</h2>
       <p>Nushluxe brings maintenance, product replenishment, life events, and estimated spending together to help users decide:</p>
       <div className="thesis-actions">{actions.map(action => <strong key={action}>{action}</strong>)}</div>
     </section>
     <section id="difference">
-      <p className="eyebrow text-muted-foreground">05 · Why Nushluxe Is Different</p>
+      <p className="eyebrow text-muted-foreground">Why Nushluxe Is Different</p>
       <ul className="thesis-lines">{['Calendars store appointments.', 'Notes store lists.', 'Retailers help reorder products.', 'Budgeting tools track spending.'].map(line => <li key={line}>{line}</li>)}</ul>
       <h2>Nushluxe is exploring the decision layer between them.</h2>
       <div className="decision-diagram">
@@ -56,7 +56,7 @@ export function VentureThesis() {
       <p className="fine-print">A product thesis being tested, not a proven moat.</p>
     </section>
     <section id="learned">
-      <p className="eyebrow text-muted-foreground">06 · Customer discovery · Babson Miami VentureHack</p>
+      <p className="eyebrow text-muted-foreground">Customer discovery · Babson Miami VentureHack</p>
       <h2>What we've learned</h2>
       <div className="learned-facts">
         <p><strong>{interviewCount}</strong> customer interviews</p>
@@ -65,7 +65,7 @@ export function VentureThesis() {
       <ul className="learned-quotes">{quotes.map(quote => <li key={quote.text}><p className="validating-quote">"{quote.text}"</p><span className="fine-print">{quote.label}</span></li>)}</ul>
     </section>
     <section id="still-validating">
-      <p className="eyebrow text-muted-foreground">07 · Still validating</p>
+      <p className="eyebrow text-muted-foreground">Still validating</p>
       <h2>Still validating</h2>
       <ul className="thesis-lines">{stillValidating.map(item => <li key={item}>{item}</li>)}</ul>
     </section>
