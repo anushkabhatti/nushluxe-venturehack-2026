@@ -2,15 +2,11 @@ import { ArrowDown, ArrowRight, CalendarDays, NotebookPen, Package, Wallet } fro
 import founderPhoto from '@/assets/founder-anushka.png.asset.json';
 
 const actions = ['Book', 'Replenish', 'Plan', 'Delay', 'Skip'];
-const topPain = 'Keeping track of when personal-care products need replenishment.';
-const discoveryIntro = "Through early customer discovery, we're exploring how women currently manage recurring beauty and wellness routines, keep track of product replenishment, and prepare for upcoming events.";
-const discoveryFindings = [
-  'Many women currently manage these routines across multiple places, including calendars, memory, notes, retailer apps, and past appointments.',
-  'Product replenishment and event preparation appear to create friction, especially when items run out unexpectedly or planning happens last-minute.',
-  'Interest appears strongest around having a clearer way to decide what needs attention next, rather than relying on reminders alone.',
-];
-const quotes = [
-  { text: 'Recently I had to repurchase a bunch of makeup in bulk bc everything runs out at the same time hair products', label: 'P03' },
+const discoveryIntro = 'Our early conversations are helping us understand the everyday challenges of managing beauty and wellness routines—and where more thoughtful planning could make a meaningful difference.';
+const researchThemes = [
+  { title: 'Fragmented routines', text: 'Appointments, products, and upcoming commitments can be difficult to coordinate when information is spread across multiple places.' },
+  { title: 'Unplanned replenishment', text: "Knowing when to replace everyday products is an area we're exploring, particularly when several purchases overlap." },
+  { title: 'Deciding what matters next', text: "We're investigating whether a single, personalized plan could reduce the effort of deciding what needs attention and what can wait." },
 ];
 const stillValidatingIntro = 'Nushluxe is still in the early validation stage. We are continuing to test which problems are most frequent, which use cases feel most urgent, and whether women would pay for a product that helps them decide what to do next.';
 const stillValidating = [
@@ -67,13 +63,10 @@ export function VentureThesis() {
     </section>
     <section id="learned">
       <p className="eyebrow text-muted-foreground">Customer discovery · Babson Miami VentureHack</p>
-      <h2>What we've learned</h2>
+      <h2>What we're learning</h2>
       <p>{discoveryIntro}</p>
-      <ul className="thesis-lines">{discoveryFindings.map(finding => <li key={finding}>{finding}</li>)}</ul>
-      <div className="learned-facts">
-        <p>An emerging challenge: <strong>{topPain}</strong></p>
-      </div>
-      <ul className="learned-quotes">{quotes.map(quote => <li key={quote.text}><p className="validating-quote">"{quote.text}"</p>{quote.label && <span className="fine-print">{quote.label}</span>}</li>)}</ul>
+      <ul className="research-themes">{researchThemes.map(theme => <li key={theme.title}><strong>{theme.title}</strong><p>{theme.text}</p></li>)}</ul>
+      <p className="fine-print">Early research themes under investigation, not confirmed findings across all participants.</p>
     </section>
     <section id="still-validating">
       <p className="eyebrow text-muted-foreground">Still validating</p>

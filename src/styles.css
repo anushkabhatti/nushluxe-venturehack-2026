@@ -601,15 +601,10 @@ body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
 @media(max-width:600px) { .prototype-header nav { row-gap: 0; } .prototype-header nav button { height: 38px; padding: 0 8px; font-size: 10px; } .workspace { scroll-margin-top: 190px; } }
 
 /* About Us: editorial pitch narrative, same visual system */
-.learned-facts { display: grid; gap: 6px; margin: 24px 0 8px; }
-.learned-facts > p { font-size: 15px; line-height: 1.6; color: var(--muted-foreground); margin: 0; }
-.learned-facts strong { color: var(--foreground); font-weight: 500; }
-.learned-quotes { margin: 34px 0 0; padding: 0; list-style: none; }
-.learned-quotes li { border-top: 1px solid var(--border); padding: 26px 0 0; margin-top: 26px; }
-.learned-quotes li:first-child { border-top: 0; margin-top: 0; padding-top: 0; }
-.learned-quotes .validating-quote { margin: 0; }
-.learned-quotes .fine-print { margin-top: 12px; display: block; text-transform: uppercase; letter-spacing: 0.12em; }
-.validating-quote { font-family: var(--font-display); font-size: 27px; font-style: italic; font-weight: 400; line-height: 1.35; color: var(--foreground); margin: 16px 0 0; max-width: 620px; }
+.research-themes { display: grid; grid-template-columns: 1fr; gap: 0; margin: 24px 0 8px; padding: 0; list-style: none; border-top: 1px solid var(--border); }
+.research-themes li { border-bottom: 1px solid var(--border); padding: 20px 2px; }
+.research-themes strong { display: block; font-size: 15px; font-weight: 500; color: var(--foreground); margin-bottom: 6px; }
+.research-themes p { font-size: 14px; line-height: 1.7; color: var(--muted-foreground); margin: 0; max-width: 580px; }
 .venture-thesis .founder-note { margin-top: 22px; padding: 20px; border-radius: 16px; background: var(--background); }
 .venture-thesis .founder-note h3 { font-family: var(--font-sans); font-size: 20px; font-weight: 500; margin: 6px 0 8px; }
 @media(max-width:600px) { .venture-thesis section { padding: 42px 0; } .venture-thesis h2 { font-size: 31px; } .venture-thesis #founder h2 { font-size: 46px; } .founder-layout { grid-template-columns: 1fr; gap: 26px; } .founder-photo { max-width: 260px; } .venture-thesis h3 { font-size: 21px; } .validating-quote { font-size: 21px; } .decision-diagram { padding: 30px 16px; } .decision-diagram .nav-wordmark { font-size: 26px; } .decision-diagram h3 { font-size: 17px; } }
