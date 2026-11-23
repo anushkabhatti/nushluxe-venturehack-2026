@@ -22,8 +22,9 @@ export function VentureThesis() {
         <div>
           <p className="eyebrow text-muted-foreground">Founder</p>
           <h2>Anushka Bhatti</h2>
-          <p>Originally from Miami, Anushka Bhatti studied at Northeastern University before earning her master's degree in Entrepreneurial Leadership from Babson College. As the founder of Nushluxe, she is exploring how consumer technology can simplify the planning and decision-making behind recurring beauty and wellness maintenance.</p>
-          <p>Her vision is to help women spend less time coordinating appointments, tracking products, and preparing for upcoming events—and more time enjoying their lives.</p>
+          <p>Originally from Miami, Anushka Bhatti studied at Northeastern University before earning her master's degree in Entrepreneurial Leadership from Babson College.</p>
+          <p>As the founder of Nushluxe, she is exploring how consumer technology can simplify the planning and decision-making behind recurring beauty and wellness maintenance.</p>
+          <p>Her vision is to bring appointments, product replenishment, upcoming events, and expected spending into one thoughtful experience—helping women understand what needs attention, what can wait, and how to plan their personal-care budgets with greater intention.</p>
         </div>
         <img className="founder-photo" src={founderPhoto.url} alt="Anushka Bhatti, founder of Nushluxe" />
       </div>
