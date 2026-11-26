@@ -11,7 +11,7 @@ import {
   type PlanItem,
   type LifeEvent,
 } from "@/lib/planner";
-import newYork from "@/assets/new-york.jpg";
+import { destinationVisual } from "./destinations";
 import foundation from "@/assets/foundation.jpg";
 import haircare from "@/assets/haircare.jpg";
 import wellness from "@/assets/wellness.jpg";
@@ -90,7 +90,7 @@ export function TripExperience({
   const forecast = event ? tripForecast(items, event, today) : undefined;
   const routines = items.filter((i) => i.kind === "maintenance");
   const products = items.filter((i) => i.kind === "product");
-  const isNewYork = event?.name.toLowerCase().includes("new york");
+  const destination = destinationVisual(event?.name);
   return (
     <div className="trip-experience">
       {!prep && (
@@ -133,10 +133,10 @@ export function TripExperience({
       {event ? (
         <>
           <div className="travel-photo">
-            {isNewYork ? (
+            {destination ? (
               <img
-                src={newYork}
-                alt="The New York City skyline in bright, pale monochrome light"
+                src={destination.source}
+                alt={destination.alt}
                 width={1440}
                 height={960}
                 fetchPriority="high"
@@ -148,7 +148,7 @@ export function TripExperience({
               </div>
             )}
             <span className="photo-note">
-              {isNewYork ? "NEW YORK, NEW YORK" : event.type.toUpperCase()}
+              {destination ? destination.note : event.type.toUpperCase()}
             </span>
           </div>
           <div className="trip-title">

@@ -40,3 +40,4 @@ use the editor.
 - Initialize the ephemeral demo with date-relative fictional examples and share event-specific forecasts between home and prep views; this keeps the first screen useful without claiming saved customer data.
 - Keep selected-event state shared by home, event creation, and plan views; separate planned service costs from possible product expenses so decisions and totals stay consistent.
 - Keep beauty-bag imagery, example brand names and the illustrative wellness/skincare cards in the presentation layer only, never in planner items; they must not affect decisions or totals.
+- Keep destination imagery and travel-context captions in a presentation-only lookup keyed by event name, shared by event cards and the trip view; destination cards must derive every decision from the shared planner rules.

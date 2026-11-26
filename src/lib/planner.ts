@@ -115,7 +115,12 @@ export function exampleData(today: string): { items: PlanItem[]; events: LifeEve
       item("foundation", "product", "Foundation", "Makeup", 45, 5, 48),
       item("haircare", "product", "Haircare", "Haircare", 60, 25, 28),
     ],
-    events: [{ id: "trip", name: "New York City", date: shiftDate(today, 7), type: "Trip" }],
+    events: [
+      { id: "trip", name: "New York City", date: shiftDate(today, 7), type: "Trip" },
+      { id: "miami", name: "Miami", date: shiftDate(today, 21), type: "Trip" },
+      { id: "dubai", name: "Dubai", date: shiftDate(today, 35), type: "Trip" },
+      { id: "hong-kong", name: "Hong Kong", date: shiftDate(today, 49), type: "Trip" },
+    ],
   };
 }
 export function insights(items: PlanItem[], events: LifeEvent[], today: string) {

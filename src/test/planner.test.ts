@@ -169,4 +169,29 @@ describe("Nushluxe planning rules", () => {
     expect(monthlySpend([], today).total).toBe(0);
     expect(insights([], [], today)).toEqual([]);
   });
+
+  it("gives the same routines a different plan for each example destination", () => {
+    const data = exampleData(today);
+    const plan = (name: string) => {
+      const event = data.events.find((e) => e.name === name);
+      if (!event) throw new Error(`Missing example destination ${name}`);
+      return Object.fromEntries(data.items.map((i) => [i.name, eventDecision(i, event, today)]));
+    };
+
+    expect(data.events.map((e) => e.name)).toEqual([
+      "New York City",
+      "Miami",
+      "Dubai",
+      "Hong Kong",
+    ]);
+    expect(plan("New York City")).toEqual({
+      Nails: "Book",
+      Eyebrows: "Book",
+      Hair: "Skip",
+      Foundation: "Replenish",
+      Haircare: "Skip",
+    });
+    expect(plan("Miami")).toMatchObject({ Hair: "Book", Haircare: "Skip" });
+    expect(plan("Dubai")).toMatchObject({ Hair: "Book", Haircare: "Replenish" });
+  });
 });

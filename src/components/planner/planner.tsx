@@ -17,8 +17,8 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { ItemEditor } from "./item-editor";
 import { EventEditor } from "./event-editor";
+import { DestinationCards, TravelEdit } from "./events-tab";
 import {
-  beforeEvent,
   completeItem,
   dateLabel,
   daysUntil,
@@ -549,85 +549,20 @@ export function Planner() {
           {view === "Events" && (
             <>
               {events.length ? (
-                <div className="events-grid">
-                  {upcomingEvents.map((event) => (
-                    <article className="event-card" key={event.id}>
-                      <div className="event-top">
-                        <span className="eyebrow text-blush-foreground">
-                          {event.type}
-                          {event.date < today && " · Past event"}
-                        </span>
-                        <div className="flex">
-                          <IconAction
-                            title={`Edit ${event.name}`}
-                            onClick={() => setEventEditor({ event })}
-                          >
-                            <Pencil />
-                          </IconAction>
-                          <IconAction
-                            title={`Delete ${event.name}`}
-                            onClick={() => {
-                              setEvents((current) => current.filter((e) => e.id !== event.id));
-                              setNotice(`${event.name} deleted.`);
-                            }}
-                          >
-                            <Trash2 />
-                          </IconAction>
-                        </div>
-                      </div>
-                      <h2>{event.name}</h2>
-                      <p className="event-date">
-                        <CalendarDays />
-                        {dateLabel(event.date)}
-                      </p>
-                      <h3>Before {event.name}</h3>
-                      {beforeEvent(items, event).length ? (
-                        <ul className="before-event">
-                          {beforeEvent(items, event).map((item) => (
-                            <li key={item.id}>
-                              <span>
-                                {item.kind === "product" ? "Check supply: " : ""}
-                                {item.name}
-                              </span>
-                              <span>
-                                {dateLabel(nextDate(item))}
-                                <Badge item={item} today={today} />
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      ) : (
-                        <p className="body-copy">
-                          No routines or products expected before this event.
-                        </p>
-                      )}
-                      {items
-                        .filter((i) => nextDate(i) > event.date)
-                        .map((item) => (
-                          <p className="event-on-track" key={item.id}>
-                            <Check />
-                            {item.name} {item.kind === "product" ? "replenishment" : "appointment"}{" "}
-                            expected after this event.
-                          </p>
-                        ))}
-                      <p className="fine-print mt-5">
-                        Based on your usual frequencies, not exact inventory.
-                      </p>
-                      <Button
-                        variant="outline"
-                        className="mt-5"
-                        disabled={event.date < today}
-                        onClick={() => {
-                          setSelectedEventId(event.id);
-                          navigate("Plan");
-                        }}
-                      >
-                        View pre-event plan
-                        <ArrowRight />
-                      </Button>
-                    </article>
-                  ))}
-                </div>
+                <DestinationCards
+                  items={items}
+                  events={upcomingEvents}
+                  today={today}
+                  onEdit={(event) => setEventEditor({ event })}
+                  onDelete={(event) => {
+                    setEvents((current) => current.filter((e) => e.id !== event.id));
+                    setNotice(`${event.name} deleted.`);
+                  }}
+                  onOpen={(event) => {
+                    setSelectedEventId(event.id);
+                    navigate("Plan");
+                  }}
+                />
               ) : (
                 <Empty
                   icon={<CalendarDays />}
@@ -642,6 +577,7 @@ export function Planner() {
                   A trip, a celebration, or simply a date that matters.
                 </Empty>
               )}
+              <TravelEdit />
             </>
           )}
           {view === "Spending" && (
