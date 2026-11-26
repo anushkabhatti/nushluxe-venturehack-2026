@@ -553,6 +553,8 @@ export function Planner() {
                   items={items}
                   events={upcomingEvents}
                   today={today}
+                  selectedId={prepEvent?.id}
+                  onSelect={(event) => setSelectedEventId(event.id)}
                   onEdit={(event) => setEventEditor({ event })}
                   onDelete={(event) => {
                     setEvents((current) => current.filter((e) => e.id !== event.id));

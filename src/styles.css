@@ -3444,3 +3444,70 @@ body {
     font-size: 12px;
   }
 }
+
+/* Events: clean destination selector with the plan for the selected trip underneath */
+.destination-grid {
+  gap: 64px 32px;
+}
+.destination-image {
+  aspect-ratio: 4 / 5;
+  border-radius: 6px;
+  box-shadow: none;
+  cursor: pointer;
+}
+.destination-image img {
+  object-position: center 60%;
+}
+.destination-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  margin-top: 22px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.destination-selected .destination-row {
+  border-bottom-color: var(--foreground);
+}
+.destination-row > div {
+  min-width: 0;
+}
+.destination-card h2 {
+  font-size: 34px;
+}
+.destination-plan {
+  margin-top: 80px;
+}
+.destination-plan .destination-head {
+  margin-top: 0;
+}
+.destination-plan h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 6px 0 26px;
+  overflow-wrap: anywhere;
+}
+.destination-plan .destination-foot {
+  margin-top: 0;
+}
+@media (max-width: 640px) {
+  .destination-grid {
+    gap: 44px;
+  }
+  .destination-image {
+    aspect-ratio: 4 / 3;
+  }
+  .destination-card h2 {
+    font-size: 30px;
+  }
+  .destination-plan {
+    margin-top: 56px;
+  }
+  .destination-plan h2 {
+    font-size: 32px;
+  }
+}
