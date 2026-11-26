@@ -67,7 +67,7 @@ export function eventDecision(item: PlanItem, event: LifeEvent, today: string) {
   if (due <= event.date) return item.kind === 'product' ? 'Replenish' : 'Book';
   const days = daysUntil(due, today);
   if (days <= 14) return 'Plan';
-  return item.kind === 'product' ? 'Delay' : 'Skip';
+  return 'Skip';
 }
 export function tripRecommendation(items: PlanItem[], event: LifeEvent, today: string) {
   const { book, skip, check } = tripForecast(items,event,today);
