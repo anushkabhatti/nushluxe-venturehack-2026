@@ -2967,9 +2967,16 @@ body {
   }
 }
 
-/* Editorial refresh: serif headings, cream surfaces, image-led cards */
+/* Editorial refresh: serif headings, clean white surfaces, image-led cards */
 :root {
-  --cream: oklch(0.975 0.01 85);
+  --surface-soft: oklch(0.98 0 0);
+}
+.travel-photo,
+.bag-card-image,
+.product-photo,
+.founder-photo,
+.personalized-recommendation {
+  box-shadow: inset 0 0 0 1px var(--border);
 }
 .personal-greeting h1,
 .trip-title h2,
@@ -2990,7 +2997,7 @@ body {
 .travel-photo {
   aspect-ratio: 1.5;
   border-radius: 28px;
-  background: var(--cream);
+  background: var(--surface-soft);
 }
 .photo-note {
   bottom: 20px;
@@ -3023,11 +3030,14 @@ body {
   line-height: 1.15;
 }
 .product-photo {
-  background: var(--cream);
+  background: var(--surface-soft);
   border: 0;
 }
 .product-photo img {
   object-fit: cover;
+}
+.travel-photo img {
+  object-position: center 78%;
 }
 .bag-grid {
   display: grid;
@@ -3038,7 +3048,7 @@ body {
   aspect-ratio: 4 / 5;
   border-radius: 24px;
   overflow: hidden;
-  background: var(--cream);
+  background: var(--surface-soft);
   display: grid;
   place-items: center;
 }
@@ -3089,7 +3099,7 @@ body {
 .personalized-recommendation {
   padding: 36px;
   border-radius: 28px;
-  background: var(--cream);
+  background: var(--surface-soft);
   margin-top: 52px;
 }
 .personalized-recommendation h2 {
@@ -3104,7 +3114,7 @@ body {
 .founder-photo {
   border-radius: 28px;
   margin-top: 10px;
-  background: var(--cream);
+  background: var(--surface-soft);
 }
 .founder-layout p:not(.eyebrow) {
   font-size: 15px;

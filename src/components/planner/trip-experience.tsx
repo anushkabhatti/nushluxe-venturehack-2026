@@ -15,20 +15,20 @@ import newYork from "@/assets/new-york.jpg";
 import foundation from "@/assets/foundation.jpg";
 import haircare from "@/assets/haircare.jpg";
 import wellness from "@/assets/wellness.jpg";
-import skincare from "@/assets/skincare.jpg";
+import makeup from "@/assets/makeup.jpg";
 
 // Presentation only: imagery and example brand names never feed the planner rules.
 function productVisual(item: PlanItem) {
   if (item.name.toLowerCase().includes("foundation"))
     return {
       source: foundation,
-      alt: "Illustrative unbranded foundation bottle on a cream surface",
+      alt: "Illustrative unbranded foundation bottle on a white surface",
       brand: "Chanel",
     };
   if (item.category === "Haircare")
     return {
       source: haircare,
-      alt: "Illustrative unbranded salon haircare bottles on a cream surface",
+      alt: "Illustrative unbranded salon haircare bottles on a white surface",
       brand: "Kérastase",
     };
   return undefined;
@@ -38,15 +38,15 @@ const bagEditorial = [
     title: "Wellness",
     brand: "Alo",
     source: wellness,
-    alt: "Illustrative unbranded activewear, yoga mat and water bottle",
+    alt: "Illustrative unbranded white activewear, yoga mat and water bottle",
     text: "Studio pieces for slower mornings away.",
   },
   {
-    title: "Skincare",
-    brand: "Sanctuary",
-    source: skincare,
-    alt: "Illustrative unbranded spa skincare jar and serum",
-    text: "A spa-style ritual to travel with.",
+    title: "Makeup",
+    brand: "Chanel",
+    source: makeup,
+    alt: "Illustrative unbranded lipstick, compact and mascara on a white surface",
+    text: "A pared-back edit for evenings out.",
   },
 ];
 
@@ -136,7 +136,7 @@ export function TripExperience({
             {isNewYork ? (
               <img
                 src={newYork}
-                alt="New York City at golden hour, looking toward the Empire State Building"
+                alt="The New York City skyline in bright, pale monochrome light"
                 width={1440}
                 height={960}
                 fetchPriority="high"
