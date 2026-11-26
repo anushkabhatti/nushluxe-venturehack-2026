@@ -14,27 +14,48 @@ import {
 import newYork from "@/assets/new-york.jpg";
 import foundation from "@/assets/foundation.jpg";
 import haircare from "@/assets/haircare.jpg";
+import wellness from "@/assets/wellness.jpg";
+import skincare from "@/assets/skincare.jpg";
+
+// Presentation only: imagery and example brand names never feed the planner rules.
+function productVisual(item: PlanItem) {
+  if (item.name.toLowerCase().includes("foundation"))
+    return {
+      source: foundation,
+      alt: "Illustrative unbranded foundation bottle on a cream surface",
+      brand: "Chanel",
+    };
+  if (item.category === "Haircare")
+    return {
+      source: haircare,
+      alt: "Illustrative unbranded salon haircare bottles on a cream surface",
+      brand: "Kérastase",
+    };
+  return undefined;
+}
+const bagEditorial = [
+  {
+    title: "Wellness",
+    brand: "Alo",
+    source: wellness,
+    alt: "Illustrative unbranded activewear, yoga mat and water bottle",
+    text: "Studio pieces for slower mornings away.",
+  },
+  {
+    title: "Skincare",
+    brand: "Sanctuary",
+    source: skincare,
+    alt: "Illustrative unbranded spa skincare jar and serum",
+    text: "A spa-style ritual to travel with.",
+  },
+];
 
 export function ProductPhoto({ item }: { item: PlanItem }) {
-  const source = item.name.toLowerCase().includes("foundation")
-    ? foundation
-    : item.category === "Haircare"
-      ? haircare
-      : undefined;
+  const visual = productVisual(item);
   return (
     <div className="product-photo">
-      {source ? (
-        <img
-          src={source}
-          alt={
-            item.name.toLowerCase().includes("foundation")
-              ? "Illustrative unbranded foundation bottle"
-              : "Illustrative unbranded travel haircare bottles"
-          }
-          width={816}
-          height={816}
-          loading="lazy"
-        />
+      {visual ? (
+        <img src={visual.source} alt={visual.alt} width={900} height={900} loading="lazy" />
       ) : (
         <Package aria-hidden="true" />
       )}
@@ -115,7 +136,7 @@ export function TripExperience({
             {isNewYork ? (
               <img
                 src={newYork}
-                alt="New York City skyline with the Empire State Building"
+                alt="New York City at golden hour, looking toward the Empire State Building"
                 width={1440}
                 height={960}
                 fetchPriority="high"
@@ -338,25 +359,57 @@ export function TripExperience({
             <ArrowRight />
           </Button>
         </div>
-        {products.map((item) => (
-          <article className="bag-row" key={item.id}>
-            <ProductPhoto item={item} />
-            <div>
-              <h3>{item.name}</h3>
-              <p>
-                {item.category === "Haircare"
-                  ? "Check travel-size availability or pack appropriate containers."
-                  : "Check remaining quantity before packing."}
-              </p>
-              <p className="bag-hint">
-                {item.category === "Haircare"
-                  ? "Pack what you already have."
-                  : "Replenish only if needed."}
-              </p>
-            </div>
-          </article>
-        ))}
+        <div className="bag-grid">
+          {products.map((item) => {
+            const visual = productVisual(item);
+            return (
+              <article className="bag-card" key={item.id}>
+                <div className="bag-card-image">
+                  {visual ? (
+                    <img
+                      src={visual.source}
+                      alt={visual.alt}
+                      width={900}
+                      height={900}
+                      loading="lazy"
+                    />
+                  ) : (
+                    <Package aria-hidden="true" />
+                  )}
+                </div>
+                <p className="bag-eyebrow">
+                  {item.category}
+                  {visual ? ` · e.g. ${visual.brand}` : ""}
+                </p>
+                <h3>{item.name}</h3>
+                <p>
+                  {item.category === "Haircare"
+                    ? "Check travel-size availability or pack appropriate containers."
+                    : "Check remaining quantity before packing."}
+                </p>
+                <p className="bag-hint">
+                  {item.category === "Haircare"
+                    ? "Pack what you already have."
+                    : "Replenish only if needed."}
+                </p>
+              </article>
+            );
+          })}
+          {bagEditorial.map((card) => (
+            <article className="bag-card" key={card.title}>
+              <div className="bag-card-image">
+                <img src={card.source} alt={card.alt} width={900} height={900} loading="lazy" />
+              </div>
+              <p className="bag-eyebrow">Illustrative · e.g. {card.brand}</p>
+              <h3>{card.title}</h3>
+              <p>{card.text}</p>
+            </article>
+          ))}
+        </div>
         {!products.length && <p className="body-copy py-6">Your essentials belong here.</p>}
+        <p className="bag-note">
+          Brand names are illustrative examples · No affiliation · Imagery is unbranded
+        </p>
       </section>
       <section className="personalized-recommendation">
         <Sparkles />

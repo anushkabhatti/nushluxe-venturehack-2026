@@ -39,3 +39,4 @@ use the editor.
 - Isolate date, status, spending, grouping, and insight rules in a browser-safe planner module with concrete tests; all views must share the same calculations.
 - Initialize the ephemeral demo with date-relative fictional examples and share event-specific forecasts between home and prep views; this keeps the first screen useful without claiming saved customer data.
 - Keep selected-event state shared by home, event creation, and plan views; separate planned service costs from possible product expenses so decisions and totals stay consistent.
+- Keep beauty-bag imagery, example brand names and the illustrative wellness/skincare cards in the presentation layer only, never in planner items; they must not affect decisions or totals.

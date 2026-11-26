@@ -2966,3 +2966,227 @@ body {
     padding: 17px;
   }
 }
+
+/* Editorial refresh: serif headings, cream surfaces, image-led cards */
+:root {
+  --cream: oklch(0.975 0.01 85);
+}
+.personal-greeting h1,
+.trip-title h2,
+.consumer-section-heading h2,
+.prep-checklist > h2,
+.personalized-recommendation h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.personal-greeting {
+  margin-bottom: 34px;
+}
+.personal-greeting h1 {
+  font-size: 42px;
+  line-height: 1.1;
+}
+.travel-photo {
+  aspect-ratio: 1.5;
+  border-radius: 28px;
+  background: var(--cream);
+}
+.photo-note {
+  bottom: 20px;
+  left: 20px;
+  padding: 9px 15px;
+  border-radius: 999px;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+}
+.trip-title {
+  padding: 30px 0 36px;
+}
+.trip-title h2 {
+  font-size: 46px;
+  line-height: 1.05;
+  margin: 8px 0;
+}
+.forecast-section,
+.beauty-bag,
+.trip-spending,
+.prep-checklist {
+  padding-top: 52px;
+}
+.consumer-section-heading {
+  margin-bottom: 24px;
+}
+.consumer-section-heading h2,
+.prep-checklist > h2 {
+  font-size: 32px;
+  line-height: 1.15;
+}
+.product-photo {
+  background: var(--cream);
+  border: 0;
+}
+.product-photo img {
+  object-fit: cover;
+}
+.bag-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 36px 22px;
+}
+.bag-card-image {
+  aspect-ratio: 4 / 5;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--cream);
+  display: grid;
+  place-items: center;
+}
+.bag-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.bag-card-image svg {
+  width: 28px;
+  height: 28px;
+  stroke-width: 1.2;
+  color: var(--muted-foreground);
+}
+.bag-eyebrow {
+  margin-top: 18px;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+.bag-card h3 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.15;
+  margin: 6px 0 8px;
+  overflow-wrap: anywhere;
+}
+.bag-card p:not(.bag-eyebrow) {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--muted-foreground);
+}
+.bag-card .bag-hint {
+  color: var(--foreground);
+  font-size: 11px;
+  margin-top: 6px;
+}
+.bag-note {
+  margin-top: 30px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--muted-foreground);
+}
+.personalized-recommendation {
+  padding: 36px;
+  border-radius: 28px;
+  background: var(--cream);
+  margin-top: 52px;
+}
+.personalized-recommendation h2 {
+  font-size: 30px;
+  line-height: 1.15;
+}
+.founder-layout {
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 56px;
+  align-items: start;
+}
+.founder-photo {
+  border-radius: 28px;
+  margin-top: 10px;
+  background: var(--cream);
+}
+.founder-layout p:not(.eyebrow) {
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--muted-foreground);
+  margin: 14px 0;
+  max-width: 560px;
+}
+.founder-layout h2 + p:not(.eyebrow) {
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--foreground);
+  margin-top: 26px;
+}
+.founder-layout p:nth-last-child(2):not(.eyebrow) {
+  margin-top: 34px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.founder-layout p:last-child:not(.eyebrow) {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 28px;
+  line-height: 1.3;
+  color: var(--foreground);
+  margin: 6px 0 0;
+}
+@media (max-width: 600px) {
+  .personal-greeting h1 {
+    font-size: 33px;
+  }
+  .travel-photo {
+    aspect-ratio: 1.2;
+    border-radius: 22px;
+  }
+  .trip-title h2 {
+    font-size: 36px;
+  }
+  .consumer-section-heading h2,
+  .prep-checklist > h2 {
+    font-size: 27px;
+  }
+  .forecast-section,
+  .beauty-bag,
+  .trip-spending,
+  .prep-checklist {
+    padding-top: 42px;
+  }
+  .bag-grid {
+    gap: 28px 14px;
+  }
+  .bag-card-image {
+    border-radius: 18px;
+  }
+  .bag-card h3 {
+    font-size: 23px;
+  }
+  .bag-card p:not(.bag-eyebrow) {
+    font-size: 11px;
+  }
+  .personalized-recommendation {
+    padding: 26px;
+    border-radius: 22px;
+    margin-top: 42px;
+  }
+  .personalized-recommendation h2 {
+    font-size: 26px;
+  }
+  .founder-layout {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .founder-photo {
+    max-width: 100%;
+  }
+  .founder-layout h2 + p:not(.eyebrow) {
+    font-size: 16px;
+  }
+  .founder-layout p:last-child:not(.eyebrow) {
+    font-size: 24px;
+  }
+}
