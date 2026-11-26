@@ -1,4 +1,5 @@
 # Nushluxe VentureHack prototype
+
 - [x] Prioritize event selection and a clear book/check/skip plan with $95 planned spend and optional product costs.
 - [x] Add concise problem, customer hypothesis, solution, and differentiated-thesis sections without changing the visual identity.
 - [x] Verify event-specific plans, editing-driven recalculation, and mobile/desktop presentation.

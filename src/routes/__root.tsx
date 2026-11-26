@@ -82,17 +82,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Nushluxe — Personal Maintenance Intelligence" },
-      { name: "description", content: "A fresh beauty and wellness planning prototype for Babson Miami VentureHack, currently exploring customer needs." },
+      {
+        name: "description",
+        content:
+          "A fresh beauty and wellness planning prototype for Babson Miami VentureHack, currently exploring customer needs.",
+      },
       { name: "author", content: "Anushka Bhatti" },
       { property: "og:title", content: "Nushluxe — Personal Maintenance Intelligence" },
-      { property: "og:description", content: "Beauty, wellness, and a clearer view of what comes next." },
+      {
+        property: "og:description",
+        content: "Beauty, wellness, and a clearer view of what comes next.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap",
+      },
       {
         rel: "stylesheet",
         href: appCss,

@@ -10,7 +10,9 @@ describe("Dashboard presentation", () => {
   it("opens with the example-plan greeting and no plane button", () => {
     const { container } = render(<Planner />);
 
-    expect(screen.getByRole("heading", { name: "Example plan: Anushka's NYC trip" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Example plan: Anushka's NYC trip" }),
+    ).toBeInTheDocument();
     expect(screen.queryByText(/Good morning/)).not.toBeInTheDocument();
     expect(container.querySelector(".travel-icon")).toBeNull();
   });
@@ -18,7 +20,9 @@ describe("Dashboard presentation", () => {
   it("shows each skipped routine as an avoided line under Estimated Upcoming Spend", () => {
     render(<Planner />);
 
-    const spend = screen.getByRole("heading", { name: "Estimated Upcoming Spend" }).closest("section") as HTMLElement;
+    const spend = screen
+      .getByRole("heading", { name: "Estimated Upcoming Spend" })
+      .closest("section") as HTMLElement;
     const hair = within(spend).getByText("Hair").closest(".trip-cost") as HTMLElement;
 
     expect(within(hair).getByText("Not needed for this trip")).toBeInTheDocument();

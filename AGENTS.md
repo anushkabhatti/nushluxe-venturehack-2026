@@ -1,4 +1,5 @@
 <!-- LOVABLE:BEGIN -->
+
 > [!IMPORTANT]
 > This project is connected to [Lovable](https://lovable.dev). Avoid rewriting
 > published git history — force pushing, or rebasing/amending/squashing commits
@@ -27,9 +28,11 @@ use the editor.
   `LOVABLE_API_KEY`. When Lovable does not provide one, users can bring their
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
+
 <!-- LOVABLE:END -->
 
 ## Project architecture
+
 - Keep the showcase in the index route with in-page anchors; the requested presentation is one continuous scrolling narrative.
 - Define visual styling and motion in the global token-based design system and use the shared Button for action links to maintain consistent presentation.
 - Keep the interactive prototype in client-memory state within the index experience; this no-account hackathon demo deliberately resets on reload and does not persist personal data.

@@ -1,29 +1,172 @@
-import { describe, expect, it } from 'vitest';
-import { beforeEvent, completeItem, eventDecision, exampleData, insights, monthlySpend, nextDate, planGroup, status, validItem, tripForecast, productStatus, type PlanItem } from '@/lib/planner';
+import { describe, expect, it } from "vitest";
+import {
+  beforeEvent,
+  completeItem,
+  eventDecision,
+  exampleData,
+  insights,
+  monthlySpend,
+  nextDate,
+  planGroup,
+  status,
+  validItem,
+  tripForecast,
+  productStatus,
+  type PlanItem,
+} from "@/lib/planner";
 
-const today = '2026-11-14';
-const routine: PlanItem = { id: 'nails', kind: 'maintenance', name: 'Nails', category: 'Nails', lastDate: '2026-10-29', frequency: 21, cost: 55 };
-describe('Nushluxe planning rules', () => {
-  it('calculates the next date from the last completion plus frequency', () => { expect(nextDate(routine)).toBe('2026-11-19'); });
-  it('mark completed recalculates from today', () => { expect(nextDate(completeItem(routine, today))).toBe('2026-12-05'); });
-  it('mark replenished recalculates products from today', () => { expect(nextDate(completeItem({ ...routine, kind: 'product', frequency: 30 }, today))).toBe('2026-12-14'); });
-  it('marks past-due maintenance Book', () => { expect(status({ ...routine, lastDate: '2026-10-20' }, today)).toBe('Book'); });
-  it('marks maintenance within seven days Book', () => { expect(status(routine, today)).toBe('Book'); });
-  it('marks products within seven days Replenish', () => { expect(status({ ...routine, kind: 'product' }, today)).toBe('Replenish'); });
-  it('marks 8-14 days away Plan and later Delay', () => { expect(status({ ...routine, frequency: 30 }, today)).toBe('Plan'); expect(status({ ...routine, frequency: 40 }, today)).toBe('Delay'); });
-  it('groups the next week and next two weeks chronologically', () => { expect(planGroup(routine, today)).toBe('This Week'); expect(planGroup({ ...routine, frequency: 28 }, today)).toBe('Next 2 Weeks'); expect(planGroup({ ...routine, frequency: 42 }, today)).toBe('Later'); });
-  it('sums upcoming costs this calendar month, excluding overdue and later months', () => { const spend = monthlySpend(exampleData(today).items, today); expect(spend.maintenance).toBe(95); expect(spend.products).toBe(48); expect(spend.total).toBe(143); });
-  it('shows only routines and products expected before or on the event date', () => { const data = exampleData(today); const event = data.events[0]; if (!event) throw new Error('Missing fictional trip'); expect(beforeEvent(data.items, event).map(i => i.id)).toEqual(['nails', 'foundation', 'brows']); });
-  it('uses event and routine dates in deterministic insights', () => { const data = exampleData(today); const result = insights(data.items, data.events, today); expect(result.find(i => i.type === 'Book')?.text).toContain('before New York City'); expect(result.find(i => i.type === 'Replenish')?.text).toContain('Foundation'); expect(result.find(i => i.type === 'Delay')?.text).toContain('Hair'); expect(result.find(i => i.type === 'Plan')?.text).toContain('$143'); });
-  it('preloads New York seven days away with nails now and brows at departure', () => { const data = exampleData(today); expect(data.events[0]?.date).toBe('2026-11-21'); expect(nextDate(data.items.find(i => i.id === 'nails') ?? routine)).toBe(today); expect(nextDate(data.items.find(i => i.id === 'brows') ?? routine)).toBe('2026-11-21'); });
-  it('trip spend includes $60 nails, $35 brows and optional $48 foundation, excluding $90 hair', () => { const data = exampleData(today); const event = data.events[0]; if (!event) throw new Error('Missing trip'); const forecast = tripForecast(data.items,event,today); expect(forecast.total).toBe(143); expect(forecast.maintenanceCost).toBe(95); expect(forecast.possibleProductCost).toBe(48); expect(forecast.skip.map(i => i.name)).toEqual(['Hair']); expect(forecast.potentialAvoidedCost).toBe(90); });
-  it('products prompt supply checks without asserting remaining quantities', () => { expect(productStatus({...routine,kind:'product',lastDate:'2026-10-01'},today)).toBe('Replenish'); expect(productStatus({...routine,kind:'product'},today)).toBe('Replenish'); expect(productStatus({...routine,kind:'product',frequency:60},today)).toBe('Delay'); });
-  it('assigns Book to nails and brows, Replenish to foundation, Skip to hair and to haircare (not needed for the event)', () => { const data = exampleData(today); const event = data.events[0]; if (!event) throw new Error('Missing trip'); expect(Object.fromEntries(data.items.map(i => [i.id,eventDecision(i,event,today)]))).toEqual({ nails: 'Book', brows: 'Book', hair: 'Skip', foundation: 'Replenish', haircare: 'Skip' }); });
-  it('planned spend is $95 and excludes the possible $48 foundation purchase', () => { const data = exampleData(today); const event = data.events[0]; if (!event) throw new Error('Missing trip'); const result = tripForecast(data.items,event,today); expect(result.maintenanceCost).toBe(95); expect(result.possibleProductCost).toBe(48); });
-  it('event selection changes the plan rather than reusing the first event', () => { const data = exampleData(today); const later = { id: 'wedding', name: 'Wedding', type: 'Wedding', date: '2026-12-20' }; const result = tripForecast(data.items,later,today); expect(result.skip).toEqual([]); expect(result.maintenanceCost).toBe(185); expect(eventDecision(data.items.find(i => i.id === 'hair') ?? routine,later,today)).toBe('Book'); });
-  it('completed nails move to Plan (due in 14 days) and reduce planned spend to $35 for the seven-day trip', () => { const data = exampleData(today); const event = data.events[0]; if (!event) throw new Error('Missing trip'); const items = data.items.map(i => i.id === 'nails' ? completeItem(i,today) : i); expect(tripForecast(items,event,today).maintenanceCost).toBe(35); expect(eventDecision(items.find(i => i.id === 'nails') ?? routine,event,today)).toBe('Plan'); });
-  it('maintenance due 10 days after the event is Plan and is not counted in potentialAvoidedCost', () => { const event = { id: 'e', name: 'E', type: 'Trip', date: '2026-11-16' }; const item: PlanItem = { ...routine, id: 'soon', cost: 70, lastDate: today, frequency: 12 }; expect(nextDate(item)).toBe('2026-11-26'); expect(eventDecision(item, event, today)).toBe('Plan'); const forecast = tripForecast([item], event, today); expect(forecast.potentialAvoidedCost).toBe(0); expect(forecast.avoided).toEqual([]); });
-  it('maintenance due 8-14 days out but after the event is Plan', () => { const event = { id: 'e', name: 'E', type: 'Trip', date: '2026-11-16' }; expect(eventDecision({ ...routine, frequency: 30 }, event, today)).toBe('Plan'); });
-  it('rejects future completion dates, fractional frequencies and negative costs', () => { expect(validItem(routine, today)).toBe(true); expect(validItem({ ...routine, lastDate: '2026-11-15' }, today)).toBe(false); expect(validItem({ ...routine, frequency: 0 }, today)).toBe(false); expect(validItem({ ...routine, frequency: 1.5 }, today)).toBe(false); expect(validItem({ ...routine, cost: -1 }, today)).toBe(false); });
-  it('empty data yields zero spending and no insights', () => { expect(monthlySpend([], today).total).toBe(0); expect(insights([], [], today)).toEqual([]); });
+const today = "2026-11-14";
+const routine: PlanItem = {
+  id: "nails",
+  kind: "maintenance",
+  name: "Nails",
+  category: "Nails",
+  lastDate: "2026-10-29",
+  frequency: 21,
+  cost: 55,
+};
+describe("Nushluxe planning rules", () => {
+  it("calculates the next date from the last completion plus frequency", () => {
+    expect(nextDate(routine)).toBe("2026-11-19");
+  });
+  it("mark completed recalculates from today", () => {
+    expect(nextDate(completeItem(routine, today))).toBe("2026-12-05");
+  });
+  it("mark replenished recalculates products from today", () => {
+    expect(nextDate(completeItem({ ...routine, kind: "product", frequency: 30 }, today))).toBe(
+      "2026-12-14",
+    );
+  });
+  it("marks past-due maintenance Book", () => {
+    expect(status({ ...routine, lastDate: "2026-10-20" }, today)).toBe("Book");
+  });
+  it("marks maintenance within seven days Book", () => {
+    expect(status(routine, today)).toBe("Book");
+  });
+  it("marks products within seven days Replenish", () => {
+    expect(status({ ...routine, kind: "product" }, today)).toBe("Replenish");
+  });
+  it("marks 8-14 days away Plan and later Delay", () => {
+    expect(status({ ...routine, frequency: 30 }, today)).toBe("Plan");
+    expect(status({ ...routine, frequency: 40 }, today)).toBe("Delay");
+  });
+  it("groups the next week and next two weeks chronologically", () => {
+    expect(planGroup(routine, today)).toBe("This Week");
+    expect(planGroup({ ...routine, frequency: 28 }, today)).toBe("Next 2 Weeks");
+    expect(planGroup({ ...routine, frequency: 42 }, today)).toBe("Later");
+  });
+  it("sums upcoming costs this calendar month, excluding overdue and later months", () => {
+    const spend = monthlySpend(exampleData(today).items, today);
+    expect(spend.maintenance).toBe(95);
+    expect(spend.products).toBe(48);
+    expect(spend.total).toBe(143);
+  });
+  it("shows only routines and products expected before or on the event date", () => {
+    const data = exampleData(today);
+    const event = data.events[0];
+    if (!event) throw new Error("Missing fictional trip");
+    expect(beforeEvent(data.items, event).map((i) => i.id)).toEqual([
+      "nails",
+      "foundation",
+      "brows",
+    ]);
+  });
+  it("uses event and routine dates in deterministic insights", () => {
+    const data = exampleData(today);
+    const result = insights(data.items, data.events, today);
+    expect(result.find((i) => i.type === "Book")?.text).toContain("before New York City");
+    expect(result.find((i) => i.type === "Replenish")?.text).toContain("Foundation");
+    expect(result.find((i) => i.type === "Delay")?.text).toContain("Hair");
+    expect(result.find((i) => i.type === "Plan")?.text).toContain("$143");
+  });
+  it("preloads New York seven days away with nails now and brows at departure", () => {
+    const data = exampleData(today);
+    expect(data.events[0]?.date).toBe("2026-11-21");
+    expect(nextDate(data.items.find((i) => i.id === "nails") ?? routine)).toBe(today);
+    expect(nextDate(data.items.find((i) => i.id === "brows") ?? routine)).toBe("2026-11-21");
+  });
+  it("trip spend includes $60 nails, $35 brows and optional $48 foundation, excluding $90 hair", () => {
+    const data = exampleData(today);
+    const event = data.events[0];
+    if (!event) throw new Error("Missing trip");
+    const forecast = tripForecast(data.items, event, today);
+    expect(forecast.total).toBe(143);
+    expect(forecast.maintenanceCost).toBe(95);
+    expect(forecast.possibleProductCost).toBe(48);
+    expect(forecast.skip.map((i) => i.name)).toEqual(["Hair"]);
+    expect(forecast.potentialAvoidedCost).toBe(90);
+  });
+  it("products prompt supply checks without asserting remaining quantities", () => {
+    expect(productStatus({ ...routine, kind: "product", lastDate: "2026-10-01" }, today)).toBe(
+      "Replenish",
+    );
+    expect(productStatus({ ...routine, kind: "product" }, today)).toBe("Replenish");
+    expect(productStatus({ ...routine, kind: "product", frequency: 60 }, today)).toBe("Delay");
+  });
+  it("assigns Book to nails and brows, Replenish to foundation, Skip to hair and to haircare (not needed for the event)", () => {
+    const data = exampleData(today);
+    const event = data.events[0];
+    if (!event) throw new Error("Missing trip");
+    expect(
+      Object.fromEntries(data.items.map((i) => [i.id, eventDecision(i, event, today)])),
+    ).toEqual({
+      nails: "Book",
+      brows: "Book",
+      hair: "Skip",
+      foundation: "Replenish",
+      haircare: "Skip",
+    });
+  });
+  it("planned spend is $95 and excludes the possible $48 foundation purchase", () => {
+    const data = exampleData(today);
+    const event = data.events[0];
+    if (!event) throw new Error("Missing trip");
+    const result = tripForecast(data.items, event, today);
+    expect(result.maintenanceCost).toBe(95);
+    expect(result.possibleProductCost).toBe(48);
+  });
+  it("event selection changes the plan rather than reusing the first event", () => {
+    const data = exampleData(today);
+    const later = { id: "wedding", name: "Wedding", type: "Wedding", date: "2026-12-20" };
+    const result = tripForecast(data.items, later, today);
+    expect(result.skip).toEqual([]);
+    expect(result.maintenanceCost).toBe(185);
+    expect(eventDecision(data.items.find((i) => i.id === "hair") ?? routine, later, today)).toBe(
+      "Book",
+    );
+  });
+  it("completed nails move to Plan (due in 14 days) and reduce planned spend to $35 for the seven-day trip", () => {
+    const data = exampleData(today);
+    const event = data.events[0];
+    if (!event) throw new Error("Missing trip");
+    const items = data.items.map((i) => (i.id === "nails" ? completeItem(i, today) : i));
+    expect(tripForecast(items, event, today).maintenanceCost).toBe(35);
+    expect(eventDecision(items.find((i) => i.id === "nails") ?? routine, event, today)).toBe(
+      "Plan",
+    );
+  });
+  it("maintenance due 10 days after the event is Plan and is not counted in potentialAvoidedCost", () => {
+    const event = { id: "e", name: "E", type: "Trip", date: "2026-11-16" };
+    const item: PlanItem = { ...routine, id: "soon", cost: 70, lastDate: today, frequency: 12 };
+    expect(nextDate(item)).toBe("2026-11-26");
+    expect(eventDecision(item, event, today)).toBe("Plan");
+    const forecast = tripForecast([item], event, today);
+    expect(forecast.potentialAvoidedCost).toBe(0);
+    expect(forecast.avoided).toEqual([]);
+  });
+  it("maintenance due 8-14 days out but after the event is Plan", () => {
+    const event = { id: "e", name: "E", type: "Trip", date: "2026-11-16" };
+    expect(eventDecision({ ...routine, frequency: 30 }, event, today)).toBe("Plan");
+  });
+  it("rejects future completion dates, fractional frequencies and negative costs", () => {
+    expect(validItem(routine, today)).toBe(true);
+    expect(validItem({ ...routine, lastDate: "2026-11-15" }, today)).toBe(false);
+    expect(validItem({ ...routine, frequency: 0 }, today)).toBe(false);
+    expect(validItem({ ...routine, frequency: 1.5 }, today)).toBe(false);
+    expect(validItem({ ...routine, cost: -1 }, today)).toBe(false);
+  });
+  it("empty data yields zero spending and no insights", () => {
+    expect(monthlySpend([], today).total).toBe(0);
+    expect(insights([], [], today)).toEqual([]);
+  });
 });

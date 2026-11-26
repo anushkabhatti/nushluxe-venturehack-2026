@@ -1,30 +1,459 @@
-import { ArrowRight, CalendarDays, Check, Package, Scissors, Sparkles, Wallet } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { dateLabel, daysUntil, eventDecision, nextDate, tripForecast, tripRecommendation, money, type PlanItem, type LifeEvent } from '@/lib/planner';
-import newYork from '@/assets/new-york.jpg';
-import foundation from '@/assets/foundation.jpg';
-import haircare from '@/assets/haircare.jpg';
+import { ArrowRight, CalendarDays, Check, Package, Scissors, Sparkles, Wallet } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  dateLabel,
+  daysUntil,
+  eventDecision,
+  nextDate,
+  tripForecast,
+  tripRecommendation,
+  money,
+  type PlanItem,
+  type LifeEvent,
+} from "@/lib/planner";
+import newYork from "@/assets/new-york.jpg";
+import foundation from "@/assets/foundation.jpg";
+import haircare from "@/assets/haircare.jpg";
 
 export function ProductPhoto({ item }: { item: PlanItem }) {
-  const source = item.name.toLowerCase().includes('foundation') ? foundation : item.category === 'Haircare' ? haircare : undefined;
-  return <div className="product-photo">{source ? <img src={source} alt={item.name.toLowerCase().includes('foundation') ? 'Illustrative unbranded foundation bottle' : 'Illustrative unbranded travel haircare bottles'} width={816} height={816} loading="lazy" /> : <Package aria-hidden="true" />}</div>;
+  const source = item.name.toLowerCase().includes("foundation")
+    ? foundation
+    : item.category === "Haircare"
+      ? haircare
+      : undefined;
+  return (
+    <div className="product-photo">
+      {source ? (
+        <img
+          src={source}
+          alt={
+            item.name.toLowerCase().includes("foundation")
+              ? "Illustrative unbranded foundation bottle"
+              : "Illustrative unbranded travel haircare bottles"
+          }
+          width={816}
+          height={816}
+          loading="lazy"
+        />
+      ) : (
+        <Package aria-hidden="true" />
+      )}
+    </div>
+  );
 }
-export function TripExperience({ items, event, events, today, prep, onPrep, onEvents, onSelectEvent, onMaintenance, onProducts, onPlan }: { items: PlanItem[]; event: LifeEvent | undefined; events: LifeEvent[]; onSelectEvent: (id: string) => void; today: string; prep: boolean; onPrep: () => void; onEvents: () => void; onMaintenance: () => void; onProducts: () => void; onPlan: () => void }) {
-  const forecast = event ? tripForecast(items,event,today) : undefined;
-  const routines = items.filter(i => i.kind === 'maintenance');
-  const products = items.filter(i => i.kind === 'product');
-  const isNewYork = event?.name.toLowerCase().includes('new york');
-  return <div className="trip-experience">
-    {!prep && <div className="personal-greeting"><div><h1>Example plan: Anushka's NYC trip</h1><p>{event ? `Your ${event.name} ${event.type.toLowerCase()} is coming up.` : 'Your beauty, planned around your life.'}</p></div></div>}
-    <div className="event-plan-controls"><label>Plan around<select aria-label="Select upcoming event" value={event?.id ?? ''} onChange={e => onSelectEvent(e.target.value)}><option value="" disabled>Select an upcoming event</option>{events.filter(e => e.date >= today).map(e => <option key={e.id} value={e.id}>{e.name} · {dateLabel(e.date)}</option>)}</select></label><Button variant="outline" onClick={onEvents}><CalendarDays />Add / edit event</Button></div>
-    {event ? <><div className="travel-photo">{isNewYork ? <img src={newYork} alt="New York City skyline with the Empire State Building" width={1440} height={960} fetchPriority="high" /> : <div className="event-placeholder"><CalendarDays /><span>{event.name}</span></div>}<span className="photo-note">{isNewYork ? 'NEW YORK, NEW YORK' : event.type.toUpperCase()}</span></div><div className="trip-title"><div><p className="eyebrow">{prep ? 'TRIP PREP MODE · PROTOTYPE CONCEPT' : `UPCOMING ${event.type.toUpperCase()}`}</p><h2>{event.name}{prep ? ' Trip Prep' : ''}</h2><p>{dateLabel(event.date)} · {new Date(`${event.date}T12:00:00`).getFullYear()}</p></div><span className="neutral-pill">{daysUntil(event.date,today) === 0 ? 'Today' : `${daysUntil(event.date,today)} days away`}</span></div></> : <div className="no-trip"><CalendarDays /><h2>Your next chapter starts here.</h2><p>Add an important date to bring your beauty plan into focus.</p><Button onClick={onEvents}>Add a life event<ArrowRight /></Button></div>}
-    {event && forecast ? <section className="event-action-plan"><div className="consumer-section-heading"><div><h2>Your Pre-Trip Plan</h2><p>Your routines, reviewed against {dateLabel(event.date)}.</p></div><Button variant="ghost" size="icon" title="Open your plan" aria-label="Open your plan" onClick={onPlan}><ArrowRight /></Button></div>{[...forecast.book, ...forecast.check, ...forecast.skip].map(item => { const action = eventDecision(item,event,today); return <article className="event-action-row" key={item.id}><div className="forecast-icon">{item.kind === 'product' ? <Package /> : action === 'Skip' ? <Check /> : <Scissors />}</div><div><p className={`action-eyebrow ${action === 'Book' && nextDate(item) <= today ? 'action-urgent' : action === 'Skip' ? 'action-skip' : ''}`}>{action}</p><h3>{item.name}</h3><p className="action-reason">{action === 'Book' ? (nextDate(item) <= today ? 'Due now, before your trip.' : 'Expected to be due before or on your departure date.') : action === 'Replenish' ? 'Check supply first. Buy only if needed.' : action === 'Plan' ? 'Due in the next two weeks, after your trip.' : 'On track. Not needed for this trip.'}</p><p className="action-evidence">{item.kind === 'maintenance' ? `Last appointment ${dateLabel(item.lastDate)} · ${item.frequency}-day cycle · Next expected ${dateLabel(nextDate(item))}` : `Last replenished ${dateLabel(item.lastDate)} · ${item.frequency}-day cycle · Check around ${dateLabel(nextDate(item))}`}</p></div><span className={action === 'Book' && nextDate(item) <= today ? 'due-pill' : action === 'Skip' ? 'positive-pill' : 'neutral-pill'}>{action === 'Skip' ? 'On track' : action === 'Replenish' ? 'Check supply first' : nextDate(item) <= today ? 'Due now' : dateLabel(nextDate(item))}</span></article>; })}{!items.length && <p className="body-copy py-6">Add a routine or product to shape this plan.</p>}</section> : <section className="forecast-section"><div className="consumer-section-heading"><h2>Your maintenance forecast</h2><Button variant="ghost" size="icon" title="Manage maintenance" aria-label="Manage maintenance" onClick={onMaintenance}><ArrowRight /></Button></div>{routines.map(item => <div className="forecast-row" key={item.id}><div className="forecast-icon"><Scissors /></div><div><h3>{item.name}</h3><p>Next expected {dateLabel(nextDate(item))}</p></div><span className="neutral-pill">{daysUntil(nextDate(item),today) <= 0 ? 'Due now' : dateLabel(nextDate(item))}</span></div>)}</section>}
-    {forecast && <section className="trip-spending"><div className="consumer-section-heading"><h2>Estimated Upcoming Spend</h2><Wallet /></div>{forecast.book.map(i => <div className="trip-cost" key={i.id}><span>{i.name}</span><strong>{money(i.cost)}</strong></div>)}<div className="trip-total"><span>Estimated planned spend</span><strong>{money(forecast.maintenanceCost)}</strong></div>{forecast.check.length > 0 && <div className="optional-expenses"><p className="eyebrow">Possible additional expenses · Only if needed</p>{forecast.check.map(i => <div className="trip-cost" key={i.id}><span>{i.name} replenishment</span><strong>+{money(i.cost)}</strong></div>)}<p>Check supply first. These purchases are not included in planned spend.</p></div>}{forecast.avoided.length > 0 && <div className="avoid-lines"><p className="eyebrow">Potential avoided spend</p>{forecast.avoided.map(i => <div className="trip-cost" key={i.id}><span>{i.name}<small>Not needed for this trip</small></span><strong>{money(i.cost)}</strong></div>)}</div>}{forecast.potentialAvoidedCost > 0 && <div className="avoid-cost"><Check /><span>You may avoid {money(forecast.potentialAvoidedCost)} by skipping extra appointments that aren’t due yet.</span></div>}</section>}
+export function TripExperience({
+  items,
+  event,
+  events,
+  today,
+  prep,
+  onPrep,
+  onEvents,
+  onSelectEvent,
+  onMaintenance,
+  onProducts,
+  onPlan,
+}: {
+  items: PlanItem[];
+  event: LifeEvent | undefined;
+  events: LifeEvent[];
+  onSelectEvent: (id: string) => void;
+  today: string;
+  prep: boolean;
+  onPrep: () => void;
+  onEvents: () => void;
+  onMaintenance: () => void;
+  onProducts: () => void;
+  onPlan: () => void;
+}) {
+  const forecast = event ? tripForecast(items, event, today) : undefined;
+  const routines = items.filter((i) => i.kind === "maintenance");
+  const products = items.filter((i) => i.kind === "product");
+  const isNewYork = event?.name.toLowerCase().includes("new york");
+  return (
+    <div className="trip-experience">
+      {!prep && (
+        <div className="personal-greeting">
+          <div>
+            <h1>Example plan: Anushka's NYC trip</h1>
+            <p>
+              {event
+                ? `Your ${event.name} ${event.type.toLowerCase()} is coming up.`
+                : "Your beauty, planned around your life."}
+            </p>
+          </div>
+        </div>
+      )}
+      <div className="event-plan-controls">
+        <label>
+          Plan around
+          <select
+            aria-label="Select upcoming event"
+            value={event?.id ?? ""}
+            onChange={(e) => onSelectEvent(e.target.value)}
+          >
+            <option value="" disabled>
+              Select an upcoming event
+            </option>
+            {events
+              .filter((e) => e.date >= today)
+              .map((e) => (
+                <option key={e.id} value={e.id}>
+                  {e.name} · {dateLabel(e.date)}
+                </option>
+              ))}
+          </select>
+        </label>
+        <Button variant="outline" onClick={onEvents}>
+          <CalendarDays />
+          Add / edit event
+        </Button>
+      </div>
+      {event ? (
+        <>
+          <div className="travel-photo">
+            {isNewYork ? (
+              <img
+                src={newYork}
+                alt="New York City skyline with the Empire State Building"
+                width={1440}
+                height={960}
+                fetchPriority="high"
+              />
+            ) : (
+              <div className="event-placeholder">
+                <CalendarDays />
+                <span>{event.name}</span>
+              </div>
+            )}
+            <span className="photo-note">
+              {isNewYork ? "NEW YORK, NEW YORK" : event.type.toUpperCase()}
+            </span>
+          </div>
+          <div className="trip-title">
+            <div>
+              <p className="eyebrow">
+                {prep
+                  ? "TRIP PREP MODE · PROTOTYPE CONCEPT"
+                  : `UPCOMING ${event.type.toUpperCase()}`}
+              </p>
+              <h2>
+                {event.name}
+                {prep ? " Trip Prep" : ""}
+              </h2>
+              <p>
+                {dateLabel(event.date)} · {new Date(`${event.date}T12:00:00`).getFullYear()}
+              </p>
+            </div>
+            <span className="neutral-pill">
+              {daysUntil(event.date, today) === 0
+                ? "Today"
+                : `${daysUntil(event.date, today)} days away`}
+            </span>
+          </div>
+        </>
+      ) : (
+        <div className="no-trip">
+          <CalendarDays />
+          <h2>Your next chapter starts here.</h2>
+          <p>Add an important date to bring your beauty plan into focus.</p>
+          <Button onClick={onEvents}>
+            Add a life event
+            <ArrowRight />
+          </Button>
+        </div>
+      )}
+      {event && forecast ? (
+        <section className="event-action-plan">
+          <div className="consumer-section-heading">
+            <div>
+              <h2>Your Pre-Trip Plan</h2>
+              <p>Your routines, reviewed against {dateLabel(event.date)}.</p>
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              title="Open your plan"
+              aria-label="Open your plan"
+              onClick={onPlan}
+            >
+              <ArrowRight />
+            </Button>
+          </div>
+          {[...forecast.book, ...forecast.check, ...forecast.skip].map((item) => {
+            const action = eventDecision(item, event, today);
+            return (
+              <article className="event-action-row" key={item.id}>
+                <div className="forecast-icon">
+                  {item.kind === "product" ? (
+                    <Package />
+                  ) : action === "Skip" ? (
+                    <Check />
+                  ) : (
+                    <Scissors />
+                  )}
+                </div>
+                <div>
+                  <p
+                    className={`action-eyebrow ${action === "Book" && nextDate(item) <= today ? "action-urgent" : action === "Skip" ? "action-skip" : ""}`}
+                  >
+                    {action}
+                  </p>
+                  <h3>{item.name}</h3>
+                  <p className="action-reason">
+                    {action === "Book"
+                      ? nextDate(item) <= today
+                        ? "Due now, before your trip."
+                        : "Expected to be due before or on your departure date."
+                      : action === "Replenish"
+                        ? "Check supply first. Buy only if needed."
+                        : action === "Plan"
+                          ? "Due in the next two weeks, after your trip."
+                          : "On track. Not needed for this trip."}
+                  </p>
+                  <p className="action-evidence">
+                    {item.kind === "maintenance"
+                      ? `Last appointment ${dateLabel(item.lastDate)} · ${item.frequency}-day cycle · Next expected ${dateLabel(nextDate(item))}`
+                      : `Last replenished ${dateLabel(item.lastDate)} · ${item.frequency}-day cycle · Check around ${dateLabel(nextDate(item))}`}
+                  </p>
+                </div>
+                <span
+                  className={
+                    action === "Book" && nextDate(item) <= today
+                      ? "due-pill"
+                      : action === "Skip"
+                        ? "positive-pill"
+                        : "neutral-pill"
+                  }
+                >
+                  {action === "Skip"
+                    ? "On track"
+                    : action === "Replenish"
+                      ? "Check supply first"
+                      : nextDate(item) <= today
+                        ? "Due now"
+                        : dateLabel(nextDate(item))}
+                </span>
+              </article>
+            );
+          })}
+          {!items.length && (
+            <p className="body-copy py-6">Add a routine or product to shape this plan.</p>
+          )}
+        </section>
+      ) : (
+        <section className="forecast-section">
+          <div className="consumer-section-heading">
+            <h2>Your maintenance forecast</h2>
+            <Button
+              variant="ghost"
+              size="icon"
+              title="Manage maintenance"
+              aria-label="Manage maintenance"
+              onClick={onMaintenance}
+            >
+              <ArrowRight />
+            </Button>
+          </div>
+          {routines.map((item) => (
+            <div className="forecast-row" key={item.id}>
+              <div className="forecast-icon">
+                <Scissors />
+              </div>
+              <div>
+                <h3>{item.name}</h3>
+                <p>Next expected {dateLabel(nextDate(item))}</p>
+              </div>
+              <span className="neutral-pill">
+                {daysUntil(nextDate(item), today) <= 0 ? "Due now" : dateLabel(nextDate(item))}
+              </span>
+            </div>
+          ))}
+        </section>
+      )}
+      {forecast && (
+        <section className="trip-spending">
+          <div className="consumer-section-heading">
+            <h2>Estimated Upcoming Spend</h2>
+            <Wallet />
+          </div>
+          {forecast.book.map((i) => (
+            <div className="trip-cost" key={i.id}>
+              <span>{i.name}</span>
+              <strong>{money(i.cost)}</strong>
+            </div>
+          ))}
+          <div className="trip-total">
+            <span>Estimated planned spend</span>
+            <strong>{money(forecast.maintenanceCost)}</strong>
+          </div>
+          {forecast.check.length > 0 && (
+            <div className="optional-expenses">
+              <p className="eyebrow">Possible additional expenses · Only if needed</p>
+              {forecast.check.map((i) => (
+                <div className="trip-cost" key={i.id}>
+                  <span>{i.name} replenishment</span>
+                  <strong>+{money(i.cost)}</strong>
+                </div>
+              ))}
+              <p>Check supply first. These purchases are not included in planned spend.</p>
+            </div>
+          )}
+          {forecast.avoided.length > 0 && (
+            <div className="avoid-lines">
+              <p className="eyebrow">Potential avoided spend</p>
+              {forecast.avoided.map((i) => (
+                <div className="trip-cost" key={i.id}>
+                  <span>
+                    {i.name}
+                    <small>Not needed for this trip</small>
+                  </span>
+                  <strong>{money(i.cost)}</strong>
+                </div>
+              ))}
+            </div>
+          )}
+          {forecast.potentialAvoidedCost > 0 && (
+            <div className="avoid-cost">
+              <Check />
+              <span>
+                You may avoid {money(forecast.potentialAvoidedCost)} by skipping extra appointments
+                that aren’t due yet.
+              </span>
+            </div>
+          )}
+        </section>
+      )}
 
-    <section className="beauty-bag"><div className="consumer-section-heading"><h2>Your beauty bag</h2><Button variant="ghost" size="icon" title="Manage products" aria-label="Manage products" onClick={onProducts}><ArrowRight /></Button></div>{products.map(item => <article className="bag-row" key={item.id}><ProductPhoto item={item} /><div><h3>{item.name}</h3><p>{item.category === 'Haircare' ? 'Check travel-size availability or pack appropriate containers.' : 'Check remaining quantity before packing.'}</p><p className="bag-hint">{item.category === 'Haircare' ? 'Pack what you already have.' : 'Replenish only if needed.'}</p></div></article>)}{!products.length && <p className="body-copy py-6">Your essentials belong here.</p>}</section>
-    <section className="personalized-recommendation"><Sparkles /><h2>Your Nushluxe Recommendation</h2><p>{event ? tripRecommendation(items,event,today) : 'Add a life event to see what to book, check, or skip.'}</p><span>Frequency-based guidance · Not exact inventory</span>{!prep && event && <Button variant="outline" onClick={onPrep}>View full pre-event plan<ArrowRight /></Button>}</section>
-    {prep && forecast && <section className="prep-checklist"><h2>A little preparation. A lot more ease.</h2>{[{ icon: Scissors, title: forecast.book.length ? `Book ${forecast.book.map(i => i.name.toLowerCase()).join(' and ')}` : 'No extra appointments needed', text: forecast.book.length ? 'Expected to be due before or on your event date.' : 'Your maintenance is on track beyond this date.' }, { icon: Package, title: forecast.check.length ? `Check ${forecast.check.map(i => i.name.toLowerCase()).join(' and ')} supply` : 'Pack your everyday essentials', text: 'Review what you have. Buy only if needed.' }, { icon: Wallet, title: 'Plan your spending', text: `${money(forecast.maintenanceCost)} planned, with ${money(forecast.possibleProductCost)} in possible additional purchases only if needed.` }, { icon: Check, title: 'Skip unnecessary appointments', text: forecast.avoided.length ? `${forecast.avoided.map(i => i.name).join(', ')} isn’t due yet.` : 'Only consider routines expected by your event.' }].map(({icon: Icon,title,text}) => <div key={title}><Icon /><div><h3>{title}</h3><p>{text}</p></div></div>)}</section>}
-
-  </div>;
+      <section className="beauty-bag">
+        <div className="consumer-section-heading">
+          <h2>Your beauty bag</h2>
+          <Button
+            variant="ghost"
+            size="icon"
+            title="Manage products"
+            aria-label="Manage products"
+            onClick={onProducts}
+          >
+            <ArrowRight />
+          </Button>
+        </div>
+        {products.map((item) => (
+          <article className="bag-row" key={item.id}>
+            <ProductPhoto item={item} />
+            <div>
+              <h3>{item.name}</h3>
+              <p>
+                {item.category === "Haircare"
+                  ? "Check travel-size availability or pack appropriate containers."
+                  : "Check remaining quantity before packing."}
+              </p>
+              <p className="bag-hint">
+                {item.category === "Haircare"
+                  ? "Pack what you already have."
+                  : "Replenish only if needed."}
+              </p>
+            </div>
+          </article>
+        ))}
+        {!products.length && <p className="body-copy py-6">Your essentials belong here.</p>}
+      </section>
+      <section className="personalized-recommendation">
+        <Sparkles />
+        <h2>Your Nushluxe Recommendation</h2>
+        <p>
+          {event
+            ? tripRecommendation(items, event, today)
+            : "Add a life event to see what to book, check, or skip."}
+        </p>
+        <span>Frequency-based guidance · Not exact inventory</span>
+        {!prep && event && (
+          <Button variant="outline" onClick={onPrep}>
+            View full pre-event plan
+            <ArrowRight />
+          </Button>
+        )}
+      </section>
+      {prep && forecast && (
+        <section className="prep-checklist">
+          <h2>A little preparation. A lot more ease.</h2>
+          {[
+            {
+              icon: Scissors,
+              title: forecast.book.length
+                ? `Book ${forecast.book.map((i) => i.name.toLowerCase()).join(" and ")}`
+                : "No extra appointments needed",
+              text: forecast.book.length
+                ? "Expected to be due before or on your event date."
+                : "Your maintenance is on track beyond this date.",
+            },
+            {
+              icon: Package,
+              title: forecast.check.length
+                ? `Check ${forecast.check.map((i) => i.name.toLowerCase()).join(" and ")} supply`
+                : "Pack your everyday essentials",
+              text: "Review what you have. Buy only if needed.",
+            },
+            {
+              icon: Wallet,
+              title: "Plan your spending",
+              text: `${money(forecast.maintenanceCost)} planned, with ${money(forecast.possibleProductCost)} in possible additional purchases only if needed.`,
+            },
+            {
+              icon: Check,
+              title: "Skip unnecessary appointments",
+              text: forecast.avoided.length
+                ? `${forecast.avoided.map((i) => i.name).join(", ")} isn’t due yet.`
+                : "Only consider routines expected by your event.",
+            },
+          ].map(({ icon: Icon, title, text }) => (
+            <div key={title}>
+              <Icon />
+              <div>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </div>
+            </div>
+          ))}
+        </section>
+      )}
+    </div>
+  );
 }
-export function Ecosystem() { return <section className="ecosystem"><p className="eyebrow">THE BIGGER PICTURE · CONCEPT</p><h2>The Nushluxe ecosystem</h2><div className="ecosystem-center"><span>NUSHLUXE</span><p>Your personal self-care operating system</p></div><div className="ecosystem-modules">{[{icon:CalendarDays,title:'Nushluxe Maintenance',copy:'Your appointments and recurring beauty services.'},{icon:Package,title:'Nushluxe Replenish',copy:'Your beauty inventory, product usage and repurchase planning.'},{icon:Sparkles,title:'Wellness Intelligence',copy:'Optional future wellness and personal-context planning. Non-medical.'}].map(({icon:Icon,title,copy}) => <article key={title}><Icon /><h3>{title}</h3><p>{copy}</p></article>)}</div></section>; }
+export function Ecosystem() {
+  return (
+    <section className="ecosystem">
+      <p className="eyebrow">THE BIGGER PICTURE · CONCEPT</p>
+      <h2>The Nushluxe ecosystem</h2>
+      <div className="ecosystem-center">
+        <span>NUSHLUXE</span>
+        <p>Your personal self-care operating system</p>
+      </div>
+      <div className="ecosystem-modules">
+        {[
+          {
+            icon: CalendarDays,
+            title: "Nushluxe Maintenance",
+            copy: "Your appointments and recurring beauty services.",
+          },
+          {
+            icon: Package,
+            title: "Nushluxe Replenish",
+            copy: "Your beauty inventory, product usage and repurchase planning.",
+          },
+          {
+            icon: Sparkles,
+            title: "Wellness Intelligence",
+            copy: "Optional future wellness and personal-context planning. Non-medical.",
+          },
+        ].map(({ icon: Icon, title, copy }) => (
+          <article key={title}>
+            <Icon />
+            <h3>{title}</h3>
+            <p>{copy}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
