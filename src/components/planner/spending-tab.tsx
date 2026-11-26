@@ -17,7 +17,7 @@ export function SpendingTab({ items, event, today, onEvents }: { items: PlanItem
     </section>
     <section className="spending-section">
       <div className="consumer-section-heading"><div><p className="eyebrow text-muted-foreground">03 · Potential avoided spend</p><h2>You may avoid {money(forecast.potentialAvoidedCost)} by skipping appointments that aren’t due yet.</h2></div></div>
-      {forecast.skip.length ? <>{forecast.skip.map(i => <div className="trip-cost" key={i.id}><span>{i.name}<small>Not due yet · next expected {dateLabel(nextDate(i))}</small></span><strong>{money(i.cost)}</strong></div>)}<div className="avoid-cost"><Check /><span>Estimated avoided appointment cost — {money(forecast.potentialAvoidedCost)}.</span></div></> : <p className="body-copy">Every routine is expected to be due before this event, so there is nothing to skip.</p>}
+      {forecast.avoided.length ? <>{forecast.avoided.map(i => <div className="trip-cost" key={i.id}><span>{i.name}<small>Not due yet · next expected {dateLabel(nextDate(i))}</small></span><strong>{money(i.cost)}</strong></div>)}<div className="avoid-cost"><Check /><span>Estimated avoided appointment cost — {money(forecast.potentialAvoidedCost)}.</span></div></> : <p className="body-copy">Every routine is expected to be due before this event, so there is nothing to skip.</p>}
     </section>
     <section className="spending-section">
       <div className="consumer-section-heading"><div><p className="eyebrow text-muted-foreground">04 · Event spending</p><h2>{event.name} {event.type}</h2><p>{dateLabel(event.date)} · {away === 0 ? 'Today' : `${away} days away`}</p></div></div>

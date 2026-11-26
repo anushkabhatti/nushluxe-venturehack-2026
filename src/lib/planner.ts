@@ -58,7 +58,9 @@ export function tripForecast(items: PlanItem[], event: LifeEvent, today: string)
   const book = orderedItems(items).filter(i => i.kind === 'maintenance' && nextDate(i) <= event.date);
   const skip = orderedItems(items).filter(i => i.kind === 'maintenance' && nextDate(i) > event.date);
   const check = orderedItems(items).filter(i => i.kind === 'product' && nextDate(i) <= event.date);
-  return { book, skip, check, maintenanceCost: book.reduce((s,i) => s+i.cost, 0), possibleProductCost: check.reduce((s,i) => s+i.cost, 0), total: [...book, ...check].reduce((s,i) => s+i.cost, 0), potentialAvoidedCost: skip.reduce((s,i) => s+i.cost, 0), daysAway: daysUntil(event.date, today) };
+  // Only routines whose decision is Skip count as avoided; Plan items are still coming up soon.
+  const avoided = skip.filter(i => eventDecision(i, event, today) === 'Skip');
+  return { book, skip, avoided, check, maintenanceCost: book.reduce((s,i) => s+i.cost, 0), possibleProductCost: check.reduce((s,i) => s+i.cost, 0), total: [...book, ...check].reduce((s,i) => s+i.cost, 0), potentialAvoidedCost: avoided.reduce((s,i) => s+i.cost, 0), daysAway: daysUntil(event.date, today) };
 }
 export function eventDecision(item: PlanItem, event: LifeEvent, today: string) {
   const due = nextDate(item);
