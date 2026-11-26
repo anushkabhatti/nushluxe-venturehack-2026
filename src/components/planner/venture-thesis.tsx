@@ -64,7 +64,7 @@ export function VentureThesis() {
     </section>
     <section id="learned">
       <p className="eyebrow text-muted-foreground">Customer discovery · Babson Miami VentureHack</p>
-      <h2>What we're learning</h2>
+      <h2>What we're exploring</h2>
       <p>{discoveryIntro}</p>
       <ul className="research-themes">{researchThemes.map(theme => <li key={theme.title}><strong>{theme.title}</strong><p>{theme.text}</p></li>)}</ul>
       <p className="fine-print">Early research themes under investigation, not confirmed findings across all participants.</p>
