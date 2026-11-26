@@ -3304,51 +3304,10 @@ body {
   border-radius: 999px;
   flex-shrink: 0;
 }
-.travel-edit {
-  margin-top: 72px;
-  padding-top: 52px;
-  border-top: 1px solid var(--border);
-}
-.travel-edit > .eyebrow {
-  font-size: 9px;
-  letter-spacing: 0.16em;
-  color: var(--muted-foreground);
-}
-.travel-edit > h2 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: 36px;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-  margin-top: 8px;
-}
-.travel-edit-intro {
-  margin: 10px 0 30px;
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--muted-foreground);
-}
-.travel-edit-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 30px 20px;
-}
-.travel-edit-grid .bag-card h3 {
-  font-size: 24px;
-}
 @media (max-width: 640px) {
   .destination-grid {
     grid-template-columns: 1fr;
     gap: 48px;
-  }
-  .travel-edit-grid {
-    grid-template-columns: 1fr;
-  }
-  .travel-edit-grid .bag-card-image {
-    aspect-ratio: 4 / 3;
-  }
-  .travel-edit > h2 {
-    font-size: 30px;
   }
 }
 

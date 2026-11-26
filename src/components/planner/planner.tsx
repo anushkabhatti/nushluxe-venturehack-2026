@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { ItemEditor } from "./item-editor";
 import { EventEditor } from "./event-editor";
-import { DestinationCards, TravelEdit } from "./events-tab";
+import { DestinationCards } from "./events-tab";
 import {
   completeItem,
   dateLabel,
@@ -579,7 +579,6 @@ export function Planner() {
                   A trip, a celebration, or simply a date that matters.
                 </Empty>
               )}
-              <TravelEdit />
             </>
           )}
           {view === "Spending" && (

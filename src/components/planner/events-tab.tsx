@@ -9,9 +9,6 @@ import {
   type PlanItem,
 } from "@/lib/planner";
 import { destinationVisual } from "./destinations";
-import haircare from "@/assets/haircare.jpg";
-import wellness from "@/assets/wellness.jpg";
-import skincare from "@/assets/skincare.jpg";
 
 const decisionLabels: string[] = ["Book", "Replenish", "Plan", "Delay", "Skip"];
 
@@ -159,57 +156,5 @@ export function DestinationCards({
         </section>
       )}
     </>
-  );
-}
-
-// Presentation only: example brand names and imagery, nothing is sold or tracked here.
-const travelEdit = [
-  {
-    title: "Haircare",
-    brand: "Kérastase",
-    source: haircare,
-    alt: "Illustrative unbranded salon haircare bottles on a white surface",
-    text: "Check travel sizes before you pack.",
-  },
-  {
-    title: "Wellness & activewear",
-    brand: "Alo",
-    source: wellness,
-    alt: "Illustrative unbranded white activewear, yoga mat and water bottle",
-    text: "Pack what keeps your routine going away from home.",
-  },
-  {
-    title: "Skincare & wellness",
-    brand: "Sanctuary",
-    source: skincare,
-    alt: "Illustrative unbranded skincare jar, serum and towel on a white surface",
-    text: "Check your supply first; replenish only if needed.",
-  },
-];
-
-export function TravelEdit() {
-  return (
-    <section className="travel-edit">
-      <p className="eyebrow">The edit</p>
-      <h2>Travel Beauty &amp; Wellness Edit</h2>
-      <p className="travel-edit-intro">
-        What to look over before you pack — part of your plan, not a shop.
-      </p>
-      <div className="travel-edit-grid">
-        {travelEdit.map((card) => (
-          <article className="bag-card" key={card.title}>
-            <div className="bag-card-image">
-              <img src={card.source} alt={card.alt} width={900} height={900} loading="lazy" />
-            </div>
-            <p className="bag-eyebrow">Illustrative · e.g. {card.brand}</p>
-            <h3>{card.title}</h3>
-            <p>{card.text}</p>
-          </article>
-        ))}
-      </div>
-      <p className="bag-note">
-        Brand names are illustrative examples · No affiliation · Nothing is sold here
-      </p>
-    </section>
   );
 }
