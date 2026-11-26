@@ -359,48 +359,59 @@ export function TripExperience({
             <ArrowRight />
           </Button>
         </div>
+        <div className="bag-features">
+          {[...products]
+            .sort(
+              (x, y) => Number(y.category === "Haircare") - Number(x.category === "Haircare"),
+            )
+            .map((item) => {
+              const visual = productVisual(item);
+              return (
+                <article className="bag-card bag-feature" key={item.id}>
+                  <div className="bag-card-image">
+                    {visual ? (
+                      <img
+                        src={visual.source}
+                        alt={visual.alt}
+                        width={900}
+                        height={900}
+                        loading="lazy"
+                      />
+                    ) : (
+                      <Package aria-hidden="true" />
+                    )}
+                  </div>
+                  <div className="bag-feature-body">
+                    <p className="bag-eyebrow">
+                      {visual
+                        ? item.category === item.name
+                          ? visual.brand
+                          : `${item.category} · ${visual.brand}`
+                        : item.category}
+                    </p>
+                    <h3>{item.name}</h3>
+                    <p>
+                      {item.category === "Haircare"
+                        ? "Check travel-size availability or pack appropriate containers."
+                        : "Check remaining quantity before packing."}
+                    </p>
+                    <p className="bag-hint">
+                      {item.category === "Haircare"
+                        ? "Pack what you already have."
+                        : "Replenish only if needed."}
+                    </p>
+                  </div>
+                </article>
+              );
+            })}
+        </div>
         <div className="bag-grid">
-          {products.map((item) => {
-            const visual = productVisual(item);
-            return (
-              <article className="bag-card" key={item.id}>
-                <div className="bag-card-image">
-                  {visual ? (
-                    <img
-                      src={visual.source}
-                      alt={visual.alt}
-                      width={900}
-                      height={900}
-                      loading="lazy"
-                    />
-                  ) : (
-                    <Package aria-hidden="true" />
-                  )}
-                </div>
-                <p className="bag-eyebrow">
-                  {item.category}
-                  {visual ? ` · e.g. ${visual.brand}` : ""}
-                </p>
-                <h3>{item.name}</h3>
-                <p>
-                  {item.category === "Haircare"
-                    ? "Check travel-size availability or pack appropriate containers."
-                    : "Check remaining quantity before packing."}
-                </p>
-                <p className="bag-hint">
-                  {item.category === "Haircare"
-                    ? "Pack what you already have."
-                    : "Replenish only if needed."}
-                </p>
-              </article>
-            );
-          })}
           {bagEditorial.map((card) => (
             <article className="bag-card" key={card.title}>
               <div className="bag-card-image">
                 <img src={card.source} alt={card.alt} width={900} height={900} loading="lazy" />
               </div>
-              <p className="bag-eyebrow">Illustrative · e.g. {card.brand}</p>
+              <p className="bag-eyebrow">{card.brand}</p>
               <h3>{card.title}</h3>
               <p>{card.text}</p>
             </article>
