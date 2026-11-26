@@ -22,9 +22,13 @@ export function VentureThesis() {
         <div>
           <p className="eyebrow text-muted-foreground">Founder</p>
           <h2>Anushka Bhatti</h2>
-          <p>Originally from Miami, Anushka Bhatti studied at Northeastern University before earning her master's degree in Entrepreneurial Leadership from Babson College.</p>
-          <p>As the founder of Nushluxe, she is exploring how consumer technology can simplify the planning and decision-making behind recurring beauty and wellness maintenance.</p>
-          <p>Her vision is to bring appointments, product replenishment, upcoming events, and expected spending into one thoughtful experience—helping women understand what needs attention, what can wait, and how to plan their personal-care budgets with greater intention.</p>
+          <p>{"Anushka Bhatti's background sits at the intersection of business, technology, and entrepreneurship. After studying at Northeastern University, she completed her master's at Babson College and continued developing her technical foundation through AI and machine learning coursework at the University of Miami."}</p>
+          <p>{"She originally expected to follow a more traditional business and consulting path, but became increasingly interested in technology, product building, and entrepreneurship."}</p>
+          <p>{"Nushluxe grew out of that intersection."}</p>
+          <p>{"What began as a personal Python and AI-focused project became an exploration of a problem Anushka understood firsthand: women often manage recurring beauty and wellness routines, products, appointments, trips, and related spending across separate tools, memory, and reminders."}</p>
+          <p>{"Rather than immediately building a large product around that assumption, she began treating Nushluxe as an early-stage venture — conducting customer discovery, building and testing prototypes, and using real evidence to determine what the product should become."}</p>
+          <p>{"Her approach is simple:"}</p>
+          <p>{"Build enough to test. Learn from real behavior. Then decide what deserves to become the real product."}</p>
         </div>
         <img className="founder-photo" src={founderPhoto.url} alt="Anushka Bhatti, founder of Nushluxe" />
       </div>
