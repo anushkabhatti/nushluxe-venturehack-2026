@@ -210,6 +210,10 @@ export function TripExperience({
                       {action}
                     </p>
                     <h3>{item.name}</h3>
+                    <p className="action-evidence">
+                      {item.kind === "maintenance" ? "Next expected" : "Check around"}{" "}
+                      {dateLabel(nextDate(item))}
+                    </p>
                   </div>
                   <span
                     className={
@@ -222,7 +226,9 @@ export function TripExperience({
                         ? "Check supply first"
                         : nextDate(item) <= today
                           ? "Due now"
-                          : dateLabel(nextDate(item))}
+                          : action === "Plan"
+                            ? "After your trip"
+                            : "Before your trip"}
                   </span>
                 </article>
               );
@@ -279,7 +285,7 @@ export function TripExperience({
           </div>
           {forecast.check.length > 0 && (
             <div className="optional-expenses">
-              <p className="eyebrow">Only if needed · Check supply first</p>
+              <p className="eyebrow">Only if needed</p>
               {prep ? (
                 forecast.check.map((i) => (
                   <div className="trip-cost" key={i.id}>
@@ -384,9 +390,7 @@ export function TripExperience({
             ))}
           </div>
           {!products.length && <p className="body-copy py-6">Your essentials belong here.</p>}
-          <p className="bag-note">
-            Brand names are illustrative examples · No affiliation · Imagery is unbranded
-          </p>
+          <p className="bag-note">Illustrative examples · No affiliation</p>
         </section>
       )}
     </div>

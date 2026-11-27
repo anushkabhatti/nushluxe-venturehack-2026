@@ -224,7 +224,6 @@ export function Planner() {
       <section className="spending-section">
         <div className="section-heading">
           <div>
-            <p className="eyebrow text-muted-foreground">A little foresight</p>
             <h2>Estimated Upcoming Spend</h2>
           </div>
           <Wallet className="text-muted-foreground size-5" />
@@ -391,13 +390,13 @@ export function Planner() {
                       ? "The Vision Behind Nushluxe"
                       : "Life Events"}
                 </h1>
-                <p className="body-copy">
-                  {view === "Plan"
-                    ? "One plan, at your pace."
-                    : view === "About Us"
-                      ? "A more thoughtful way to manage beauty, wellness, and everything that comes next."
-                      : "Choose a date to plan around."}
-                </p>
+                {view !== "Events" && (
+                  <p className="body-copy">
+                    {view === "Plan"
+                      ? "One plan, at your pace."
+                      : "A more thoughtful way to manage beauty, wellness, and everything that comes next."}
+                  </p>
+                )}
               </div>
               {view === "Events" ? (
                 <Button className="editorial-button" onClick={() => setEventEditor({})}>
@@ -462,9 +461,7 @@ export function Planner() {
                         {list.length ? (
                           itemRows(list, true)
                         ) : (
-                          <p className="plan-clear">
-                            Nothing expected here. A little breathing room.
-                          </p>
+                          <p className="plan-clear">Nothing expected.</p>
                         )}
                       </section>
                     );

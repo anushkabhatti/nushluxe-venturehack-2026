@@ -19,3 +19,4 @@
 - [x] Dashboard: show the avoided $90 line under Estimated Upcoming Spend, point the Pre-Trip Plan and beauty bag arrows at Plan and Products, drop the plane icon, and title the screen "Example plan: Anushka's NYC trip".
 - [x] About Us: replace "Currently validating" with learning and "Still validating" sections.
 - [x] Editorial visual refresh: new New York image, image-led beauty bag with example brand names (Kérastase, Alo, Chanel, Sanctuary), polished founder section.
+- [x] Quiet pass: trim supporting text across Dashboard, Plan and Events; Plan rows keep one date line per decision.
