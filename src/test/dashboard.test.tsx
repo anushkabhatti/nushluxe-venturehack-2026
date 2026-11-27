@@ -3,31 +3,45 @@ import { describe, expect, it } from "vitest";
 
 import { Planner } from "@/components/planner/planner";
 
-// The dashboard is the judge's first screen: the greeting names the example,
-// the avoided cost is itemised under planned spend, and the two section arrows
-// lead to the Plan and Products tabs.
+// The dashboard answers three questions at a glance: what needs attention,
+// what can wait, and what it will cost. Each fact appears once.
 describe("Dashboard presentation", () => {
-  it("opens with the example-plan greeting and no plane button", () => {
-    const { container } = render(<Planner />);
-
-    expect(
-      screen.getByRole("heading", { name: "Example plan: Anushka's NYC trip" }),
-    ).toBeInTheDocument();
-    expect(screen.queryByText(/Good morning/)).not.toBeInTheDocument();
-    expect(container.querySelector(".travel-icon")).toBeNull();
-  });
-
-  it("shows each skipped routine as an avoided line under Estimated Upcoming Spend", () => {
+  it("opens with Your Plan and the selected trip", () => {
     render(<Planner />);
 
-    const spend = screen
-      .getByRole("heading", { name: "Estimated Upcoming Spend" })
-      .closest("section") as HTMLElement;
-    const hair = within(spend).getByText("Hair").closest(".trip-cost") as HTMLElement;
+    expect(screen.getByRole("heading", { name: "Your Plan" })).toBeInTheDocument();
+    expect(screen.getByText("New York City · 7 days away")).toBeInTheDocument();
+  });
 
-    expect(within(hair).getByText("Not needed for this trip")).toBeInTheDocument();
-    expect(within(hair).getByText("$90")).toBeInTheDocument();
-    expect(within(spend).getByText(/You may avoid \$90/)).toBeInTheDocument();
+  it("groups each item under its decision with a short reason", () => {
+    render(<Planner />);
+
+    const group = (name: string) =>
+      screen.getByRole("heading", { name }).closest(".plan-summary-group") as HTMLElement;
+    const lines = (name: string) =>
+      within(group(name))
+        .getAllByRole("listitem")
+        .map((item) => item.textContent);
+
+    expect(lines("Book")).toEqual(["Nails — due now", "Eyebrows — before your trip"]);
+    expect(lines("Replenish")).toEqual(["Foundation — check supply first"]);
+    expect(lines("Skip")).toEqual([
+      "Hair — not needed for this trip",
+      "Haircare — not needed for this trip",
+    ]);
+    expect(screen.queryByRole("heading", { name: "Delay" })).not.toBeInTheDocument();
+  });
+
+  it("shows one spending summary: $95 expected, +$48 possible, $90 avoided", () => {
+    render(<Planner />);
+
+    const spend = screen.getByRole("region", { name: "Spending" });
+    const value = (label: string) =>
+      (within(spend).getByText(label).nextElementSibling as HTMLElement).textContent;
+
+    expect(value("Expected spend")).toBe("$95");
+    expect(value("Possible additional")).toBe("+$48if foundation is needed");
+    expect(value("Potential avoided spend")).toBe("$90");
   });
 
   it("sends the Pre-Trip Plan arrow to the Plan tab", () => {

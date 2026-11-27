@@ -20,3 +20,4 @@
 - [x] About Us: replace "Currently validating" with learning and "Still validating" sections.
 - [x] Editorial visual refresh: new New York image, image-led beauty bag with example brand names (Kérastase, Alo, Chanel, Sanctuary), polished founder section.
 - [x] Quiet pass: trim supporting text across Dashboard, Plan and Events; Plan rows keep one date line per decision.
+- [x] Dashboard: "Your Plan" hierarchy with grouped decisions, one spending summary and one next step.

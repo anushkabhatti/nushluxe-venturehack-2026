@@ -5,6 +5,7 @@ import {
   daysUntil,
   eventDecision,
   nextDate,
+  orderedItems,
   tripForecast,
   money,
   type PlanItem,
@@ -54,6 +55,271 @@ export function ProductPhoto({ item }: { item: PlanItem }) {
     </div>
   );
 }
+const decisionOrder = ["Book", "Replenish", "Plan", "Delay", "Skip"];
+
+function BeautyBag({ products, onProducts }: { products: PlanItem[]; onProducts: () => void }) {
+  return (
+    <section className="beauty-bag">
+      <div className="consumer-section-heading">
+        <h2>Your beauty bag</h2>
+        <Button
+          variant="ghost"
+          size="icon"
+          title="Manage products"
+          aria-label="Manage products"
+          onClick={onProducts}
+        >
+          <ArrowRight />
+        </Button>
+      </div>
+      <div className="bag-features">
+        {[...products]
+          .sort((x, y) => Number(y.category === "Haircare") - Number(x.category === "Haircare"))
+          .map((item) => {
+            const visual = productVisual(item);
+            return (
+              <article className="bag-card bag-feature" key={item.id}>
+                <div className="bag-card-image">
+                  {visual ? (
+                    <img
+                      src={visual.source}
+                      alt={visual.alt}
+                      width={900}
+                      height={900}
+                      loading="lazy"
+                    />
+                  ) : (
+                    <Package aria-hidden="true" />
+                  )}
+                </div>
+                <div className="bag-feature-body">
+                  <p className="bag-eyebrow">
+                    {visual
+                      ? item.category === item.name
+                        ? visual.brand
+                        : `${item.category} · ${visual.brand}`
+                      : item.category}
+                  </p>
+                  <h3>{item.name}</h3>
+                  <p>
+                    {item.category === "Haircare"
+                      ? "Pack what you already have."
+                      : "Check supply. Replenish only if needed."}
+                  </p>
+                </div>
+              </article>
+            );
+          })}
+        {bagEditorial.map((card) => (
+          <article className="bag-card bag-feature" key={card.title}>
+            <div className="bag-card-image">
+              <img src={card.source} alt={card.alt} width={900} height={900} loading="lazy" />
+            </div>
+            <div className="bag-feature-body">
+              <p className="bag-eyebrow">{card.brand}</p>
+              <h3>{card.title}</h3>
+              <p>{card.text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+      {!products.length && <p className="body-copy py-6">Your essentials belong here.</p>}
+      <p className="bag-note">Illustrative examples · No affiliation</p>
+    </section>
+  );
+}
+
+// Dashboard: what needs attention, what can wait, what it costs — each shown once.
+function DashboardHome({
+  items,
+  event,
+  today,
+  onEvents,
+  onMaintenance,
+  onProducts,
+  onPlan,
+}: {
+  items: PlanItem[];
+  event: LifeEvent | undefined;
+  today: string;
+  onEvents: () => void;
+  onMaintenance: () => void;
+  onProducts: () => void;
+  onPlan: () => void;
+}) {
+  const forecast = event ? tripForecast(items, event, today) : undefined;
+  const routines = items.filter((i) => i.kind === "maintenance");
+  const products = items.filter((i) => i.kind === "product");
+  const destination = destinationVisual(event?.name);
+  const away = event ? daysUntil(event.date, today) : 0;
+  const groups = event
+    ? decisionOrder
+        .map((label) => ({
+          label,
+          list: orderedItems(items).filter((i) => eventDecision(i, event, today) === label),
+        }))
+        .filter((group) => group.list.length)
+    : [];
+  function reason(label: string, item: PlanItem) {
+    if (label === "Book") return nextDate(item) <= today ? "due now" : "before your trip";
+    if (label === "Replenish") return "check supply first";
+    if (label === "Plan") return "soon after your trip";
+    if (label === "Delay") return "can wait";
+    return "not needed for this trip";
+  }
+  const firstBooking = forecast
+    ? [...forecast.book].sort((x, y) => nextDate(x).localeCompare(nextDate(y)))[0]
+    : undefined;
+  const nextStep = !event
+    ? undefined
+    : firstBooking
+      ? nextDate(firstBooking) <= today
+        ? `Book ${firstBooking.name.toLowerCase()} first.`
+        : `Book ${firstBooking.name.toLowerCase()} before ${event.name}.`
+      : forecast?.check.length
+        ? "Check your supply before you pack."
+        : items.length
+          ? "Nothing to book for this trip."
+          : undefined;
+  return (
+    <div className="trip-experience dashboard-home">
+      <div className="personal-greeting">
+        <div>
+          <h1>Your Plan</h1>
+          {event && (
+            <p className="dashboard-event">
+              {event.name} · {away === 0 ? "Today" : `${away} days away`}
+            </p>
+          )}
+        </div>
+        {event && (
+          <Button
+            variant="ghost"
+            size="icon"
+            title="Open your plan"
+            aria-label="Open your plan"
+            onClick={onPlan}
+          >
+            <ArrowRight />
+          </Button>
+        )}
+      </div>
+      {event ? (
+        <div className="travel-photo">
+          {destination ? (
+            <img
+              src={destination.source}
+              alt={destination.alt}
+              width={1440}
+              height={960}
+              fetchPriority="high"
+            />
+          ) : (
+            <div className="event-placeholder">
+              <CalendarDays />
+              <span>{event.name}</span>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="no-trip">
+          <CalendarDays />
+          <h2>Your next chapter starts here.</h2>
+          <p>Add a date to bring your plan into focus.</p>
+          <Button onClick={onEvents}>
+            Add a life event
+            <ArrowRight />
+          </Button>
+        </div>
+      )}
+      {event ? (
+        <section className="plan-summary" aria-label="Your decisions">
+          {groups.map((group) => (
+            <div className="plan-summary-group" key={group.label}>
+              <h2>{group.label}</h2>
+              <ul>
+                {group.list.map((item) => (
+                  <li key={item.id}>
+                    {item.name} <span>— {reason(group.label, item)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+          {!items.length && (
+            <p className="body-copy py-6">Add a routine or product to shape this plan.</p>
+          )}
+        </section>
+      ) : (
+        <section className="forecast-section">
+          <div className="consumer-section-heading">
+            <h2>Your maintenance forecast</h2>
+            <Button
+              variant="ghost"
+              size="icon"
+              title="Manage maintenance"
+              aria-label="Manage maintenance"
+              onClick={onMaintenance}
+            >
+              <ArrowRight />
+            </Button>
+          </div>
+          {routines.map((item) => (
+            <div className="forecast-row" key={item.id}>
+              <div className="forecast-icon">
+                <Scissors />
+              </div>
+              <div>
+                <h3>{item.name}</h3>
+                <p>Next expected {dateLabel(nextDate(item))}</p>
+              </div>
+              <span className="neutral-pill">
+                {daysUntil(nextDate(item), today) <= 0 ? "Due now" : dateLabel(nextDate(item))}
+              </span>
+            </div>
+          ))}
+        </section>
+      )}
+      {forecast && (
+        <section className="spend-summary" aria-label="Spending">
+          <dl>
+            <div>
+              <dt>Expected spend</dt>
+              <dd>{money(forecast.maintenanceCost)}</dd>
+            </div>
+            {forecast.check.length > 0 && (
+              <div>
+                <dt>Possible additional</dt>
+                <dd>
+                  +{money(forecast.possibleProductCost)}
+                  <small>
+                    if {forecast.check.map((i) => i.name.toLowerCase()).join(" or ")}{" "}
+                    {forecast.check.length === 1 ? "is" : "are"} needed
+                  </small>
+                </dd>
+              </div>
+            )}
+            {forecast.potentialAvoidedCost > 0 && (
+              <div>
+                <dt>Potential avoided spend</dt>
+                <dd>{money(forecast.potentialAvoidedCost)}</dd>
+              </div>
+            )}
+          </dl>
+          <p className="fine-print">Estimates from your usual frequencies, not exact inventory.</p>
+        </section>
+      )}
+      <BeautyBag products={products} onProducts={onProducts} />
+      {nextStep && (
+        <section className="next-step">
+          <p className="eyebrow">Next step</p>
+          <p className="next-step-line">{nextStep}</p>
+        </section>
+      )}
+    </div>
+  );
+}
+
 export function TripExperience({
   items,
   event,
@@ -79,17 +345,20 @@ export function TripExperience({
 }) {
   const forecast = event ? tripForecast(items, event, today) : undefined;
   const routines = items.filter((i) => i.kind === "maintenance");
-  const products = items.filter((i) => i.kind === "product");
-  const destination = destinationVisual(event?.name);
+  if (!prep)
+    return (
+      <DashboardHome
+        items={items}
+        event={event}
+        today={today}
+        onEvents={onEvents}
+        onMaintenance={onMaintenance}
+        onProducts={onProducts}
+        onPlan={onPlan}
+      />
+    );
   return (
     <div className="trip-experience">
-      {!prep && (
-        <div className="personal-greeting">
-          <div>
-            <h1>Example plan: Anushka's NYC trip</h1>
-          </div>
-        </div>
-      )}
       <div className="event-plan-controls">
         <label>
           Plan around
@@ -113,24 +382,6 @@ export function TripExperience({
       </div>
       {event ? (
         <>
-          {!prep && (
-            <div className="travel-photo">
-              {destination ? (
-                <img
-                  src={destination.source}
-                  alt={destination.alt}
-                  width={1440}
-                  height={960}
-                  fetchPriority="high"
-                />
-              ) : (
-                <div className="event-placeholder">
-                  <CalendarDays />
-                  <span>{event.name}</span>
-                </div>
-              )}
-            </div>
-          )}
           <div className="trip-title">
             <div>
               <p className="eyebrow">UPCOMING {event.type.toUpperCase()}</p>
@@ -322,75 +573,6 @@ export function TripExperience({
             </div>
           )}
           <p className="fine-print">Estimates from your usual frequencies, not exact inventory.</p>
-        </section>
-      )}
-      {!prep && (
-        <section className="beauty-bag">
-          <div className="consumer-section-heading">
-            <h2>Your beauty bag</h2>
-            <Button
-              variant="ghost"
-              size="icon"
-              title="Manage products"
-              aria-label="Manage products"
-              onClick={onProducts}
-            >
-              <ArrowRight />
-            </Button>
-          </div>
-          <div className="bag-features">
-            {[...products]
-              .sort((x, y) => Number(y.category === "Haircare") - Number(x.category === "Haircare"))
-              .map((item) => {
-                const visual = productVisual(item);
-                return (
-                  <article className="bag-card bag-feature" key={item.id}>
-                    <div className="bag-card-image">
-                      {visual ? (
-                        <img
-                          src={visual.source}
-                          alt={visual.alt}
-                          width={900}
-                          height={900}
-                          loading="lazy"
-                        />
-                      ) : (
-                        <Package aria-hidden="true" />
-                      )}
-                    </div>
-                    <div className="bag-feature-body">
-                      <p className="bag-eyebrow">
-                        {visual
-                          ? item.category === item.name
-                            ? visual.brand
-                            : `${item.category} · ${visual.brand}`
-                          : item.category}
-                      </p>
-                      <h3>{item.name}</h3>
-                      <p>
-                        {item.category === "Haircare"
-                          ? "Pack what you already have."
-                          : "Check supply. Replenish only if needed."}
-                      </p>
-                    </div>
-                  </article>
-                );
-              })}
-            {bagEditorial.map((card) => (
-              <article className="bag-card bag-feature" key={card.title}>
-                <div className="bag-card-image">
-                  <img src={card.source} alt={card.alt} width={900} height={900} loading="lazy" />
-                </div>
-                <div className="bag-feature-body">
-                  <p className="bag-eyebrow">{card.brand}</p>
-                  <h3>{card.title}</h3>
-                  <p>{card.text}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-          {!products.length && <p className="body-copy py-6">Your essentials belong here.</p>}
-          <p className="bag-note">Illustrative examples · No affiliation</p>
         </section>
       )}
     </div>

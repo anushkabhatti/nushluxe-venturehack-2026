@@ -3481,3 +3481,123 @@ body {
   align-items: center;
   margin-bottom: 12px;
 }
+
+/* Dashboard home: attention, what can wait, cost — each shown once */
+.dashboard-home .personal-greeting {
+  align-items: flex-start;
+  margin-bottom: 28px;
+}
+.dashboard-home .personal-greeting h1 {
+  font-size: 56px;
+  line-height: 1.05;
+}
+.dashboard-home .dashboard-event {
+  margin-top: 12px;
+  font-size: 15px;
+  color: var(--foreground);
+}
+.trip-experience.dashboard-home .travel-photo {
+  aspect-ratio: 3.6;
+  border-radius: 14px;
+}
+.plan-summary {
+  margin-top: 44px;
+  border-bottom: 1px solid var(--border);
+}
+.plan-summary-group {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 24px;
+  align-items: baseline;
+  padding: 26px 0;
+  border-top: 1px solid var(--border);
+}
+.plan-summary-group h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+.plan-summary-group ul {
+  display: grid;
+  gap: 10px;
+  font-size: 15px;
+}
+.plan-summary-group li span {
+  color: var(--muted-foreground);
+}
+.spend-summary {
+  margin-top: 56px;
+}
+.spend-summary dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+.spend-summary dt {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+.spend-summary dd {
+  margin-top: 10px;
+  font-family: var(--font-display);
+  font-size: 44px;
+  line-height: 1.05;
+}
+.spend-summary dd small {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted-foreground);
+}
+.spend-summary .fine-print {
+  margin-top: 22px;
+}
+.next-step {
+  margin-top: 64px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+.next-step .eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--muted-foreground);
+}
+.next-step-line {
+  margin-top: 10px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 32px;
+  line-height: 1.2;
+}
+@media (max-width: 640px) {
+  .dashboard-home .personal-greeting h1 {
+    font-size: 42px;
+  }
+  .trip-experience.dashboard-home .travel-photo {
+    aspect-ratio: 2.4;
+  }
+  .plan-summary-group {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 22px 0;
+  }
+  .plan-summary-group h2 {
+    font-size: 26px;
+  }
+  .spend-summary dl {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .spend-summary dd {
+    font-size: 36px;
+  }
+  .next-step-line {
+    font-size: 26px;
+  }
+}
