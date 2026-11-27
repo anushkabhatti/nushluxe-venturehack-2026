@@ -400,7 +400,7 @@ export function Planner() {
                   {view === "Plan"
                     ? "One plan, at your pace."
                     : view === "About Us"
-                      ? "A more thoughtful way to manage beauty, wellness, and everything that comes next."
+                      ? "Know what you need, before you need it."
                       : "Choose a date to plan around."}
                 </p>
               </div>
