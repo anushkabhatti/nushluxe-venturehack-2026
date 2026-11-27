@@ -39,7 +39,7 @@ import { ProductPhoto, TripExperience } from "./trip-experience";
 import { VentureThesis } from "./venture-thesis";
 
 type View = "Dashboard" | "Plan" | "Events" | "About Us";
-const views: View[] = ["About Us", "Dashboard", "Plan", "Events"];
+const views: View[] = ["Dashboard", "Plan", "Events", "About Us"];
 function Empty({
   icon,
   title,
