@@ -6,12 +6,12 @@ import {
   eventDecision,
   nextDate,
   tripForecast,
-  tripRecommendation,
   money,
   type PlanItem,
   type LifeEvent,
 } from "@/lib/planner";
 import { destinationVisual } from "./destinations";
+import { DecisionList } from "./events-tab";
 import foundation from "@/assets/foundation.jpg";
 import haircare from "@/assets/haircare.jpg";
 import wellness from "@/assets/wellness.jpg";
@@ -68,7 +68,6 @@ export function TripExperience({
   events,
   today,
   prep,
-  onPrep,
   onEvents,
   onSelectEvent,
   onMaintenance,
@@ -81,7 +80,6 @@ export function TripExperience({
   onSelectEvent: (id: string) => void;
   today: string;
   prep: boolean;
-  onPrep: () => void;
   onEvents: () => void;
   onMaintenance: () => void;
   onProducts: () => void;
@@ -97,11 +95,6 @@ export function TripExperience({
         <div className="personal-greeting">
           <div>
             <h1>Example plan: Anushka's NYC trip</h1>
-            <p>
-              {event
-                ? `Your ${event.name} ${event.type.toLowerCase()} is coming up.`
-                : "Your beauty, planned around your life."}
-            </p>
           </div>
         </div>
       )}
@@ -125,43 +118,31 @@ export function TripExperience({
               ))}
           </select>
         </label>
-        <Button variant="outline" onClick={onEvents}>
-          <CalendarDays />
-          Add / edit event
-        </Button>
       </div>
       {event ? (
         <>
-          <div className="travel-photo">
-            {destination ? (
-              <img
-                src={destination.source}
-                alt={destination.alt}
-                width={1440}
-                height={960}
-                fetchPriority="high"
-              />
-            ) : (
-              <div className="event-placeholder">
-                <CalendarDays />
-                <span>{event.name}</span>
-              </div>
-            )}
-            <span className="photo-note">
-              {destination ? destination.note : event.type.toUpperCase()}
-            </span>
-          </div>
+          {!prep && (
+            <div className="travel-photo">
+              {destination ? (
+                <img
+                  src={destination.source}
+                  alt={destination.alt}
+                  width={1440}
+                  height={960}
+                  fetchPriority="high"
+                />
+              ) : (
+                <div className="event-placeholder">
+                  <CalendarDays />
+                  <span>{event.name}</span>
+                </div>
+              )}
+            </div>
+          )}
           <div className="trip-title">
             <div>
-              <p className="eyebrow">
-                {prep
-                  ? "TRIP PREP MODE · PROTOTYPE CONCEPT"
-                  : `UPCOMING ${event.type.toUpperCase()}`}
-              </p>
-              <h2>
-                {event.name}
-                {prep ? " Trip Prep" : ""}
-              </h2>
+              <p className="eyebrow">UPCOMING {event.type.toUpperCase()}</p>
+              <h2>{event.name}</h2>
               <p>
                 {dateLabel(event.date)} · {new Date(`${event.date}T12:00:00`).getFullYear()}
               </p>
@@ -177,7 +158,7 @@ export function TripExperience({
         <div className="no-trip">
           <CalendarDays />
           <h2>Your next chapter starts here.</h2>
-          <p>Add an important date to bring your beauty plan into focus.</p>
+          <p>Add a date to bring your plan into focus.</p>
           <Button onClick={onEvents}>
             Add a life event
             <ArrowRight />
@@ -186,78 +167,74 @@ export function TripExperience({
       )}
       {event && forecast ? (
         <section className="event-action-plan">
-          <div className="consumer-section-heading">
-            <div>
-              <h2>Your Pre-Trip Plan</h2>
-              <p>Your routines, reviewed against {dateLabel(event.date)}.</p>
+          {prep ? (
+            <div className="consumer-section-heading">
+              <div>
+                <h2>A little preparation. A lot more ease.</h2>
+                <p>Book · Replenish · Plan · Delay · Skip</p>
+              </div>
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              title="Open your plan"
-              aria-label="Open your plan"
-              onClick={onPlan}
-            >
-              <ArrowRight />
-            </Button>
-          </div>
-          {[...forecast.book, ...forecast.check, ...forecast.skip].map((item) => {
-            const action = eventDecision(item, event, today);
-            return (
-              <article className="event-action-row" key={item.id}>
-                <div className="forecast-icon">
-                  {item.kind === "product" ? (
-                    <Package />
-                  ) : action === "Skip" ? (
-                    <Check />
-                  ) : (
-                    <Scissors />
-                  )}
-                </div>
-                <div>
-                  <p
-                    className={`action-eyebrow ${action === "Book" && nextDate(item) <= today ? "action-urgent" : action === "Skip" ? "action-skip" : ""}`}
+          ) : (
+            <div className="consumer-section-heading">
+              <h2>Your Pre-Trip Plan</h2>
+              <Button
+                variant="ghost"
+                size="icon"
+                title="Open your plan"
+                aria-label="Open your plan"
+                onClick={onPlan}
+              >
+                <ArrowRight />
+              </Button>
+            </div>
+          )}
+          {!prep && items.length > 0 && <DecisionList items={items} event={event} today={today} />}
+          {prep &&
+            [
+              ...forecast.book,
+              ...forecast.check,
+              ...forecast.skip,
+              ...items.filter(
+                (i) => ![...forecast.book, ...forecast.check, ...forecast.skip].includes(i),
+              ),
+            ].map((item) => {
+              const action = eventDecision(item, event, today);
+              const dueNow = action === "Book" && nextDate(item) <= today;
+              return (
+                <article className="event-action-row" key={item.id}>
+                  <div className="forecast-icon">
+                    {item.kind === "product" ? (
+                      <Package />
+                    ) : action === "Skip" ? (
+                      <Check />
+                    ) : (
+                      <Scissors />
+                    )}
+                  </div>
+                  <div>
+                    <p
+                      className={`action-eyebrow ${dueNow ? "action-urgent" : action === "Skip" ? "action-skip" : ""}`}
+                    >
+                      {action}
+                    </p>
+                    <h3>{item.name}</h3>
+                  </div>
+                  <span
+                    className={
+                      dueNow ? "due-pill" : action === "Skip" ? "positive-pill" : "neutral-pill"
+                    }
                   >
-                    {action}
-                  </p>
-                  <h3>{item.name}</h3>
-                  <p className="action-reason">
-                    {action === "Book"
-                      ? nextDate(item) <= today
-                        ? "Due now, before your trip."
-                        : "Expected to be due before or on your departure date."
+                    {action === "Skip"
+                      ? "On track"
                       : action === "Replenish"
-                        ? "Check supply first. Buy only if needed."
-                        : action === "Plan"
-                          ? "Due in the next two weeks, after your trip."
-                          : "On track. Not needed for this trip."}
-                  </p>
-                  <p className="action-evidence">
-                    {item.kind === "maintenance"
-                      ? `Last appointment ${dateLabel(item.lastDate)} · ${item.frequency}-day cycle · Next expected ${dateLabel(nextDate(item))}`
-                      : `Last replenished ${dateLabel(item.lastDate)} · ${item.frequency}-day cycle · Check around ${dateLabel(nextDate(item))}`}
-                  </p>
-                </div>
-                <span
-                  className={
-                    action === "Book" && nextDate(item) <= today
-                      ? "due-pill"
-                      : action === "Skip"
-                        ? "positive-pill"
-                        : "neutral-pill"
-                  }
-                >
-                  {action === "Skip"
-                    ? "On track"
-                    : action === "Replenish"
-                      ? "Check supply first"
-                      : nextDate(item) <= today
-                        ? "Due now"
-                        : dateLabel(nextDate(item))}
-                </span>
-              </article>
-            );
-          })}
+                        ? "Check supply first"
+                        : nextDate(item) <= today
+                          ? "Due now"
+                          : dateLabel(nextDate(item))}
+                  </span>
+                </article>
+              );
+            })}
           {!items.length && (
             <p className="body-copy py-6">Add a routine or product to shape this plan.</p>
           )}
@@ -296,28 +273,34 @@ export function TripExperience({
         <section className="trip-spending">
           <div className="consumer-section-heading">
             <h2>Estimated Upcoming Spend</h2>
-            <Wallet />
           </div>
-          {forecast.book.map((i) => (
-            <div className="trip-cost" key={i.id}>
-              <span>{i.name}</span>
-              <strong>{money(i.cost)}</strong>
-            </div>
-          ))}
+          {prep &&
+            forecast.book.map((i) => (
+              <div className="trip-cost" key={i.id}>
+                <span>{i.name}</span>
+                <strong>{money(i.cost)}</strong>
+              </div>
+            ))}
           <div className="trip-total">
-            <span>Estimated planned spend</span>
+            <span>Planned</span>
             <strong>{money(forecast.maintenanceCost)}</strong>
           </div>
           {forecast.check.length > 0 && (
             <div className="optional-expenses">
-              <p className="eyebrow">Possible additional expenses · Only if needed</p>
-              {forecast.check.map((i) => (
-                <div className="trip-cost" key={i.id}>
-                  <span>{i.name} replenishment</span>
-                  <strong>+{money(i.cost)}</strong>
+              <p className="eyebrow">Only if needed · Check supply first</p>
+              {prep ? (
+                forecast.check.map((i) => (
+                  <div className="trip-cost" key={i.id}>
+                    <span>{i.name}</span>
+                    <strong>+{money(i.cost)}</strong>
+                  </div>
+                ))
+              ) : (
+                <div className="trip-cost">
+                  <span>Products</span>
+                  <strong>+{money(forecast.possibleProductCost)}</strong>
                 </div>
-              ))}
-              <p>Check supply first. These purchases are not included in planned spend.</p>
+              )}
             </div>
           )}
           {forecast.avoided.length > 0 && (
@@ -337,148 +320,81 @@ export function TripExperience({
           {forecast.potentialAvoidedCost > 0 && (
             <div className="avoid-cost">
               <Check />
-              <span>
-                You may avoid {money(forecast.potentialAvoidedCost)} by skipping extra appointments
-                that aren’t due yet.
-              </span>
+              <span>You may avoid {money(forecast.potentialAvoidedCost)}.</span>
             </div>
           )}
+          <p className="fine-print">Estimates from your usual frequencies, not exact inventory.</p>
         </section>
       )}
-
-      <section className="beauty-bag">
-        <div className="consumer-section-heading">
-          <h2>Your beauty bag</h2>
-          <Button
-            variant="ghost"
-            size="icon"
-            title="Manage products"
-            aria-label="Manage products"
-            onClick={onProducts}
-          >
-            <ArrowRight />
-          </Button>
-        </div>
-        <div className="bag-features">
-          {[...products]
-            .sort(
-              (x, y) => Number(y.category === "Haircare") - Number(x.category === "Haircare"),
-            )
-            .map((item) => {
-              const visual = productVisual(item);
-              return (
-                <article className="bag-card bag-feature" key={item.id}>
-                  <div className="bag-card-image">
-                    {visual ? (
-                      <img
-                        src={visual.source}
-                        alt={visual.alt}
-                        width={900}
-                        height={900}
-                        loading="lazy"
-                      />
-                    ) : (
-                      <Package aria-hidden="true" />
-                    )}
-                  </div>
-                  <div className="bag-feature-body">
-                    <p className="bag-eyebrow">
-                      {visual
-                        ? item.category === item.name
-                          ? visual.brand
-                          : `${item.category} · ${visual.brand}`
-                        : item.category}
-                    </p>
-                    <h3>{item.name}</h3>
-                    <p>
-                      {item.category === "Haircare"
-                        ? "Check travel-size availability or pack appropriate containers."
-                        : "Check remaining quantity before packing."}
-                    </p>
-                    <p className="bag-hint">
-                      {item.category === "Haircare"
-                        ? "Pack what you already have."
-                        : "Replenish only if needed."}
-                    </p>
-                  </div>
-                </article>
-              );
-            })}
-        </div>
-        <div className="bag-grid">
-          {bagEditorial.map((card) => (
-            <article className="bag-card" key={card.title}>
-              <div className="bag-card-image">
-                <img src={card.source} alt={card.alt} width={900} height={900} loading="lazy" />
-              </div>
-              <p className="bag-eyebrow">{card.brand}</p>
-              <h3>{card.title}</h3>
-              <p>{card.text}</p>
-            </article>
-          ))}
-        </div>
-        {!products.length && <p className="body-copy py-6">Your essentials belong here.</p>}
-        <p className="bag-note">
-          Brand names are illustrative examples · No affiliation · Imagery is unbranded
-        </p>
-      </section>
-      <section className="personalized-recommendation">
-        <Sparkles />
-        <h2>Your Nushluxe Recommendation</h2>
-        <p>
-          {event
-            ? tripRecommendation(items, event, today)
-            : "Add a life event to see what to book, check, or skip."}
-        </p>
-        <span>Frequency-based guidance · Not exact inventory</span>
-        {!prep && event && (
-          <Button variant="outline" onClick={onPrep}>
-            View full pre-event plan
-            <ArrowRight />
-          </Button>
-        )}
-      </section>
-      {prep && forecast && (
-        <section className="prep-checklist">
-          <h2>A little preparation. A lot more ease.</h2>
-          {[
-            {
-              icon: Scissors,
-              title: forecast.book.length
-                ? `Book ${forecast.book.map((i) => i.name.toLowerCase()).join(" and ")}`
-                : "No extra appointments needed",
-              text: forecast.book.length
-                ? "Expected to be due before or on your event date."
-                : "Your maintenance is on track beyond this date.",
-            },
-            {
-              icon: Package,
-              title: forecast.check.length
-                ? `Check ${forecast.check.map((i) => i.name.toLowerCase()).join(" and ")} supply`
-                : "Pack your everyday essentials",
-              text: "Review what you have. Buy only if needed.",
-            },
-            {
-              icon: Wallet,
-              title: "Plan your spending",
-              text: `${money(forecast.maintenanceCost)} planned, with ${money(forecast.possibleProductCost)} in possible additional purchases only if needed.`,
-            },
-            {
-              icon: Check,
-              title: "Skip unnecessary appointments",
-              text: forecast.avoided.length
-                ? `${forecast.avoided.map((i) => i.name).join(", ")} isn’t due yet.`
-                : "Only consider routines expected by your event.",
-            },
-          ].map(({ icon: Icon, title, text }) => (
-            <div key={title}>
-              <Icon />
-              <div>
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </div>
-            </div>
-          ))}
+      {!prep && (
+        <section className="beauty-bag">
+          <div className="consumer-section-heading">
+            <h2>Your beauty bag</h2>
+            <Button
+              variant="ghost"
+              size="icon"
+              title="Manage products"
+              aria-label="Manage products"
+              onClick={onProducts}
+            >
+              <ArrowRight />
+            </Button>
+          </div>
+          <div className="bag-features">
+            {[...products]
+              .sort((x, y) => Number(y.category === "Haircare") - Number(x.category === "Haircare"))
+              .map((item) => {
+                const visual = productVisual(item);
+                return (
+                  <article className="bag-card bag-feature" key={item.id}>
+                    <div className="bag-card-image">
+                      {visual ? (
+                        <img
+                          src={visual.source}
+                          alt={visual.alt}
+                          width={900}
+                          height={900}
+                          loading="lazy"
+                        />
+                      ) : (
+                        <Package aria-hidden="true" />
+                      )}
+                    </div>
+                    <div className="bag-feature-body">
+                      <p className="bag-eyebrow">
+                        {visual
+                          ? item.category === item.name
+                            ? visual.brand
+                            : `${item.category} · ${visual.brand}`
+                          : item.category}
+                      </p>
+                      <h3>{item.name}</h3>
+                      <p>
+                        {item.category === "Haircare"
+                          ? "Pack what you already have."
+                          : "Check supply. Replenish only if needed."}
+                      </p>
+                    </div>
+                  </article>
+                );
+              })}
+          </div>
+          <div className="bag-grid">
+            {bagEditorial.map((card) => (
+              <article className="bag-card" key={card.title}>
+                <div className="bag-card-image">
+                  <img src={card.source} alt={card.alt} width={900} height={900} loading="lazy" />
+                </div>
+                <p className="bag-eyebrow">{card.brand}</p>
+                <h3>{card.title}</h3>
+                <p>{card.text}</p>
+              </article>
+            ))}
+          </div>
+          {!products.length && <p className="body-copy py-6">Your essentials belong here.</p>}
+          <p className="bag-note">
+            Brand names are illustrative examples · No affiliation · Imagery is unbranded
+          </p>
         </section>
       )}
     </div>

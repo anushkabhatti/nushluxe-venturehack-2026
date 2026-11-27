@@ -41,3 +41,4 @@ use the editor.
 - Keep selected-event state shared by home, event creation, and plan views; separate planned service costs from possible product expenses so decisions and totals stay consistent.
 - Keep beauty-bag imagery, example brand names and the illustrative wellness/skincare cards in the presentation layer only, never in planner items; they must not affect decisions or totals.
 - Keep destination imagery and travel-context captions in a presentation-only lookup keyed by event name, shared by event cards and the trip view; destination cards are a selector showing name and date only, and the decisions for the selected event render once beneath them, derived from the shared planner rules.
+- Keep four top-level views (about, dashboard, plan, events); routine and product management and cost detail render as sections of the plan view, with the dashboard showing only summaries — the user wants one connected product, not a tab per data type.

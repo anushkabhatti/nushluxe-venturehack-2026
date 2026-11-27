@@ -37,19 +37,9 @@ import {
 } from "@/lib/planner";
 import { ProductPhoto, TripExperience } from "./trip-experience";
 import { VentureThesis } from "./venture-thesis";
-import { SpendingTab } from "./spending-tab";
 
-type View =
-  "Nushluxe Dashboard" | "Maintenance" | "Products" | "Plan" | "Events" | "Spending" | "About Us";
-const views: View[] = [
-  "About Us",
-  "Nushluxe Dashboard",
-  "Maintenance",
-  "Products",
-  "Plan",
-  "Events",
-  "Spending",
-];
+type View = "Dashboard" | "Plan" | "Events" | "About Us";
+const views: View[] = ["About Us", "Dashboard", "Plan", "Events"];
 function Empty({
   icon,
   title,
@@ -101,7 +91,7 @@ function IconAction({
 export function Planner() {
   const [items, setItems] = useState<PlanItem[]>(() => exampleData(todayDate()).items);
   const [events, setEvents] = useState<LifeEvent[]>(() => exampleData(todayDate()).events);
-  const [view, setView] = useState<View>("Nushluxe Dashboard");
+  const [view, setView] = useState<View>("Dashboard");
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   const [step, setStep] = useState<number | null>(null);
   const [editor, setEditor] = useState<{ kind: ItemKind; item?: PlanItem } | null>(null);
@@ -116,10 +106,12 @@ export function Planner() {
     .sort((a, b) => a.date.localeCompare(b.date))[0];
   const prepEvent = events.find((e) => e.id === selectedEventId && e.date >= today) ?? mainEvent;
   const upcomingEvents = [...events].sort((a, b) => a.date.localeCompare(b.date));
-  function navigate(next: View) {
+  function navigate(next: View, anchor = "workspace") {
     setView(next);
     requestAnimationFrame(() =>
-      document.getElementById("workspace")?.scrollIntoView({ behavior: "instant" }),
+      (document.getElementById(anchor) ?? document.getElementById("workspace"))?.scrollIntoView({
+        behavior: "instant",
+      }),
     );
   }
   function loadExample() {
@@ -129,7 +121,7 @@ export function Planner() {
     setStep(null);
     setConfirm(null);
     setNotice("Prototype example loaded.");
-    navigate("Nushluxe Dashboard");
+    navigate("Dashboard");
   }
   function requestExample() {
     if (items.length || events.length) setConfirm("load");
@@ -141,7 +133,7 @@ export function Planner() {
     setStep(null);
     setConfirm(null);
     setNotice("Demo cleared. A fresh start.");
-    setView("Nushluxe Dashboard");
+    setView("Dashboard");
   }
   function saveItem(item: PlanItem) {
     setItems((current) => [...current.filter((i) => i.id !== item.id), item]);
@@ -234,7 +226,6 @@ export function Planner() {
           <div>
             <p className="eyebrow text-muted-foreground">A little foresight</p>
             <h2>Estimated Upcoming Spend</h2>
-            <p className="body-copy">See what your routine may cost before it happens.</p>
           </div>
           <Wallet className="text-muted-foreground size-5" />
         </div>
@@ -263,10 +254,7 @@ export function Planner() {
             </div>
           ))}
         </div>
-        <p className="fine-print">
-          Estimates based on your next expected dates. Overdue items and later months are excluded;
-          actual prices may vary.
-        </p>
+        <p className="fine-print">Estimates from your next expected dates.</p>
       </section>
     );
   }
@@ -309,7 +297,7 @@ export function Planner() {
                 size="sm"
                 onClick={() => {
                   setStep(1);
-                  navigate("Maintenance");
+                  navigate("Plan", "manage-maintenance");
                 }}
               >
                 <Plus />
@@ -357,13 +345,9 @@ export function Planner() {
               </h2>
               <div className="flex justify-between items-center flex-wrap gap-3 mt-4">
                 {step < 4 ? (
-                  <p className="body-copy">
-                    {step === 3
-                      ? "Optional. Your routines can fit around life."
-                      : "Start with just one, or come back to this later."}
-                  </p>
+                  <p className="body-copy">{step === 3 ? "Optional." : "Start with just one."}</p>
                 ) : (
-                  <p className="body-copy">Nushluxe turns recurring maintenance into one plan.</p>
+                  <p className="body-copy">One plan for what comes next.</p>
                 )}
                 <div className="flex gap-2">
                   {step > 1 && (
@@ -372,7 +356,8 @@ export function Planner() {
                       onClick={() => {
                         const s = step - 1;
                         setStep(s);
-                        navigate(s === 1 ? "Maintenance" : s === 2 ? "Products" : "Events");
+                        if (s === 3) navigate("Events");
+                        else navigate("Plan", s === 1 ? "manage-maintenance" : "manage-product");
                       }}
                     >
                       Back
@@ -386,7 +371,8 @@ export function Planner() {
                       } else {
                         const s = step + 1;
                         setStep(s);
-                        navigate(s === 2 ? "Products" : s === 3 ? "Events" : "Plan");
+                        if (s === 2) navigate("Plan", "manage-product");
+                        else navigate(s === 3 ? "Events" : "Plan");
                       }
                     }}
                   >
@@ -397,44 +383,28 @@ export function Planner() {
               </div>
             </div>
           )}
-          {view !== "Nushluxe Dashboard" && !(view === "Plan" && mainEvent) && (
+          {view !== "Dashboard" && !(view === "Plan" && mainEvent) && (
             <div className="workspace-heading">
               <div>
                 <p className="eyebrow text-muted-foreground">
                   Your beauty, planned around your life.
                 </p>
                 <h1>
-                  {view === "Maintenance"
-                    ? "Your Maintenance"
-                    : view === "Products"
-                      ? "Your Products"
-                      : view === "Plan"
-                        ? "Your Maintenance Plan"
-                        : view === "Spending"
-                          ? "Plan your beauty & wellness spending"
-                          : view === "About Us"
-                            ? "The Vision Behind Nushluxe"
-                            : "Life Events"}
+                  {view === "Plan"
+                    ? "Your Maintenance Plan"
+                    : view === "About Us"
+                      ? "The Vision Behind Nushluxe"
+                      : "Life Events"}
                 </h1>
                 <p className="body-copy">
-                  {view === "Maintenance"
-                    ? "The recurring rituals that keep you feeling like yourself."
-                    : view === "Products"
-                      ? "Check what you have. Replenish what you need."
-                      : view === "Plan"
-                        ? "One thoughtful plan, at your pace."
-                        : view === "Spending"
-                          ? "See estimated upcoming costs before you book appointments or replenish products."
-                          : view === "About Us"
-                            ? "A more thoughtful way to manage beauty, wellness, and everything that comes next."
-                            : "Your beauty planning should respond to what is happening in your life."}
+                  {view === "Plan"
+                    ? "One plan, at your pace."
+                    : view === "About Us"
+                      ? "A more thoughtful way to manage beauty, wellness, and everything that comes next."
+                      : "Choose a date to plan around."}
                 </p>
               </div>
-              {view === "Maintenance" ? (
-                addButton("maintenance")
-              ) : view === "Products" ? (
-                addButton("product")
-              ) : view === "Events" ? (
+              {view === "Events" ? (
                 <Button className="editorial-button" onClick={() => setEventEditor({})}>
                   <Plus />
                   Add event
@@ -451,7 +421,7 @@ export function Planner() {
               </IconAction>
             </div>
           )}
-          {view === "Nushluxe Dashboard" && (
+          {view === "Dashboard" && (
             <TripExperience
               items={items}
               event={prepEvent}
@@ -459,39 +429,11 @@ export function Planner() {
               onSelectEvent={setSelectedEventId}
               today={today}
               prep={false}
-              onPrep={() => navigate("Plan")}
               onEvents={() => navigate("Events")}
-              onMaintenance={() => navigate("Maintenance")}
-              onProducts={() => navigate("Products")}
+              onMaintenance={() => navigate("Plan", "manage-maintenance")}
+              onProducts={() => navigate("Plan", "manage-product")}
               onPlan={() => navigate("Plan")}
             />
-          )}
-          {(view === "Maintenance" || view === "Products") && (
-            <>
-              {items.some(
-                (i) => i.kind === (view === "Maintenance" ? "maintenance" : "product"),
-              ) ? (
-                itemRows(
-                  ordered.filter(
-                    (i) => i.kind === (view === "Maintenance" ? "maintenance" : "product"),
-                  ),
-                )
-              ) : (
-                <Empty
-                  icon={view === "Maintenance" ? <CalendarDays /> : <Package />}
-                  title={
-                    view === "Maintenance"
-                      ? "Your rhythm starts here."
-                      : "A home for your essentials."
-                  }
-                  action={addButton(view === "Maintenance" ? "maintenance" : "product")}
-                >
-                  {view === "Maintenance"
-                    ? "No routines yet. Add the first thing you regularly care for."
-                    : "No products yet. Add an essential you regularly replenish."}
-                </Empty>
-              )}
-            </>
           )}
           {view === "Plan" && mainEvent && (
             <TripExperience
@@ -501,10 +443,9 @@ export function Planner() {
               onSelectEvent={setSelectedEventId}
               today={today}
               prep
-              onPrep={() => navigate("Plan")}
               onEvents={() => navigate("Events")}
-              onMaintenance={() => navigate("Maintenance")}
-              onProducts={() => navigate("Products")}
+              onMaintenance={() => navigate("Plan", "manage-maintenance")}
+              onProducts={() => navigate("Plan", "manage-product")}
               onPlan={() => navigate("Plan")}
             />
           )}
@@ -534,18 +475,29 @@ export function Planner() {
                     );
                   })}
                 </div>
-              ) : (
-                <Empty
-                  icon={<CalendarDays />}
-                  title="One plan, at your pace."
-                  action={addButton("maintenance")}
-                >
-                  Add a routine or product to see what comes next.
-                </Empty>
-              )}
-              {spending()}
+              ) : null}
+              {items.length > 0 && spending()}
             </>
           )}
+          {view === "Plan" &&
+            (["maintenance", "product"] as ItemKind[]).map((kind) => {
+              const list = ordered.filter((i) => i.kind === kind);
+              return (
+                <section className="manage-section" id={`manage-${kind}`} key={kind}>
+                  <div className="consumer-section-heading">
+                    <h2>{kind === "maintenance" ? "Your Maintenance" : "Your Products"}</h2>
+                    {addButton(kind)}
+                  </div>
+                  {list.length ? (
+                    itemRows(list)
+                  ) : (
+                    <p className="plan-clear">
+                      {kind === "maintenance" ? "No routines yet." : "No products yet."}
+                    </p>
+                  )}
+                </section>
+              );
+            })}
           {view === "Events" && (
             <>
               {events.length ? (
@@ -580,14 +532,6 @@ export function Planner() {
                 </Empty>
               )}
             </>
-          )}
-          {view === "Spending" && (
-            <SpendingTab
-              items={items}
-              event={prepEvent}
-              today={today}
-              onEvents={() => navigate("Events")}
-            />
           )}
           {view === "About Us" && <VentureThesis />}
           <p className="session-note">

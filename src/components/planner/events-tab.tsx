@@ -19,6 +19,38 @@ function awayLabel(event: LifeEvent, today: string) {
   return `${days} days away`;
 }
 
+// One row per decision label, shared by the dashboard and the Events tab.
+export function DecisionList({
+  items,
+  event,
+  today,
+}: {
+  items: PlanItem[];
+  event: LifeEvent;
+  today: string;
+}) {
+  const ordered = orderedItems(items);
+  return (
+    <dl className="decision-list">
+      {decisionLabels.map((label) => {
+        const names = ordered
+          .filter((item) => eventDecision(item, event, today) === label)
+          .map((item) => item.name);
+        return (
+          <div key={label} className={names.length ? "" : "decision-empty"}>
+            <dt>{label}</dt>
+            <dd>
+              {names.length
+                ? `${names.join(", ")}${label === "Replenish" ? " · check supply first" : ""}`
+                : "—"}
+            </dd>
+          </div>
+        );
+      })}
+    </dl>
+  );
+}
+
 export function DestinationCards({
   items,
   events,
@@ -38,7 +70,6 @@ export function DestinationCards({
   onDelete: (event: LifeEvent) => void;
   onOpen: (event: LifeEvent) => void;
 }) {
-  const ordered = orderedItems(items);
   const selected = events.find((event) => event.id === selectedId);
   return (
     <>
@@ -52,10 +83,7 @@ export function DestinationCards({
               className={`destination-card${active ? " destination-selected" : ""}`}
               key={event.id}
             >
-              <div
-                className="destination-image"
-                onClick={past ? undefined : () => onSelect(event)}
-              >
+              <div className="destination-image" onClick={past ? undefined : () => onSelect(event)}>
                 {visual ? (
                   <img
                     src={visual.source}
@@ -123,23 +151,7 @@ export function DestinationCards({
             </div>
           </div>
           <h2>Your {selected.name} plan</h2>
-          <dl className="decision-list">
-            {decisionLabels.map((label) => {
-              const names = ordered
-                .filter((item) => eventDecision(item, selected, today) === label)
-                .map((item) => item.name);
-              return (
-                <div key={label} className={names.length ? "" : "decision-empty"}>
-                  <dt>{label}</dt>
-                  <dd>
-                    {names.length
-                      ? `${names.join(", ")}${label === "Replenish" ? " · check supply first" : ""}`
-                      : "—"}
-                  </dd>
-                </div>
-              );
-            })}
-          </dl>
+          <DecisionList items={items} event={selected} today={today} />
           <div className="destination-foot">
             <p className="fine-print">Based on your usual frequencies, not exact inventory.</p>
             <Button
