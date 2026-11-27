@@ -167,20 +167,6 @@ function DashboardHome({
     if (label === "Delay") return "can wait";
     return "not needed for this trip";
   }
-  const firstBooking = forecast
-    ? [...forecast.book].sort((x, y) => nextDate(x).localeCompare(nextDate(y)))[0]
-    : undefined;
-  const nextStep = !event
-    ? undefined
-    : firstBooking
-      ? nextDate(firstBooking) <= today
-        ? `Book ${firstBooking.name.toLowerCase()} first.`
-        : `Book ${firstBooking.name.toLowerCase()} before ${event.name}.`
-      : forecast?.check.length
-        ? "Check your supply before you pack."
-        : items.length
-          ? "Nothing to book for this trip."
-          : undefined;
   // One-sentence summary of the decisions above, worded from the same groups.
   const names = (list: PlanItem[]) => {
     const all = list.map((i) => i.name.toLowerCase());
@@ -339,12 +325,6 @@ function DashboardHome({
         </section>
       )}
       <BeautyBag products={products} onProducts={onProducts} />
-      {nextStep && (
-        <section className="next-step">
-          <p className="eyebrow">Next step</p>
-          <p className="next-step-line">{nextStep}</p>
-        </section>
-      )}
     </div>
   );
 }

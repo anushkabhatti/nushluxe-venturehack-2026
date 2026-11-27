@@ -3588,23 +3588,6 @@ body {
     font-size: 23px;
   }
 }
-.next-step {
-  margin-top: 64px;
-  padding-top: 32px;
-  border-top: 1px solid var(--border);
-}
-.next-step .eyebrow {
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  color: var(--muted-foreground);
-}
-.next-step-line {
-  margin-top: 10px;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 32px;
-  line-height: 1.2;
-}
 @media (max-width: 640px) {
   .dashboard-home .personal-greeting h1 {
     font-size: 42px;
@@ -3626,8 +3609,5 @@ body {
   }
   .spend-summary dd {
     font-size: 36px;
-  }
-  .next-step-line {
-    font-size: 26px;
   }
 }
