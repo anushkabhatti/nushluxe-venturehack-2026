@@ -395,7 +395,7 @@ export function Planner() {
                   {view === "Plan"
                     ? "One plan, at your pace."
                     : view === "About Us"
-                      ? "Know what you need, before you need it."
+                      ? "A more thoughtful way to manage beauty, wellness, and everything that comes next."
                       : "Choose a date to plan around."}
                 </p>
               </div>
@@ -536,7 +536,6 @@ export function Planner() {
         <footer className="prototype-footer workspace-width">
           <span className="nav-wordmark">NUSHLUXE</span>
           <p>© 2026 · Anushka Bhatti</p>
-          <span className="footer-slogan">Know what you need, before you need it.</span>
           <span>Your beauty, planned around your life.</span>
         </footer>
       )}
