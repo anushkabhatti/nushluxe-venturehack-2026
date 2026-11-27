@@ -85,7 +85,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "A fresh beauty and wellness planning prototype for Babson Miami VentureHack, currently exploring customer needs.",
+          "Know what you need, before you need it. Beauty and wellness planning around your life.",
       },
       { name: "author", content: "Anushka Bhatti" },
       { property: "og:title", content: "Nushluxe — Personal Maintenance Intelligence" },

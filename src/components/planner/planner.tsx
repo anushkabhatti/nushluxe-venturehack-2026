@@ -120,7 +120,7 @@ export function Planner() {
     setEvents(data.events);
     setStep(null);
     setConfirm(null);
-    setNotice("Prototype example loaded.");
+    setNotice("Example loaded.");
     navigate("Dashboard");
   }
   function requestExample() {
@@ -132,7 +132,7 @@ export function Planner() {
     setEvents([]);
     setStep(null);
     setConfirm(null);
-    setNotice("Demo cleared. A fresh start.");
+    setNotice("Cleared. A fresh start.");
     setView("Dashboard");
   }
   function saveItem(item: PlanItem) {
@@ -278,10 +278,6 @@ export function Planner() {
               </Button>
             ))}
           </nav>
-          <span className="prototype-mark">
-            <FlaskConical />
-            VentureHack Prototype
-          </span>
         </div>
       </header>
       <main id="top">
@@ -290,7 +286,6 @@ export function Planner() {
           className={`workspace workspace-width${view === "About Us" ? " about-workspace" : ""}`}
         >
           <div className="workspace-topline">
-            <p className="eyebrow text-muted-foreground">VENTUREHACK · PROTOTYPE</p>
             <div className="demo-actions">
               <Button
                 variant="ghost"
@@ -314,7 +309,7 @@ export function Planner() {
                 onClick={() => setConfirm("reset")}
               >
                 <RotateCcw />
-                Reset Demo
+                Reset
               </Button>
             </div>
           </div>
@@ -534,9 +529,7 @@ export function Planner() {
             </>
           )}
           {view === "About Us" && <VentureThesis />}
-          <p className="session-note">
-            VentureHack prototype · No account required · Changes last for this visit only.
-          </p>
+          <p className="session-note">No account required · Changes last for this visit only.</p>
         </section>
       </main>
       {view === "About Us" && (
@@ -566,19 +559,19 @@ export function Planner() {
       >
         <DialogContent className="planner-dialog">
           <DialogTitle className="font-display text-3xl font-normal">
-            {confirm === "load" ? "Load prototype example?" : "A fresh start?"}
+            {confirm === "load" ? "Load example?" : "A fresh start?"}
           </DialogTitle>
           <DialogDescription>
             {confirm === "load"
-              ? "This replaces your current routines, products, and events with prototype example data."
-              : "This clears all routines, products, and events in this demo."}
+              ? "This replaces your current routines, products, and events with example data."
+              : "This clears all routines, products, and events."}
           </DialogDescription>
           <div className="flex justify-end gap-2">
             <Button variant="ghost" onClick={() => setConfirm(null)}>
               Cancel
             </Button>
             <Button onClick={confirm === "load" ? loadExample : reset}>
-              {confirm === "load" ? "Load Example" : "Reset Demo"}
+              {confirm === "load" ? "Load Example" : "Reset"}
             </Button>
           </div>
         </DialogContent>
