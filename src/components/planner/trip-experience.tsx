@@ -15,7 +15,6 @@ import { DecisionList } from "./events-tab";
 import foundation from "@/assets/foundation.jpg";
 import haircare from "@/assets/haircare.jpg";
 import wellness from "@/assets/wellness.jpg";
-import makeup from "@/assets/makeup.jpg";
 
 // Presentation only: imagery and example brand names never feed the planner rules.
 function productVisual(item: PlanItem) {
@@ -40,13 +39,6 @@ const bagEditorial = [
     source: wellness,
     alt: "Illustrative unbranded white activewear, yoga mat and water bottle",
     text: "Studio pieces for slower mornings away.",
-  },
-  {
-    title: "Makeup",
-    brand: "Chanel",
-    source: makeup,
-    alt: "Illustrative unbranded lipstick, compact and mascara on a white surface",
-    text: "A pared-back edit for evenings out.",
   },
 ];
 
@@ -378,16 +370,16 @@ export function TripExperience({
                   </article>
                 );
               })}
-          </div>
-          <div className="bag-grid">
             {bagEditorial.map((card) => (
-              <article className="bag-card" key={card.title}>
+              <article className="bag-card bag-feature" key={card.title}>
                 <div className="bag-card-image">
                   <img src={card.source} alt={card.alt} width={900} height={900} loading="lazy" />
                 </div>
-                <p className="bag-eyebrow">{card.brand}</p>
-                <h3>{card.title}</h3>
-                <p>{card.text}</p>
+                <div className="bag-feature-body">
+                  <p className="bag-eyebrow">{card.brand}</p>
+                  <h3>{card.title}</h3>
+                  <p>{card.text}</p>
+                </div>
               </article>
             ))}
           </div>
