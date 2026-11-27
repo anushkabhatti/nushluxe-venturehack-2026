@@ -44,6 +44,19 @@ describe("Dashboard presentation", () => {
     expect(value("Potential avoided spend")).toBe("$90");
   });
 
+  it("sums the plan up in one Nushluxe Recommendation sentence", () => {
+    render(<Planner />);
+
+    const card = screen.getByRole("region", { name: "Nushluxe Recommendation" });
+
+    expect(
+      within(card).getByRole("heading", { name: "Nushluxe Recommendation" }),
+    ).toBeInTheDocument();
+    expect(card.querySelector("p")?.textContent).toBe(
+      "Book nails and eyebrows before New York City, check foundation before buying more, and skip hair for this trip.",
+    );
+  });
+
   it("sends the Pre-Trip Plan arrow to the Plan tab", () => {
     render(<Planner />);
 

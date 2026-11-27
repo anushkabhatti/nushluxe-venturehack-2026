@@ -181,6 +181,29 @@ function DashboardHome({
         : items.length
           ? "Nothing to book for this trip."
           : undefined;
+  // One-sentence summary of the decisions above, worded from the same groups.
+  const names = (list: PlanItem[]) => {
+    const all = list.map((i) => i.name.toLowerCase());
+    return all.length > 1 ? `${all.slice(0, -1).join(", ")} and ${all[all.length - 1]}` : all[0];
+  };
+  const inGroup = (label: string) => groups.find((g) => g.label === label)?.list ?? [];
+  const skipped = inGroup("Skip");
+  const skippedRoutines = skipped.filter((i) => i.kind === "maintenance");
+  const skipList = skippedRoutines.length ? skippedRoutines : skipped;
+  const clauses = event
+    ? [
+        inGroup("Book").length ? `book ${names(inGroup("Book"))} before ${event.name}` : "",
+        inGroup("Replenish").length
+          ? `check ${names(inGroup("Replenish"))} before buying more`
+          : "",
+        skipList.length ? `skip ${names(skipList)} for this trip` : "",
+      ].filter(Boolean)
+    : [];
+  const joined =
+    clauses.length > 2
+      ? `${clauses.slice(0, -1).join(", ")}, and ${clauses[clauses.length - 1]}`
+      : clauses.join(" and ");
+  const recommendation = joined ? `${joined.charAt(0).toUpperCase()}${joined.slice(1)}.` : "";
   return (
     <div className="trip-experience dashboard-home">
       <div className="personal-greeting">
@@ -307,6 +330,12 @@ function DashboardHome({
             )}
           </dl>
           <p className="fine-print">Estimates from your usual frequencies, not exact inventory.</p>
+        </section>
+      )}
+      {recommendation && (
+        <section className="nushluxe-recommendation" aria-label="Nushluxe Recommendation">
+          <h2>Nushluxe Recommendation</h2>
+          <p>{recommendation}</p>
         </section>
       )}
       <BeautyBag products={products} onProducts={onProducts} />
